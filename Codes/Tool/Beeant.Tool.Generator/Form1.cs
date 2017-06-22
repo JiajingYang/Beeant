@@ -21,7 +21,41 @@ namespace Beeant.Tool.Generator
 
         private void button1_Click(object sender, EventArgs e)
         {
-            GetTableScheme();
+            LoadTableScheme();
+        }
+
+        protected virtual void LoadTableScheme()
+        {
+            dataGridView1.Rows.Clear();
+            dataGridView1.ReadOnly = false;
+            var dt= GetTableScheme();
+            foreach (DataRow dr in dt.Rows)
+            {
+                var name = dr["列名"].ToString();
+                if(name=="Id" || name=="InsertTime" || name=="UpdateTime" || name == "DeleteTime" || name == "Mark" ||  name == "Version")
+                    continue;
+                DataGridViewRow row =  new DataGridViewRow();
+                var enumType = "";
+                if ((name.EndsWith("Type") || name.EndsWith("Status"))
+                    && (dr["数据库类型"].ToString().ToLower() == "int" || dr["数据库类型"].ToString().ToLower() == "tinyint"))
+                {
+                    var entityName = dr["表名"].ToString();
+                    entityName = entityName.Substring(entityName.LastIndexOf("_") + 1);
+                    var typeName = name.EndsWith("Status") ? $"{name}Type" : "Type";
+                    enumType = $"{entityName}{typeName}";
+                }
+                row.Cells.Add(new DataGridViewTextBoxCell {Value = dr["列名"], ReadOnly = false});
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = dr["列说明"], ReadOnly = false });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = dr["数据库类型"], ReadOnly = false });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = dr["长度"], ReadOnly = false });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = name!="Remark" || name != "Detail", ReadOnly = false });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value =  name.EndsWith("FileName") ? name.Replace("Name", "Byte") : "", ReadOnly = false });
+                row.Cells.Add(new DataGridViewCheckBoxCell { Value = name.EndsWith("FileName"), ReadOnly = false });
+                row.Cells.Add(new DataGridViewCheckBoxCell { Value = name.EndsWith("AttachmentName"), ReadOnly = false });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = enumType, ReadOnly = false });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = name.EndsWith("Id"), ReadOnly = false });
+                dataGridView1.Rows.Add(row);
+            }
         }
 
         #region 得到表结构

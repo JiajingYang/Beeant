@@ -34,12 +34,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtTable = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.名称 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.中文 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.文件属性Byte名称 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.是否图片 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.是否附件 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.是否枚举 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.cbSite = new System.Windows.Forms.ComboBox();
@@ -47,6 +41,16 @@
             this.cbTemplate = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtTemplate = new System.Windows.Forms.TextBox();
+            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nickname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Length = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsRequiry = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileByteName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsImage = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IsAttachment = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.EnumType = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IsOneToMany = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,55 +104,22 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.名称,
-            this.中文,
-            this.文件属性Byte名称,
-            this.是否图片,
-            this.是否附件,
-            this.是否枚举});
+            this.Name,
+            this.Nickname,
+            this.Type,
+            this.Length,
+            this.IsRequiry,
+            this.FileByteName,
+            this.IsImage,
+            this.IsAttachment,
+            this.EnumType,
+            this.IsOneToMany});
             this.dataGridView1.Location = new System.Drawing.Point(30, 76);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(909, 281);
             this.dataGridView1.TabIndex = 5;
-            // 
-            // 名称
-            // 
-            this.名称.HeaderText = "名称";
-            this.名称.Name = "名称";
-            this.名称.ReadOnly = true;
-            // 
-            // 中文
-            // 
-            this.中文.HeaderText = "中文";
-            this.中文.Name = "中文";
-            this.中文.ReadOnly = true;
-            // 
-            // 文件属性Byte名称
-            // 
-            this.文件属性Byte名称.HeaderText = "文件属性Byte名称";
-            this.文件属性Byte名称.Name = "文件属性Byte名称";
-            this.文件属性Byte名称.ReadOnly = true;
-            this.文件属性Byte名称.Width = 200;
-            // 
-            // 是否图片
-            // 
-            this.是否图片.HeaderText = "是否图片";
-            this.是否图片.Name = "是否图片";
-            this.是否图片.ReadOnly = true;
-            // 
-            // 是否附件
-            // 
-            this.是否附件.HeaderText = "是否附件";
-            this.是否附件.Name = "是否附件";
-            this.是否附件.ReadOnly = true;
-            // 
-            // 是否枚举
-            // 
-            this.是否枚举.HeaderText = "是否枚举";
-            this.是否枚举.Name = "是否枚举";
-            this.是否枚举.ReadOnly = true;
             // 
             // checkBox1
             // 
@@ -211,11 +182,72 @@
             this.txtTemplate.Size = new System.Drawing.Size(909, 366);
             this.txtTemplate.TabIndex = 12;
             // 
+            // Name
+            // 
+            this.Name.HeaderText = "名称";
+            this.Name.Name = "Name";
+            this.Name.ReadOnly = true;
+            // 
+            // Nickname
+            // 
+            this.Nickname.HeaderText = "中文";
+            this.Nickname.Name = "Nickname";
+            this.Nickname.ReadOnly = true;
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "类型";
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            // 
+            // Length
+            // 
+            this.Length.HeaderText = "长度";
+            this.Length.Name = "Length";
+            this.Length.ReadOnly = true;
+            // 
+            // IsRequiry
+            // 
+            this.IsRequiry.HeaderText = "是否必填";
+            this.IsRequiry.Name = "IsRequiry";
+            this.IsRequiry.ReadOnly = true;
+            // 
+            // FileByteName
+            // 
+            this.FileByteName.HeaderText = "文件属性Byte名称";
+            this.FileByteName.Name = "FileByteName";
+            this.FileByteName.ReadOnly = true;
+            this.FileByteName.Width = 200;
+            // 
+            // IsImage
+            // 
+            this.IsImage.HeaderText = "是否图片";
+            this.IsImage.Name = "IsImage";
+            this.IsImage.ReadOnly = true;
+            // 
+            // IsAttachment
+            // 
+            this.IsAttachment.HeaderText = "是否附件";
+            this.IsAttachment.Name = "IsAttachment";
+            this.IsAttachment.ReadOnly = true;
+            // 
+            // EnumType
+            // 
+            this.EnumType.HeaderText = "枚举类型";
+            this.EnumType.Name = "EnumType";
+            this.EnumType.ReadOnly = true;
+            // 
+            // IsOneToMany
+            // 
+            this.IsOneToMany.HeaderText = "是否1对多";
+            this.IsOneToMany.Name = "IsOneToMany";
+            this.IsOneToMany.ReadOnly = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(971, 865);
+            this.ClientSize = new System.Drawing.Size(968, 865);
             this.Controls.Add(this.txtTemplate);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cbTemplate);
@@ -230,7 +262,6 @@
             this.Controls.Add(this.txtSqlCon);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
-            this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -246,12 +277,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtTable;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 名称;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 中文;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 文件属性Byte名称;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn 是否图片;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn 是否附件;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn 是否枚举;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox cbSite;
@@ -259,6 +284,16 @@
         private System.Windows.Forms.ComboBox cbTemplate;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtTemplate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Nickname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Length;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsRequiry;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileByteName;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsImage;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsAttachment;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn EnumType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsOneToMany;
     }
 }
 

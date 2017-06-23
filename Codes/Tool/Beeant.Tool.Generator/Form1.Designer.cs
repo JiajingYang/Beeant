@@ -48,10 +48,13 @@
             this.IsRequiry = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileByteName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Module = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Redundancy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsImage = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.IsAttachment = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.EnumType = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.IsOneToMany = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtEntityNickname = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,7 +77,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(864, 28);
+            this.button1.Location = new System.Drawing.Point(1177, 31);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
@@ -112,6 +115,7 @@
             this.IsRequiry,
             this.FileByteName,
             this.Module,
+            this.Redundancy,
             this.IsImage,
             this.IsAttachment,
             this.EnumType,
@@ -135,7 +139,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(411, 812);
+            this.button2.Location = new System.Drawing.Point(519, 820);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 7;
@@ -216,16 +220,22 @@
             // 
             // FileByteName
             // 
-            this.FileByteName.HeaderText = "文件属性Byte名称";
+            this.FileByteName.HeaderText = "文件流名称";
             this.FileByteName.Name = "FileByteName";
             this.FileByteName.ReadOnly = true;
-            this.FileByteName.Width = 200;
+            this.FileByteName.Width = 90;
             // 
             // Module
             // 
             this.Module.HeaderText = "关联模块";
             this.Module.Name = "Module";
             this.Module.ReadOnly = true;
+            // 
+            // Redundancy
+            // 
+            this.Redundancy.HeaderText = "冗余属性";
+            this.Redundancy.Name = "Redundancy";
+            this.Redundancy.ReadOnly = true;
             // 
             // IsImage
             // 
@@ -251,11 +261,29 @@
             this.IsOneToMany.Name = "IsOneToMany";
             this.IsOneToMany.ReadOnly = true;
             // 
+            // txtEntityNickname
+            // 
+            this.txtEntityNickname.Location = new System.Drawing.Point(901, 33);
+            this.txtEntityNickname.Name = "txtEntityNickname";
+            this.txtEntityNickname.Size = new System.Drawing.Size(190, 21);
+            this.txtEntityNickname.TabIndex = 13;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(840, 37);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "实体名称";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1281, 865);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtEntityNickname);
             this.Controls.Add(this.txtTemplate);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cbTemplate);
@@ -270,7 +298,6 @@
             this.Controls.Add(this.txtSqlCon);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
-            this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -300,10 +327,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IsRequiry;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileByteName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Module;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Redundancy;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsImage;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsAttachment;
         private System.Windows.Forms.DataGridViewCheckBoxColumn EnumType;
         private System.Windows.Forms.DataGridViewTextBoxColumn IsOneToMany;
+        private System.Windows.Forms.TextBox txtEntityNickname;
+        private System.Windows.Forms.Label label5;
     }
 }
 

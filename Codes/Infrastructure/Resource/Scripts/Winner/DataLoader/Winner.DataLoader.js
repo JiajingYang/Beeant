@@ -106,10 +106,11 @@ Winner.DataLoader.prototype =
         if (this.CheckLoad(sender, info)) {
             return;
         }
-        info.Loading.Container.show();
         this.SetLoad(sender, info, null, true);
         var html = info.Loading.Container.html();
-        $(info.Content).show();
+        if (info.Loading.IsHide != true) {
+            info.Loading.Container.show();
+        }
         this.ShowLoading(info.Loading);
         var type = info.DataType == undefined ? "text" : info.DataType;
         var self = this;
@@ -123,7 +124,9 @@ Winner.DataLoader.prototype =
                 if (info.BeginShowFunction != undefined && info.BeginShowFunction != null) {
                     info.BeginShowFunction(sender, info, data);
                 }
-                self.HideLoading(info.Loading);
+                if (info.Loading.IsHide != true) {
+                    self.HideLoading(info.Loading);
+                }
                 self.SetLoad(sender, info, data, false);
                 if (type == "text") {
                     self.ShowText(info, $(info.Content), data, $(info.Content).html());
@@ -136,7 +139,9 @@ Winner.DataLoader.prototype =
             },
             error: function (ex) {
                 self.SetLoad(sender, info, ex, false);
-                info.Loading.Container.html(html);
+                if (info.Loading.IsHide != true) {
+                    info.Loading.Container.html(html);
+                }
                 if (info.ErrorLoadFunction != undefined && info.ErrorLoadFunction != null) {
                     info.ErrorLoadFunction(sender, info);
                 }

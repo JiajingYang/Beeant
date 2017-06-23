@@ -47,6 +47,7 @@
             this.Length = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsRequiry = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileByteName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Module = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsImage = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.IsAttachment = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.EnumType = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -110,6 +111,7 @@
             this.Length,
             this.IsRequiry,
             this.FileByteName,
+            this.Module,
             this.IsImage,
             this.IsAttachment,
             this.EnumType,
@@ -118,7 +120,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(909, 281);
+            this.dataGridView1.Size = new System.Drawing.Size(1242, 281);
             this.dataGridView1.TabIndex = 5;
             // 
             // checkBox1
@@ -219,6 +221,12 @@
             this.FileByteName.ReadOnly = true;
             this.FileByteName.Width = 200;
             // 
+            // Module
+            // 
+            this.Module.HeaderText = "关联模块";
+            this.Module.Name = "Module";
+            this.Module.ReadOnly = true;
+            // 
             // IsImage
             // 
             this.IsImage.HeaderText = "是否图片";
@@ -247,7 +255,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(968, 865);
+            this.ClientSize = new System.Drawing.Size(1281, 865);
             this.Controls.Add(this.txtTemplate);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cbTemplate);
@@ -262,6 +270,7 @@
             this.Controls.Add(this.txtSqlCon);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
+            this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -290,6 +299,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Length;
         private System.Windows.Forms.DataGridViewTextBoxColumn IsRequiry;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileByteName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Module;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsImage;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsAttachment;
         private System.Windows.Forms.DataGridViewCheckBoxColumn EnumType;

@@ -49,6 +49,8 @@ Winner.DataLoader.prototype =
         return html;
     },
     ShowLoading: function (loading) {
+        if (loading.IsHide == true)
+            return;
         var html = this.GetLoadingHtml();
         loading.Loader = $(html);
         if (loading.Type == "Replace") {
@@ -72,7 +74,9 @@ Winner.DataLoader.prototype =
         }
         loading.Container.append(loading.Loader);
     },
-    HideLoading:function(loading) {
+    HideLoading: function (loading) {
+        if (loading.IsHide == true)
+            return;
         if (loading.TempContainer != null) {
             $(loading.TempContainer.html()).insertBefore($(loading.TempContainer));
             loading.TempContainer.remove();
@@ -124,9 +128,7 @@ Winner.DataLoader.prototype =
                 if (info.BeginShowFunction != undefined && info.BeginShowFunction != null) {
                     info.BeginShowFunction(sender, info, data);
                 }
-                if (info.Loading.IsHide != true) {
-                    self.HideLoading(info.Loading);
-                }
+                self.HideLoading(info.Loading);
                 self.SetLoad(sender, info, data, false);
                 if (type == "text") {
                     self.ShowText(info, $(info.Content), data, $(info.Content).html());

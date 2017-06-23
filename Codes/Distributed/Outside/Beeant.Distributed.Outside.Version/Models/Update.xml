@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Update>
+  <!---更新前准备工作-->
+  <Preparation>
+    <!--复制-->
+    <Copy SourceFolder="" TargetFolder="" Name=""/>
+    <!--注册-->
+    <Register TargetFolder="" Name=""/>
+    <!--反注册-->
+    <UnRegister TargetFolder="" Name=""/>
+    <!--建立文件-->
+    <New TargetFolder="" Name=""/>
+    <!--删除文件-->
+    <Del TargetFolder="" Name=""/>
+    <!--建立文件夹-->
+    <Md TargetFolder=""/>
+    <!--删除文件夹-->
+    <Rd TargetFolder=""/>
+    <!--执行文件-->
+    <Exec TargetFolder="" Name=""/>
+  </Preparation>
+  <!--更新工作-->
+  <Handle>
+    <!--下载-->
+    <Download TargetFolder="" Name=""></Download>
+    <!--注册-->
+    <Register TargetFolder="" Name=""/>
+    <!--反注册-->
+    <UnRegister TargetFolder="" Name=""/>
+    <!--建立文件-->
+    <New TargetFolder="" Name=""/>
+    <!--删除文件-->
+    <Del TargetFolder="" Name=""/>
+    <!--建立文件夹-->
+    <Md TargetFolder=""/>
+    <!--删除文件夹-->
+    <Rd TargetFolder=""/>
+    <!--执行文件-->
+    <Exec TargetFolder="" Name=""/>
+  </Handle>
+  <!--更新成功后工作-->
+  <Success>
+    <!--注册-->
+    <Register TargetFolder="" Name=""/>
+    <!--反注册-->
+    <UnRegister TargetFolder="" Name=""/>
+    <!--建立文件-->
+    <New TargetFolder="" Name=""/>
+    <!--删除文件-->
+    <Del TargetFolder="" Name=""/>
+    <!--建立文件夹-->
+    <Md TargetFolder=""/>
+    <!--删除文件夹-->
+    <Rd TargetFolder=""/>
+    <!--执行文件-->
+    <Exec TargetFolder="" Name=""/>
+  </Success>
+  <!--更新失败后回滚-->
+  <Rollback>
+    <!--复制-->
+    <Copy SourceFolder="" TargetFolder="" Name=""/>
+    <!--注册-->
+    <Register TargetFolder="" Name=""/>
+    <!--反注册-->
+    <UnRegister TargetFolder="" Name=""/>
+    <!--建立文件-->
+    <New TargetFolder="" Name=""/>
+    <!--删除文件-->
+    <Del TargetFolder="" Name=""/>
+    <!--建立文件夹-->
+    <Md TargetFolder=""/>
+    <!--删除文件夹-->
+    <Rd TargetFolder=""/>
+    <!--执行文件-->
+    <Exec TargetFolder="" Name=""/>
+  </Rollback>
+</Update>

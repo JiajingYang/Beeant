@@ -341,3 +341,6 @@
 /Codes/Tool/Beeant.Tool.Deployment/bin
 /Codes/Tool/Beeant.Tool.Generator/bin
 /Codes/Tool/Beeant.Tool.Generator/obj
+/Codes/Distributed/Outside/Beeant.Distributed.Outside.Version/obj
+/Codes/Distributed/Outside/Beeant.Distributed.Outside.Version/bin
+/Codes/Distributed/Outside/Beeant.Distributed.Outside.Version/Beeant.Distributed.Outside.Version.csproj.user

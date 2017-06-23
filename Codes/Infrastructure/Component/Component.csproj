@@ -112,6 +112,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\CompressExtension.cs" />
     <Compile Include="Extension\EmguHelper.cs" />
     <Compile Include="Extension\ConvertExtension.cs" />
     <Compile Include="Extension\ExcelHelper.cs" />

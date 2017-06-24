@@ -31,28 +31,21 @@ namespace Beeant.Tool.Generator
             dataGridView1.Rows.Clear();
             dataGridView1.ReadOnly = false;
             var dt= GetTableScheme();
+            var entityName = GetEntityName();
             foreach (DataRow dr in dt.Rows)
             {
                 txtEntityNickname.Text = dr["表说明"].ToString();
                 var name = dr["列名"].ToString();
                 if(name=="Id" || name=="InsertTime" || name=="UpdateTime" || name == "DeleteTime" || name == "Mark" ||  name == "Version")
                     continue;
-                var entityName = dr["表名"].ToString();
                 DataGridViewRow row =  new DataGridViewRow();
-                var enumType = "";
-                if ((name.EndsWith("Type") || name.EndsWith("Status"))
-                    && (dr["数据库类型"].ToString().ToLower() == "int" || dr["数据库类型"].ToString().ToLower() == "tinyint"))
-                {
-                    entityName = entityName.Substring(entityName.LastIndexOf("_") + 1);
-                    var typeName = name.EndsWith("Status") ? $"{name}Type" : "Type";
-                    enumType = $"{entityName}{typeName}";
-                }
+                var type = GetRowType(dr,name,entityName);
                 var moduleName = "";
                 if (name.EndsWith("Id") && name == "AccountId")
                     moduleName = "Account";
                 row.Cells.Add(new DataGridViewTextBoxCell {Value = dr["列名"], ReadOnly = false});
                 row.Cells.Add(new DataGridViewTextBoxCell { Value = dr["列说明"], ReadOnly = false });
-                row.Cells.Add(new DataGridViewTextBoxCell { Value = dr["数据库类型"], ReadOnly = false });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = type, ReadOnly = false });
                 row.Cells.Add(new DataGridViewTextBoxCell { Value = dr["长度"], ReadOnly = false });
                 row.Cells.Add(new DataGridViewTextBoxCell { Value = name!="Remark" || name != "Detail", ReadOnly = false });
                 row.Cells.Add(new DataGridViewTextBoxCell { Value =  name.EndsWith("FileName") ? name.Replace("Name", "Byte") : "", ReadOnly = false });
@@ -60,12 +53,83 @@ namespace Beeant.Tool.Generator
                 row.Cells.Add(new DataGridViewTextBoxCell { Value = "", ReadOnly = false });
                 row.Cells.Add(new DataGridViewCheckBoxCell { Value = name.EndsWith("FileName"), ReadOnly = false });
                 row.Cells.Add(new DataGridViewCheckBoxCell { Value = name.EndsWith("AttachmentName"), ReadOnly = false });
-                row.Cells.Add(new DataGridViewTextBoxCell { Value = enumType, ReadOnly = false });
-                row.Cells.Add(new DataGridViewTextBoxCell { Value = name.EndsWith("Id"), ReadOnly = false });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = GetEnumType(dr,name,entityName), ReadOnly = false });
+                row.Cells.Add(new DataGridViewTextBoxCell { Value = "", ReadOnly = false });
                 dataGridView1.Rows.Add(row);
             }
         }
 
+        /// <summary>
+        /// 得到类型
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="name"></param>
+        /// <param name="entityName"></param>
+        /// <returns></returns>
+        protected virtual string GetRowType(DataRow dr,string name,string entityName)
+        {
+            var dbType = dr["数据库类型"].ToString().ToLower();
+            if ((name.EndsWith("Type") || name.EndsWith("Status"))
+                && dbType == "int" || dbType == "tinyint")
+            {
+                var typeName = name.EndsWith("Status") ? $"{name}Type" : "Type";
+              return $"{entityName}{typeName}";
+            }
+            var type = "string";
+            switch (dbType)
+            {
+                case "int":
+                    type = "int"; break;
+                case "bigint":
+                    type = "long"; break;
+                case "bit":
+                    type = "bool"; break;
+                case "decimal":
+                    type = "decimal"; break;
+                case "datetime":
+                    type = "DateTime"; break;
+
+            }
+            return type;
+        }
+        /// <summary>
+        /// 得到类型
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="name"></param>
+        /// <param name="entityName"></param>
+        /// <returns></returns>
+        protected virtual string GetEnumType(DataRow dr, string name, string entityName)
+        {
+            var dbType = dr["数据库类型"].ToString().ToLower();
+            if ((name.EndsWith("Type") || name.EndsWith("Status"))
+                && dbType == "int" || dbType == "tinyint")
+            {
+                var typeName = name.EndsWith("Status") ? $"{name}Type" : "Type";
+                return $"{entityName}{typeName}";
+            }
+            return "";
+        }
+        /// <summary>
+        /// 得到实体名称
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetEntityName()
+        {
+            var name = txtTable.Text;
+            name = name.Substring(name.LastIndexOf("_") + 1);
+            return name;
+        }
+        /// <summary>
+        /// 得到实体名称
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetModuleName()
+        {
+            var name = txtTable.Text;
+            name = name.Substring(0, name.LastIndexOf("_")).Replace("t_","");
+            return name;
+        }
         #region 得到表结构
         /// <summary>
         /// 得到表结构
@@ -133,5 +197,23 @@ namespace Beeant.Tool.Generator
             return dt;
         }
         #endregion
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Generate();
+        }
+
+        protected virtual void Generate()
+        {
+            if (dataGridView1.Rows.Count == 0)
+            {
+                MessageBox.Show("没有生成的属性");
+                return;
+            }
+            var entity=new EntityGenerator{DataGridView=dataGridView1,EntityName=GetEntityName(),Module=GetModuleName(),EntityNickname=txtEntityNickname.Text};
+            entity.Generate();
+            MessageBox.Show("生成成功");
+
+        }
     }
 }

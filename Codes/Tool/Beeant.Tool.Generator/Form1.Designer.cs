@@ -34,13 +34,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtTable = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.cbSite = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cbTemplate = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtTemplate = new System.Windows.Forms.TextBox();
             this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Nickname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,7 +45,14 @@
             this.IsImage = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.IsAttachment = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.EnumType = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.IsOneToMany = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ManyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.cbSite = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbTemplate = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtTemplate = new System.Windows.Forms.TextBox();
             this.txtEntityNickname = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -119,74 +119,13 @@
             this.IsImage,
             this.IsAttachment,
             this.EnumType,
-            this.IsOneToMany});
+            this.ManyName});
             this.dataGridView1.Location = new System.Drawing.Point(30, 76);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(1242, 281);
             this.dataGridView1.TabIndex = 5;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(30, 380);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(132, 16);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "是否生成Appliction";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(519, 820);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "生成";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // cbSite
-            // 
-            this.cbSite.FormattingEnabled = true;
-            this.cbSite.Location = new System.Drawing.Point(309, 381);
-            this.cbSite.Name = "cbSite";
-            this.cbSite.Size = new System.Drawing.Size(121, 20);
-            this.cbSite.TabIndex = 8;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(235, 383);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 12);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "添加站点";
-            // 
-            // cbTemplate
-            // 
-            this.cbTemplate.FormattingEnabled = true;
-            this.cbTemplate.Location = new System.Drawing.Point(659, 388);
-            this.cbTemplate.Name = "cbTemplate";
-            this.cbTemplate.Size = new System.Drawing.Size(121, 20);
-            this.cbTemplate.TabIndex = 10;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(601, 391);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 12);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "模板";
-            // 
-            // txtTemplate
-            // 
-            this.txtTemplate.Location = new System.Drawing.Point(30, 427);
-            this.txtTemplate.Multiline = true;
-            this.txtTemplate.Name = "txtTemplate";
-            this.txtTemplate.Size = new System.Drawing.Size(909, 366);
-            this.txtTemplate.TabIndex = 12;
             // 
             // Name
             // 
@@ -255,11 +194,73 @@
             this.EnumType.Name = "EnumType";
             this.EnumType.ReadOnly = true;
             // 
-            // IsOneToMany
+            // ManyName
             // 
-            this.IsOneToMany.HeaderText = "是否1对多";
-            this.IsOneToMany.Name = "IsOneToMany";
-            this.IsOneToMany.ReadOnly = true;
+            this.ManyName.HeaderText = "列表实体名";
+            this.ManyName.Name = "ManyName";
+            this.ManyName.ReadOnly = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(30, 380);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(132, 16);
+            this.checkBox1.TabIndex = 6;
+            this.checkBox1.Text = "是否生成Appliction";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(519, 820);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "生成";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // cbSite
+            // 
+            this.cbSite.FormattingEnabled = true;
+            this.cbSite.Location = new System.Drawing.Point(309, 381);
+            this.cbSite.Name = "cbSite";
+            this.cbSite.Size = new System.Drawing.Size(121, 20);
+            this.cbSite.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(235, 383);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "添加站点";
+            // 
+            // cbTemplate
+            // 
+            this.cbTemplate.FormattingEnabled = true;
+            this.cbTemplate.Location = new System.Drawing.Point(659, 388);
+            this.cbTemplate.Name = "cbTemplate";
+            this.cbTemplate.Size = new System.Drawing.Size(121, 20);
+            this.cbTemplate.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(601, 391);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "模板";
+            // 
+            // txtTemplate
+            // 
+            this.txtTemplate.Location = new System.Drawing.Point(30, 427);
+            this.txtTemplate.Multiline = true;
+            this.txtTemplate.Name = "txtTemplate";
+            this.txtTemplate.Size = new System.Drawing.Size(909, 366);
+            this.txtTemplate.TabIndex = 12;
             // 
             // txtEntityNickname
             // 
@@ -275,7 +276,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
             this.label5.TabIndex = 14;
-            this.label5.Text = "实体名称";
+            this.label5.Text = "实体说明";
             // 
             // Form1
             // 
@@ -298,6 +299,7 @@
             this.Controls.Add(this.txtSqlCon);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
+
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -320,6 +322,8 @@
         private System.Windows.Forms.ComboBox cbTemplate;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtTemplate;
+        private System.Windows.Forms.TextBox txtEntityNickname;
+        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nickname;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
@@ -331,9 +335,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsImage;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsAttachment;
         private System.Windows.Forms.DataGridViewCheckBoxColumn EnumType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IsOneToMany;
-        private System.Windows.Forms.TextBox txtEntityNickname;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ManyName;
     }
 }
 

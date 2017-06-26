@@ -1,0 +1,9 @@
+﻿{
+  "Api": [
+    {
+      "Description": "版本更新Api",
+      "Key": "Version",
+      "Value": "{Url:'http://dev.version.beeant.com'}"
+    }
+  ]
+}

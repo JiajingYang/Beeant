@@ -172,7 +172,7 @@ namespace Winner.Persistence.Route
             var value = Math.Abs(long.Parse(routeValue.ToString()));
             if (value > StartValue+(EndValue - StartValue + 1)*tableMaxStep)
                 return -1;
-            var step = (int) (value %  EndValue);
+            var step = (int) ((value-1) %  EndValue);
             if (sharding.TableStep > 0)
                 step = step / sharding.TableStep;
             return step;

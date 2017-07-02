@@ -353,7 +353,7 @@ namespace Winner.Persistence.Compiler.Common
             string subSelect;
             if (Regex.IsMatch(match.Value, SubQueryPattern))
             {
-                var index = match.Value.IndexOf(".Select");
+                var index = match.Value.LastIndexOf("(");
                 if(index == -1)
                     index =match.Value.LastIndexOf(".");
                 else
@@ -490,6 +490,7 @@ namespace Winner.Persistence.Compiler.Common
                     TranslateQuery = queryCompiler.TranslateQuery
             };
             subQueryCompiler.SubQuery = GetSelectManyJoinQuery(subQueryCompiler, match);
+            subQueryCompiler.SubQuery.Object = subQueryCompiler.Object;
             if (string.IsNullOrEmpty(subSelect) || subSelect.Equals("*"))
                 TranslateFromBegin(subQueryCompiler);
             else

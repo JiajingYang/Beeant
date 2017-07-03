@@ -353,7 +353,7 @@ namespace Winner.Persistence.Compiler.Common
             string subSelect;
             if (Regex.IsMatch(match.Value, SubQueryPattern))
             {
-                var index = match.Value.IndexOf(".Select");
+                var index = match.Value.LastIndexOf("(");
                 if(index == -1)
                     index =match.Value.LastIndexOf(".");
                 else
@@ -425,7 +425,7 @@ namespace Winner.Persistence.Compiler.Common
                 return null;
             var m = Regex.Match(match.Value, SubQueryPattern);
             if (!m.Success) return null;
-            var query = new QueryInfo { IsReturnCount = false };
+            var query = new QueryInfo { IsReturnCount = false,Object= queryCompiler.Object };
             do
             {
                 var methodName = Regex.Match(m.Value, CommonPattern).Value;

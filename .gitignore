@@ -346,3 +346,5 @@
 /Codes/Distributed/Outside/Beeant.Distributed.Outside.Version/Beeant.Distributed.Outside.Version.csproj.user
 /Codes/Presentation/Client/Beeant.Presentation.Client.Launcher/bin
 /Codes/Presentation/Client/Beeant.Presentation.Client.Launcher/obj
+/Codes/Tool/Beeant.Tool.Publish/obj
+/Codes/Tool/Beeant.Tool.Publish/bin

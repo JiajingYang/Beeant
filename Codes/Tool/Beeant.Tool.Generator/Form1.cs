@@ -205,14 +205,27 @@ namespace Beeant.Tool.Generator
 
         protected virtual void Generate()
         {
-            if (dataGridView1.Rows.Count == 0)
+            try
             {
-                MessageBox.Show("没有生成的属性");
-                return;
+                if (dataGridView1.Rows.Count == 0)
+                {
+                    MessageBox.Show("没有生成的属性");
+                    return;
+                }
+                var entity = new EntityGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                var domain = new DomainGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                var application = new ApplicationGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                entity.Generate();
+                domain.Generate();
+                application.Generate();
+                MessageBox.Show("生成成功");
+
             }
-            var entity=new EntityGenerator{DataGridView=dataGridView1,EntityName=GetEntityName(),Module=GetModuleName(),EntityNickname=txtEntityNickname.Text};
-            entity.Generate();
-            MessageBox.Show("生成成功");
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+           
 
         }
     }

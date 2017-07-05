@@ -34,6 +34,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtTable = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button2 = new System.Windows.Forms.Button();
+            this.cbSite = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbTemplate = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtEntityNickname = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Nickname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,15 +53,11 @@
             this.IsAttachment = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.EnumType = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ManyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.cbSite = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cbTemplate = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtTemplate = new System.Windows.Forms.TextBox();
-            this.txtEntityNickname = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.IsAllowModify = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IsUnique = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IsCloud = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IsRemove = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IsNull = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -119,13 +122,78 @@
             this.IsImage,
             this.IsAttachment,
             this.EnumType,
-            this.ManyName});
+            this.ManyName,
+            this.IsAllowModify,
+            this.IsUnique,
+            this.IsCloud,
+            this.IsRemove,
+            this.IsNull});
             this.dataGridView1.Location = new System.Drawing.Point(30, 76);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(1242, 281);
             this.dataGridView1.TabIndex = 5;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(507, 463);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "生成";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // cbSite
+            // 
+            this.cbSite.FormattingEnabled = true;
+            this.cbSite.Location = new System.Drawing.Point(102, 378);
+            this.cbSite.Name = "cbSite";
+            this.cbSite.Size = new System.Drawing.Size(121, 20);
+            this.cbSite.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(28, 381);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "添加站点";
+            // 
+            // cbTemplate
+            // 
+            this.cbTemplate.FormattingEnabled = true;
+            this.cbTemplate.Location = new System.Drawing.Point(812, 386);
+            this.cbTemplate.Name = "cbTemplate";
+            this.cbTemplate.Size = new System.Drawing.Size(121, 20);
+            this.cbTemplate.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(717, 389);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "模板";
+            // 
+            // txtEntityNickname
+            // 
+            this.txtEntityNickname.Location = new System.Drawing.Point(901, 33);
+            this.txtEntityNickname.Name = "txtEntityNickname";
+            this.txtEntityNickname.Size = new System.Drawing.Size(190, 21);
+            this.txtEntityNickname.TabIndex = 13;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(840, 37);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "实体说明";
             // 
             // Name
             // 
@@ -200,98 +268,62 @@
             this.ManyName.Name = "ManyName";
             this.ManyName.ReadOnly = true;
             // 
-            // checkBox1
+            // IsAllowModify
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(30, 380);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(132, 16);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "是否生成Appliction";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.IsAllowModify.HeaderText = "是否允许修改";
+            this.IsAllowModify.Name = "IsAllowModify";
+            this.IsAllowModify.ReadOnly = true;
+            this.IsAllowModify.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsAllowModify.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.IsAllowModify.Width = 120;
             // 
-            // button2
+            // IsUnique
             // 
-            this.button2.Location = new System.Drawing.Point(519, 820);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "生成";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.IsUnique.HeaderText = "是否唯一";
+            this.IsUnique.Name = "IsUnique";
+            this.IsUnique.ReadOnly = true;
+            this.IsUnique.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsUnique.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // cbSite
+            // IsCloud
             // 
-            this.cbSite.FormattingEnabled = true;
-            this.cbSite.Location = new System.Drawing.Point(309, 381);
-            this.cbSite.Name = "cbSite";
-            this.cbSite.Size = new System.Drawing.Size(121, 20);
-            this.cbSite.TabIndex = 8;
+            this.IsCloud.HeaderText = "是否分区属性";
+            this.IsCloud.Name = "IsCloud";
+            this.IsCloud.ReadOnly = true;
+            this.IsCloud.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsCloud.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.IsCloud.Width = 120;
             // 
-            // label3
+            // IsRemove
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(235, 383);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 12);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "添加站点";
+            this.IsRemove.HeaderText = "存在不能删除";
+            this.IsRemove.Name = "IsRemove";
+            this.IsRemove.ReadOnly = true;
+            this.IsRemove.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsRemove.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.IsRemove.Width = 120;
             // 
-            // cbTemplate
+            // IsNull
             // 
-            this.cbTemplate.FormattingEnabled = true;
-            this.cbTemplate.Location = new System.Drawing.Point(659, 388);
-            this.cbTemplate.Name = "cbTemplate";
-            this.cbTemplate.Size = new System.Drawing.Size(121, 20);
-            this.cbTemplate.TabIndex = 10;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(601, 391);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 12);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "模板";
-            // 
-            // txtTemplate
-            // 
-            this.txtTemplate.Location = new System.Drawing.Point(30, 427);
-            this.txtTemplate.Multiline = true;
-            this.txtTemplate.Name = "txtTemplate";
-            this.txtTemplate.Size = new System.Drawing.Size(909, 366);
-            this.txtTemplate.TabIndex = 12;
-            // 
-            // txtEntityNickname
-            // 
-            this.txtEntityNickname.Location = new System.Drawing.Point(901, 33);
-            this.txtEntityNickname.Name = "txtEntityNickname";
-            this.txtEntityNickname.Size = new System.Drawing.Size(190, 21);
-            this.txtEntityNickname.TabIndex = 13;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(840, 37);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 12);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "实体说明";
+            this.IsNull.HeaderText = "是否关联Id为0";
+            this.IsNull.Name = "IsNull";
+            this.IsNull.ReadOnly = true;
+            this.IsNull.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsNull.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.IsNull.Width = 120;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1281, 865);
+            this.ClientSize = new System.Drawing.Size(1281, 539);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtEntityNickname);
-            this.Controls.Add(this.txtTemplate);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cbTemplate);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.cbSite);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.txtTable);
             this.Controls.Add(this.label2);
@@ -299,7 +331,7 @@
             this.Controls.Add(this.txtSqlCon);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
-
+   
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -315,13 +347,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtTable;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox cbSite;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbTemplate;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtTemplate;
         private System.Windows.Forms.TextBox txtEntityNickname;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Name;
@@ -336,6 +366,11 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn IsAttachment;
         private System.Windows.Forms.DataGridViewCheckBoxColumn EnumType;
         private System.Windows.Forms.DataGridViewTextBoxColumn ManyName;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsAllowModify;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsUnique;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsCloud;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsRemove;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsNull;
     }
 }
 

@@ -80,14 +80,19 @@ namespace Winner.Persistence.Relation
         /// 查询默认条件
         /// </summary>
         public string GetDefaultWhere { get; set; }
+
         /// <summary>
         /// 是否实体缓存
         /// </summary>
-        public bool IsCache { get; set; }
+        public CacheType CacheType { get; set; } = CacheType.None;
         /// <summary>
         /// 缓存时间
         /// </summary>
         public long CacheTime { get; set; }
+        /// <summary>
+        /// 缓存版本控制名
+        /// </summary>
+        public string CacheDependency{ get; set; }
         /// <summary>
         /// 路由名称
         /// </summary>

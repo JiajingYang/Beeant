@@ -141,7 +141,9 @@ namespace Winner.Persistence.Relation
             info.GetDataBase = node.Attributes["GetDataBase"] != null ? node.Attributes["GetDataBase"].Value.ToLower() : null; 
             info.NickObjectName = node.Attributes["NickObjectName"] != null ? node.Attributes["NickObjectName"].Value : null;
             info.SetTableName = node.Attributes["SetTableName"] == null ? info.GetTableName : node.Attributes["SetTableName"].Value.ToLower();
-            info.IsCache = node.Attributes["IsCache"] != null && Convert.ToBoolean(node.Attributes["IsCache"].Value);
+            if (node.Attributes["CacheType"] != null)
+                info.CacheType = (CacheType)Enum.Parse(typeof(CacheType), node.Attributes["CacheType"].Value);
+            info.CacheDependency = node.Attributes["CacheDependency"] == null ? null : node.Attributes["CacheDependency"].Value;
             info.CacheTime = node.Attributes["CacheTime"] == null ?1200:Convert.ToInt64(node.Attributes["CacheTime"].Value);
             info.SetDataBase = node.Attributes["SetDataBase"] == null ? info.GetDataBase : node.Attributes["SetDataBase"].Value.ToLower();
             info.RouteName = node.Attributes["RouteName"] == null ? "" : node.Attributes["RouteName"].Value.ToLower();
@@ -487,7 +489,7 @@ namespace Winner.Persistence.Relation
         {
             foreach (var orm in Orms)
             {
-                if(!orm.Value.IsCache)continue;
+                if(orm.Value.CacheType== CacheType.None)continue;
                 SetOrmObjectCacheTime(orm.Value);
             }
         }
@@ -502,7 +504,7 @@ namespace Winner.Persistence.Relation
             foreach (var ormMap in ormMaps)
             {
                 ormMap.GetMapObject().CacheTime = orm.CacheTime;
-                ormMap.GetMapObject().IsCache = orm.IsCache;
+                ormMap.GetMapObject().CacheType = orm.CacheType;
                 SetOrmObjectCacheTime(ormMap.GetMapObject());
             }
         }

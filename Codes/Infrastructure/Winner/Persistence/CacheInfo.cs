@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Winner.Persistence
 {
@@ -20,6 +22,15 @@ namespace Winner.Persistence
         /// 设置缓存时间
         /// </summary>
         public virtual long TimeSpan { get; set; }
-     
+        /// <summary>
+        /// 缓存类型
+        /// </summary>
+        public CacheType Type { get; set; }= CacheType.Remote;
+        /// <summary>
+        /// 是否订阅
+        /// </summary>
+        public IList<string> Dependencies { get; set; }
+
+
     }
 }

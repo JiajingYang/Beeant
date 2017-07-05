@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Web;
+using System.Web.Caching;
 using Winner.Cache;
 using Winner.Persistence.Compiler.Common;
 using Winner.Persistence.ContextStorage;
@@ -70,7 +72,7 @@ namespace Winner.Persistence
             objs = objs.Distinct().ToList();
             foreach (var obj in objs)
             {
-                if (!obj.IsCache)
+                if (obj.CacheType== CacheType.None)
                     continue;
                 var handle = new LoadCacheHandle(LoadCache);
                 handle.BeginInvoke(obj, null, null);
@@ -96,7 +98,7 @@ namespace Winner.Persistence
                 {
                     var value = entity.GetType().GetProperty(obj.PrimaryProperty.PropertyName).GetValue(entity, null);
                     var cacheKey = GetEntityCacheKey(obj, value);
-                    var dataEntity = GetCache<EntityInfo>(cacheKey);
+                    var dataEntity = GetCommonCache<EntityInfo>(obj,cacheKey);
                     if (dataEntity != null)
                     {
                         InsertCommonCache(obj, value, entity);
@@ -114,7 +116,14 @@ namespace Winner.Persistence
         {
             return string.Format("{0}{1}", obj.ObjectName, key);
         }
-
+        /// <summary>
+        /// 得到缓存值
+        /// </summary>
+        /// <param name="key"></param>
+        protected virtual string GetVersionCacheKey(object key)
+        {
+            return string.Format("{0}Version", key);
+        }
         /// <summary>
         /// 得到实体
         /// </summary>
@@ -147,21 +156,18 @@ namespace Winner.Persistence
             if (!Local.HasEntity(cacheKey))
             {
                 object entity = null;
-                if (obj.IsCache)
+                if (obj.CacheType != CacheType.None)
                 {
-                    entity = GetCache<T>(cacheKey);
+                    entity = GetCommonCache<T>(obj,cacheKey);
                 }
                 if (entity == null)
                 {
                     var query = new QueryInfo {IsLazyLoad = true}.From(type.FullName);
                     query.Where(string.Format("{0}==@{0}", obj.PrimaryProperty.PropertyName))
                          .SetParameter(obj.PrimaryProperty.PropertyName, key);
-                    var entities = ExecuteInfos<IList<T>>(obj, query, obj.IsCache);
+                    var entities = ExecuteInfos<IList<T>>(obj, query, obj.CacheType!=CacheType.None);
                     entity = entities.FirstOrDefault();
-                    if (obj.IsCache && entity != null)
-                    {
-                        InsertCommonCache(obj, key, entity);
-                    }
+                    InsertCommonCache(obj, key, entity);
                 }
                 Local.Entities.Add(cacheKey, entity);
             }
@@ -178,7 +184,7 @@ namespace Winner.Persistence
         public IList<T> Gets<T>(QueryInfo query, OrmObjectInfo obj = null)
         {
             obj = obj ?? Orm.GetOrm(query.FromExp);
-            var infos = ExecuteInfos<IList<T>>(obj, query,obj.IsCache);
+            var infos = ExecuteInfos<IList<T>>(obj, query,obj.CacheType != CacheType.None);
             if (infos != null)
             {
                 for (var i = 0; i < infos.Count; i++)
@@ -264,10 +270,7 @@ namespace Winner.Persistence
             {
                 Local.Entities.Add(key, entity);
             }
-            if (obj.IsCache)
-            {
-                InsertCommonCache(obj, value, entity);
-            }
+            InsertCommonCache(obj, value, entity);
             return (T) Local.GetEntity(key);
         }
 
@@ -293,9 +296,54 @@ namespace Winner.Persistence
         /// <summary>
         /// 设置公共缓存
         /// </summary>
+        protected virtual T GetCommonCache<T>(OrmObjectInfo obj, string key)
+        {
+            if (obj.CacheType == CacheType.None)
+                return default(T);
+            if (obj.CacheType == CacheType.Local)
+                return GetLocalCache<T>(key);
+            if (obj.CacheType == CacheType.Remote)
+                return GetRemoteCache<T>(key);
+            var versionKey = GetVersionCacheKey(key);
+            var remoteVersion = GetRemoteCache<string>(versionKey);
+            var localVersion = GetLocalCache<string>(versionKey);
+            if (!string.IsNullOrWhiteSpace(remoteVersion) && localVersion == remoteVersion)
+            {
+                return GetLocalCache<T>(key);
+            }
+            RemoveLocalCache(key);
+            RemoveLocalCache(versionKey);
+            return default(T);
+        }
+        /// <summary>
+        /// 设置公共缓存
+        /// </summary>
         protected virtual void InsertCommonCache(OrmObjectInfo obj,object key,object entity)
         {
-            SetCache(GetEntityCacheKey(obj, key), entity, obj.CacheTime);
+            if (obj.CacheType == CacheType.None|| entity==null)
+                return;
+            var cacheKey = GetEntityCacheKey(obj, key);
+            if (obj.CacheType == CacheType.Local)
+            {
+                SetLocalCache(cacheKey, entity, obj.CacheTime);
+            }
+            else if (obj.CacheType == CacheType.Local)
+            {
+                SetRemoteCache(cacheKey, entity, obj.CacheTime);
+            }
+            else
+            {
+               
+                var versionCacheKey = GetVersionCacheKey(cacheKey);
+                var version = GetRemoteCache<string>(versionCacheKey);
+                if (string.IsNullOrWhiteSpace(version))
+                {
+                    version = DateTime.Now.ToString("yyyyMMddHHmmss");
+                    SetRemoteCache(versionCacheKey, version, obj.CacheTime);
+                }
+                SetLocalCache(versionCacheKey, version, obj.CacheTime);
+                SetLocalCache(cacheKey, entity, obj.CacheTime);
+            }
             var ormProperties =
              obj.Properties.Where(it => it.Map != null && (it.Map.IsGreedyLoad || it.Map.IsLazyLoad));
             foreach (var ormProperty in ormProperties)
@@ -324,12 +372,42 @@ namespace Winner.Persistence
         /// <param name="key"></param>
         protected virtual void RemoveCommonCache(OrmObjectInfo obj, object key)
         {
-            var cacheKey = GetEntityCacheKey(obj, key);
-            var cacheValue =Cacher.Get(cacheKey,Type.GetType(obj.ObjectName));
-            if (cacheValue == null) return;
-            if (obj.IsCache)
+            if (!string.IsNullOrWhiteSpace(obj.CacheDependency))
             {
-                Cacher.Remove(cacheKey);
+                var varsionKey = GetVersionCacheKey(obj.CacheDependency);
+                RemoveRemoteCache(varsionKey);
+            }
+            var cacheKey = GetEntityCacheKey(obj, key);
+            object cacheValue = null;
+            if (obj.CacheType == CacheType.Local)
+            {
+                cacheValue = GetLocalCache(cacheKey, Type.GetType(obj.ObjectName));
+                if (cacheValue == null) return;
+                if (obj.CacheType != CacheType.None)
+                {
+                    RemoveLocalCache(cacheKey);
+                }
+            }
+            else if (obj.CacheType == CacheType.Remote)
+            {
+                cacheValue = GetRemoteCache(cacheKey, Type.GetType(obj.ObjectName));
+                if (cacheValue == null) return;
+                if (obj.CacheType != CacheType.None)
+                {
+                    RemoveRemoteCache(cacheKey);
+                }
+            }
+            else
+            {
+                var varsionKey = GetVersionCacheKey(key);
+                cacheValue = GetLocalCache(cacheKey, Type.GetType(obj.ObjectName));
+                if (cacheValue == null) return;
+                if (obj.CacheType != CacheType.None)
+                {
+                    RemoveRemoteCache(varsionKey);
+                    RemoveLocalCache(varsionKey);
+                    RemoveLocalCache(cacheKey);
+                }
             }
             var ormMaps =
             obj.Properties.Where(it => it.Map != null && it.Map.IsRemoveCache)
@@ -338,10 +416,6 @@ namespace Winner.Persistence
             foreach (var ormMap in ormMaps)
             {
                 var value = cacheValue.GetProperty(ormMap.ObjectProperty.PropertyName);
-                if (!obj.IsCache)
-                {
-                    Cacher.Remove(cacheKey);
-                }
                 RemoveCommonCache(ormMap.GetMapObject(), value);
             }
         }
@@ -354,48 +428,48 @@ namespace Winner.Persistence
         /// </summary>
         /// <param name="unitofworks"></param>
         /// <returns></returns>
-        public bool Commit(IList<IUnitofwork> unitofworks)
+        public virtual bool Commit(IList<IUnitofwork> unitofworks)
         {
             var rev = Transaction.Commit(unitofworks);
             if (rev)
             {
                 foreach (var entity in Local.Storages)
                 {
-                    if (entity.Value.Object.IsCache || entity.Value.Object.Properties.Count(it=>it.Map!=null && it.Map.IsRemoveCache)>0)
+                    if (entity.Value.Object.CacheType!= CacheType.None || entity.Value.Object.Properties.Count(it=>it.Map!=null && it.Map.IsRemoveCache)>0)
                     {
-                        if (entity.Value.Information.SaveType == SaveType.None)
-                            continue;
-                        var id =entity.Key.GetProperty(entity.Value.Object.PrimaryProperty.PropertyName);
-                        if (id == null || id.GetType().IsValueType && id.Equals(0))
-                            continue;
-                        try
-                        {
-                            RemoveCommonCache(entity.Value.Object, id);
-                            var ormMaps =
-                                entity.Value.Object.Properties.Where(it => it.Map != null && it.Map.IsRemoveCache)
-                                      .Select(it => it.Map).ToList();
-                            if (ormMaps.Count > 0)
-                            {
-                                foreach (var ormMap in ormMaps)
-                                {
-                                    var key = entity.Key.GetProperty(ormMap.ObjectProperty.PropertyName);
-                                    if (key == null || key.GetType().IsValueType && key.Equals(0))
-                                        continue;
-                                    RemoveCommonCache(ormMap.GetMapObject(), key);
-                                }
-                            }
-                        }
-                        catch 
-                        {
-
-                        }
+                        Action<KeyValuePair<object, SaveInfo>> action = FlushCache;
+                        action.BeginInvoke(entity, null, null);
                     }
                 }
             }
             Local = null;
             return rev;
         }
-
+        /// <summary>
+        /// 刷新缓存
+        /// </summary>
+        protected virtual void FlushCache(KeyValuePair<object,SaveInfo> entity)
+        {
+            if (entity.Value.Information.SaveType == SaveType.None)
+                return;
+            var id = entity.Key.GetProperty(entity.Value.Object.PrimaryProperty.PropertyName);
+            if (id == null || id.GetType().IsValueType && id.Equals(0))
+                return;
+            RemoveCommonCache(entity.Value.Object, id);
+            var ormMaps =
+                entity.Value.Object.Properties.Where(it => it.Map != null && it.Map.IsRemoveCache)
+                    .Select(it => it.Map).ToList();
+            if (ormMaps.Count > 0)
+            {
+                foreach (var ormMap in ormMaps)
+                {
+                    var key = entity.Key.GetProperty(ormMap.ObjectProperty.PropertyName);
+                    if (key == null || key.GetType().IsValueType && key.Equals(0))
+                        continue;
+                    RemoveCommonCache(ormMap.GetMapObject(), key);
+                }
+            }
+        }
         #endregion
 
         #region 查询
@@ -453,16 +527,6 @@ namespace Winner.Persistence
         private static readonly object KeyLoker = new object();
 
 
-        private string _cacheTag = "Winner_PersistenceQuery_{0}_";
-
-        /// <summary>
-        /// 缓存前缀
-        /// </summary>
-        public virtual string CacheTag
-        {
-            get { return _cacheTag; }
-            set { _cacheTag = value; }
-        }
 
         /// <summary>
         /// 加载数据
@@ -491,12 +555,12 @@ namespace Winner.Persistence
         protected virtual T GetInfosByCache<T>(QueryInfo query, OrmObjectInfo obj)
         {
             SetQueryCustomCacheKey(query, obj);
-            QueryCacheInfo<T> cacheResult = GetQueryCacheInfo<T>(query);
+            QueryCacheInfo<T> cacheResult = GetQueryCache<T>(obj,query);
             if (null == cacheResult || cacheResult.Result == null)
             {
                 lock (KeyLoker)
                 {
-                    cacheResult = GetQueryCacheInfo<T>(query);
+                    cacheResult = GetQueryCache<T>(obj,query);
                     if (null == cacheResult || cacheResult.Result == null)
                     {
                         cacheResult = new QueryCacheInfo<T>
@@ -504,48 +568,114 @@ namespace Winner.Persistence
                             Result = Executor.GetInfos<T>(obj, query, this, true),
                             DataCount = query.DataCount
                         };
-                        //if (query.Cache.TimeSpan != 0)
-                        //{
-                        //    SetLocalCache(query.Cache.Key, cacheResult, query.Cache.TimeSpan);
-                        //}
-                        //else if (query.Cache.Time != DateTime.MinValue)
-                        //{
-                        //    SetLocalCache(query.Cache.Key, cacheResult, query.Cache.Time);
-                        //}
-                        if (query.Cache.TimeSpan != 0)
-                        {
-                            SetCache(query.Cache.Key, cacheResult, query.Cache.TimeSpan);
-                        }
-                        else if (query.Cache.Time != DateTime.MinValue)
-                        {
-                            SetCache(query.Cache.Key, cacheResult, query.Cache.Time);
-                        }
+                        SetQueryCache(obj, query, cacheResult);
+                      
                     }
                 }
             }
             query.DataCount = cacheResult.DataCount;
             return cacheResult.Result;
         }
+
         /// <summary>
         /// 得到缓存
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        protected virtual QueryCacheInfo<T> GetQueryCacheInfo<T>(QueryInfo query)
+        protected virtual QueryCacheInfo<T> GetQueryCache<T>(OrmObjectInfo obj, QueryInfo query)
         {
-            QueryCacheInfo<T> cacheResult = null;
-            if (query.Cache.Time != DateTime.MinValue || query.Cache.TimeSpan != 0)
+            if (query.Cache.Type == CacheType.None)
+                return null;
+            if (query.Cache.Time == DateTime.MinValue && query.Cache.TimeSpan == 0)
+                return null;
+            if (query.Cache.Dependencies != null && query.Cache.Dependencies.Count>0)
             {
-                cacheResult = GetCache<QueryCacheInfo<T>>(query.Cache.Key);
+                foreach (var dependency in query.Cache.Dependencies)
+                {
+                    string subVersionKey = GetVersionCacheKey(dependency);
+                    var subLocalVersion = GetLocalCache<string>(subVersionKey);
+                    var subRemoteVersion = GetRemoteCache<string>(subVersionKey);
+                    if (string.IsNullOrWhiteSpace(subRemoteVersion) || subLocalVersion != subRemoteVersion)
+                    {
+                        return null;
+                    }
+                }
+               
             }
-            //if ((cacheResult == null || cacheResult.Result==null) && (query.Cache.Time2 != DateTime.MinValue || query.Cache.TimeSpan2 != 0))
-            //{
-            //    cacheResult = GetCache<QueryCacheInfo<T>>(query.Cache.Key);
-            //}
-            return cacheResult;
+            if (query.Cache.Type == CacheType.Local)
+            {
+                return GetLocalCache<QueryCacheInfo<T>>(query.Cache.Key);
+            }
+            if (query.Cache.Type == CacheType.Remote)
+            {
+                return GetRemoteCache<QueryCacheInfo<T>>(query.Cache.Key);
+            }
+            return GetLocalCache<QueryCacheInfo<T>>(query.Cache.Key) ?? GetRemoteCache<QueryCacheInfo<T>>(query.Cache.Key);
+
         }
 
+        /// <summary>
+        /// 得到缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        protected virtual void SetQueryCache<T>(OrmObjectInfo obj, QueryInfo query, QueryCacheInfo<T> cacheResult)
+        {
+            if (query.Cache.Type == CacheType.None)
+                return ;
+            if (query.Cache.Time == DateTime.MinValue && query.Cache.TimeSpan == 0)
+                return ;
+            if (query.Cache.Dependencies != null && query.Cache.Dependencies.Count>0)
+            {
+                foreach (var dependency in query.Cache.Dependencies)
+                {
+                    string subVersionKey = GetVersionCacheKey(dependency);
+                    var version = GetRemoteCache<string>(subVersionKey);
+                    if (string.IsNullOrWhiteSpace(version))
+                    {
+                        version = DateTime.Now.ToString("yyyyMMddHHmmss");
+                        SetRemoteCache(subVersionKey, version, DateTime.MaxValue);
+                    }
+                    SetRemoteCache(subVersionKey, version, DateTime.MaxValue);
+                    if (query.Cache.TimeSpan != 0)
+                    {
+                        SetLocalCache(subVersionKey, cacheResult, query.Cache.TimeSpan);
+                    }
+                    else if (query.Cache.Time != DateTime.MinValue)
+                    {
+                        SetLocalCache(subVersionKey, cacheResult, query.Cache.Time);
+                    }
+                }
+            }
+            if (query.Cache.Type == CacheType.Local || query.Cache.Type == CacheType.LocalAndRemote)
+            {
+                if (query.Cache.TimeSpan != 0)
+                {
+                    SetLocalCache(query.Cache.Key, cacheResult, query.Cache.TimeSpan);
+                }
+                else if (query.Cache.Time != DateTime.MinValue)
+                {
+                    SetLocalCache(query.Cache.Key, cacheResult, query.Cache.Time);
+                }
+            }
+            if (query.Cache.Type == CacheType.Remote || query.Cache.Type == CacheType.LocalAndRemote)
+            {
+                if (query.Cache.TimeSpan != 0)
+                {
+                    SetRemoteCache(query.Cache.Key, cacheResult, query.Cache.TimeSpan);
+                }
+                else if (query.Cache.Time != DateTime.MinValue)
+                {
+                    SetRemoteCache(query.Cache.Key, cacheResult, query.Cache.Time);
+                }
+            }
+           
+
+        }
+
+       
         /// <summary>
         /// 得到缓存的Key
         /// </summary>
@@ -583,18 +713,18 @@ namespace Winner.Persistence
                 }
             }
             var value = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sb.ToString(), "MD5");
-            query.Cache.Key = string.Format("{0}{1}", string.Format(CacheTag, query.Cache.Name), value);
+            query.Cache.Key = string.Format("{0}{1}", query.Cache.Name, value);
         }
 
         /// <summary>
         /// 刷新缓存
         /// </summary>
         /// <returns></returns>
-        public bool Flush(string key)
+        public virtual bool Flush(string key)
         {
             lock (KeyLoker)
             {
-                //RemoveLocalCache(key);
+                RemoveLocalCache(key);
                 Cacher.Remove(key);
                 return true;
             }
@@ -611,7 +741,7 @@ namespace Winner.Persistence
         /// <param name="value"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        protected virtual bool SetCache(string key, object value, DateTime time)
+        protected virtual bool SetRemoteCache(string key, object value, DateTime time)
         {
             return Cacher.Set(key, value, time);
         }
@@ -622,7 +752,7 @@ namespace Winner.Persistence
         /// <param name="value"></param>
         /// <param name="timeSpan"></param>
         /// <returns></returns>
-        protected virtual bool SetCache(string key, object value, long timeSpan)
+        protected virtual bool SetRemoteCache(string key, object value, long timeSpan)
         {
             return Cacher.Set(key, value, timeSpan);
         }
@@ -632,13 +762,91 @@ namespace Winner.Persistence
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        protected virtual T GetCache<T>(string key)
+        protected virtual T GetRemoteCache<T>(string key)
         {
             var value= Cacher.Get<T>(key);
             return value;
         }
+        /// <summary>
+        /// 得到对象
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public virtual object GetRemoteCache(string key, Type type)
+        {
+            
+            return Cacher.Get(key, type);
+        }
+        /// <summary>
+        /// 移除缓存
+        /// </summary>
+        /// <param name="key"></param>
+        public virtual bool RemoveRemoteCache(string key)
+        {
+            return Cacher.Remove(key);
+ 
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        protected virtual bool SetLocalCache(string key, object value, DateTime time)
+        {
+            HttpRuntime.Cache.Insert(key, value, null, time, TimeSpan.Zero, CacheItemPriority.High, null);
+            return true;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="timeSpan"></param>
+        /// <returns></returns>
+        protected virtual bool SetLocalCache(string key, object value, long timeSpan)
+        {
+            HttpRuntime.Cache.Insert(key, value, null, DateTime.MaxValue, TimeSpan.FromSeconds(timeSpan), CacheItemPriority.High, null);
+            return true;
+        }
+        /// <summary>
+        /// 得到缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        protected virtual T GetLocalCache<T>(string key)
+        {
+            var value = HttpRuntime.Cache[key];
+            if (value == null)
+                return default(T);
+            return (T)value;
+        }
+        /// <summary>
+        /// 得到对象
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public virtual object GetLocalCache(string key, Type type)
+        {
+            var value = HttpRuntime.Cache[key];
+            if (value == null)
+                return null;
+            return Convert.ChangeType(value, type);
+        }
+        /// <summary>
+        /// 移除缓存
+        /// </summary>
+        /// <param name="key"></param>
+        public virtual bool RemoveLocalCache(string key)
+        {
+            HttpRuntime.Cache.Remove(key);
+            return true;
+        }
 
-       
         #endregion
 
     }

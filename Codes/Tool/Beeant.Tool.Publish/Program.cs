@@ -30,9 +30,13 @@ namespace Beeant.Tool.Publish
             var paths=new List<string>();
             foreach (var subDir in subDirs)
             {
-                if(subDir.Name.ToLower()=="publish")
+                if(subDir.FullName== rootPath)
                     continue;
-                paths.Add(subDir.FullName);
+                var repDirs = subDir.GetDirectories();
+                foreach (var repDir in repDirs)
+                {
+                    paths.Add(repDir.FullName);
+                }
             }
             return paths;
         }
@@ -43,10 +47,18 @@ namespace Beeant.Tool.Publish
         private static void Replace(string path)
         {
             var rootPath = GetRootPath();
-            ReplaceFiles(string.Format(@"{0}Config", rootPath),
-                string.Format(@"{0}Config", path));
-            ReplaceFiles(string.Format(@"{0}Scripts", rootPath),
-                string.Format(@"{0}Scripts", path));
+            ReplaceFiles(string.Format(@"{0}\Config", rootPath),string.Format(@"{0}\Config", path));
+            var scriptDir = new DirectoryInfo(path);
+            if (scriptDir.Parent!=null && scriptDir.Parent.Name.ToLower()=="websites")
+            {
+                ReplaceFiles(string.Format(@"{0}\Scripts", rootPath),
+                string.Format(@"{0}\Scripts", path));
+            }
+            if (Directory.Exists(string.Format(@"{0}\bin", rootPath)) && Directory.Exists(string.Format(@"{0}\bin", path)))
+            {
+                ReplaceFiles(string.Format(@"{0}\bin", rootPath),
+                    string.Format(@"{0}\bin", path));
+            }
         }
 
         /// <summary>
@@ -66,14 +78,14 @@ namespace Beeant.Tool.Publish
         private static void ReplaceFiles(string orgPath, string desPath)
         {
             if (!Directory.Exists(desPath))
-               return;
+                Directory.CreateDirectory(desPath);
             var orgDirectory=new DirectoryInfo(orgPath);
             var files = orgDirectory.GetFiles();
             foreach (var file in files)
             {
                 var desFileName = string.Format(@"{0}\{1}", desPath, file.Name);
                 var desFile=new FileInfo(desFileName);
-                if (!desFile.Exists || file.LastWriteTime != desFile.LastWriteTime)
+                if (!desFile.Exists || file.LastWriteTime > desFile.LastWriteTime)
                     file.CopyTo(desFileName, desFile.Exists);
             }
             var directories = orgDirectory.GetDirectories();

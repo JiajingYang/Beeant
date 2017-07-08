@@ -1,0 +1,6 @@
+C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Publish\bin\Debug\Beeant.Tool.Publish.exe.config
+C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Publish\bin\Debug\Beeant.Tool.Publish.exe
+C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Publish\bin\Debug\Beeant.Tool.Publish.pdb
+C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Publish\obj\Debug\Beeant.Tool.Publish.csprojResolveAssemblyReference.cache
+C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Publish\obj\Debug\Beeant.Tool.Publish.exe
+C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Publish\obj\Debug\Beeant.Tool.Publish.pdb

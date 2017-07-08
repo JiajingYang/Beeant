@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Xml;
-using System.Drawing;
-using System.Drawing.Imaging;
 using Configuration;
 using Beeant.Domain.Entities.Finance;
 using Winner.Persistence;
@@ -141,7 +138,6 @@ namespace Beeant.Repository.Services.Finance
         /// <returns></returns>
         protected virtual string GetNativeRequest(PaylineEntity info, IDictionary<string, string> resParas)
         {
-            info.CodeUrl = resParas.ContainsKey("code_url") ? resParas["code_url"] : "";
             var builder = new StringBuilder();
             builder.Append("<div class='scancode-main'>");
             builder.Append("<div class='order-mess'>");

@@ -199,6 +199,29 @@ namespace Winner.Persistence
         /// <summary>
         /// 设置缓存
         /// </summary>
+        /// <param name="cacheType"></param>
+        /// <returns></returns>
+        public virtual QueryInfo SetCacheType(CacheType cacheType)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.Type = cacheType;
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public virtual QueryInfo AppendCacheDependency(string name)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.Dependencies = Cache.Dependencies ?? new List<string>();
+            Cache.Dependencies.Add(name);
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public virtual QueryInfo SetCacheName(string name)
@@ -439,6 +462,29 @@ namespace Winner.Persistence
         {
             Cache = Cache ?? new CacheInfo();
             Cache.Time = cacheTime;
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="cacheType"></param>
+        /// <returns></returns>
+        public new QueryInfo<T> SetCacheType(CacheType cacheType)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.Type = cacheType;
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public new QueryInfo<T> AppendCacheDependency(string name)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.Dependencies = Cache.Dependencies ?? new List<string>();
+            Cache.Dependencies.Add(name);
             return this;
         }
         /// <summary>

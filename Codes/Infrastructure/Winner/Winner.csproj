@@ -73,6 +73,7 @@
     <Compile Include="Creator.cs" />
     <Compile Include="Mail\ServerInfo.cs" />
     <Compile Include="Mail\XmlMail.cs" />
+    <Compile Include="Persistence\CacheType.cs" />
     <Compile Include="Persistence\Compiler\Common\JoinInfo.cs" />
     <Compile Include="Persistence\Compiler\Common\QueryCompilerInfo.cs" />
     <Compile Include="Persistence\Compiler\Common\TableInfo.cs" />

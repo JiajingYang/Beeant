@@ -425,7 +425,7 @@ namespace Winner.Persistence.Compiler.Common
                 return null;
             var m = Regex.Match(match.Value, SubQueryPattern);
             if (!m.Success) return null;
-            var query = new QueryInfo { IsReturnCount = false };
+            var query = new QueryInfo { IsReturnCount = false,Object= queryCompiler.Object };
             do
             {
                 var methodName = Regex.Match(m.Value, CommonPattern).Value;
@@ -490,7 +490,6 @@ namespace Winner.Persistence.Compiler.Common
                     TranslateQuery = queryCompiler.TranslateQuery
             };
             subQueryCompiler.SubQuery = GetSelectManyJoinQuery(subQueryCompiler, match);
-            subQueryCompiler.SubQuery.Object = subQueryCompiler.Object;
             if (string.IsNullOrEmpty(subSelect) || subSelect.Equals("*"))
                 TranslateFromBegin(subQueryCompiler);
             else

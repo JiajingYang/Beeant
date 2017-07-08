@@ -45,6 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ValidationConfigGenerator.cs" />
+    <Compile Include="EntityConfigGenerator.cs" />
+    <Compile Include="IocConfigGenerator.cs" />
+    <Compile Include="ApplicationGenerator.cs" />
     <Compile Include="GeneratorBase.cs" />
     <Compile Include="EntityGenerator.cs" />
     <Compile Include="DomainGenerator.cs" />

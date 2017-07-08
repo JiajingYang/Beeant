@@ -47,7 +47,7 @@ namespace Beeant.Tool.Generator
                 row.Cells.Add(new DataGridViewTextBoxCell { Value = dr["列说明"], ReadOnly = false });
                 row.Cells.Add(new DataGridViewTextBoxCell { Value = type, ReadOnly = false });
                 row.Cells.Add(new DataGridViewTextBoxCell { Value = dr["长度"], ReadOnly = false });
-                row.Cells.Add(new DataGridViewTextBoxCell { Value = name!="Remark" || name != "Detail", ReadOnly = false });
+                row.Cells.Add(new DataGridViewCheckBoxCell { Value = name!="Remark" || name != "Detail", ReadOnly = false });
                 row.Cells.Add(new DataGridViewTextBoxCell { Value =  name.EndsWith("FileName") ? name.Replace("Name", "Byte") : "", ReadOnly = false });
                 row.Cells.Add(new DataGridViewTextBoxCell { Value = moduleName, ReadOnly = false });
                 row.Cells.Add(new DataGridViewTextBoxCell { Value = "", ReadOnly = false });
@@ -205,14 +205,33 @@ namespace Beeant.Tool.Generator
 
         protected virtual void Generate()
         {
-            if (dataGridView1.Rows.Count == 0)
+            try
             {
-                MessageBox.Show("没有生成的属性");
-                return;
+                if (dataGridView1.Rows.Count == 0)
+                {
+                    MessageBox.Show("没有生成的属性");
+                    return;
+                }
+                var entity = new EntityGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                var domain = new DomainGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                var application = new ApplicationGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                var iocConfig = new IocConfigGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                var entityConfig = new EntityConfigGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                var validationConfig = new ValidationConfigGenerator() { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                entity.Generate();
+                domain.Generate();
+                application.Generate();
+                iocConfig.Generate();
+                entityConfig.Generate();
+                validationConfig.Generate();
+                MessageBox.Show("生成成功");
+
             }
-            var entity=new EntityGenerator{DataGridView=dataGridView1,EntityName=GetEntityName(),Module=GetModuleName(),EntityNickname=txtEntityNickname.Text};
-            entity.Generate();
-            MessageBox.Show("生成成功");
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+           
 
         }
     }

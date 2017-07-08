@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Beeant.Distributed.Service.Host
@@ -21,7 +22,9 @@ namespace Beeant.Distributed.Service.Host
                 comboBox1.SelectedIndex = 0;
                 StartService();
             }
+            timer1.Enabled = true;
 
+            this.notifyIcon.Icon = this.Icon;
         }
         /// <summary>
         /// 关闭
@@ -85,6 +88,45 @@ namespace Beeant.Distributed.Service.Host
             var value = comboBox1.SelectedItem.ToString().Split('-');
             Winner.Creator.Get<Winner.Wcf.IWcfHost>().Stop(Type.GetType(value[1]));
             Close();
+        }
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Visible = true;
+
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(this.Visible)
+            {
+                this.ShowInTaskbar = false;
+                
+                this.Hide();
+            }
+            else
+            { 
+            this.Visible = true;
+
+            this.WindowState = FormWindowState.Normal;
+            }
+        }
+
+        private void Form1_MinimumSizeChanged(object sender, EventArgs e)
+        {
+            this.ShowInTaskbar = false;
+
+            this.Hide();
+        }
+
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+                       
+            this.ShowInTaskbar = false;
+            this.Hide();
+            timer1.Enabled = false;
         }
     }
 }

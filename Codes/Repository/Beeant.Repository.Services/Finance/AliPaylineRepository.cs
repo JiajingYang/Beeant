@@ -59,7 +59,7 @@ namespace Beeant.Repository.Services.Finance
         {
             get
             {
-                 return AliPayConfig.AliPayPublicKey;
+                return AliPayConfig.AliPayPublicKey;
             }
         }
 
@@ -69,7 +69,7 @@ namespace Beeant.Repository.Services.Finance
         private IAopClient _aopClient;
         protected virtual IAopClient AopClient
         {
-            get
+            get 
             {
                 if (_aopClient == null)
                     _aopClient = new DefaultAopClient(Url, AppId, PrivateKey, "json", "1.0", "RSA2", AliPayPublicKey, "UTF-8", false);
@@ -83,8 +83,16 @@ namespace Beeant.Repository.Services.Finance
         /// <returns></returns>
         public override bool Create(PaylineEntity info)
         {
-            return CreateByWap(info);
+            switch (info.ChannelType)
+            {
+                case Domain.Entities.ChannelType.Mobile:
+                    return CreateByWap(info);
+                case Domain.Entities.ChannelType.Website:
+                    return CreateByPage(info);
+            }
+            return false;
         }
+
         /// <summary>
         /// 手机支付
         /// </summary>
@@ -96,9 +104,10 @@ namespace Beeant.Repository.Services.Finance
             builder.AppendFormat("\"body\":\"{0}\",", info.TypeName);
             builder.AppendFormat("\"subject\":\"{0}\",", info.TypeName);
             builder.AppendFormat("\"out_trade_no\":\"{0}\",", info.Number);
-            builder.AppendFormat("\"total_amount\":\"{0}\",", info.Amount!=0 || info.PaylineItems==null?info.Amount:info.PaylineItems.Sum(it=>it.Amount));
-            builder.AppendFormat("\"product_code\":\"{0}\",", "QUICK_WAP_PAY");
+            builder.AppendFormat("\"total_amount\":\"{0}\",", info.Amount != 0 || info.PaylineItems == null ? info.Amount : info.PaylineItems.Sum(it => it.Amount));
+            builder.AppendFormat("\"product_code\":\"{0}\",", "QUICK_WAP_PAY");//FAST_INSTANT_TRADE_PAY
             builder.Append("}");
+
             AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
             request.BizContent = builder.ToString();
             var processUrl = string.Format("{0}/AliPay/Process",
@@ -106,6 +115,38 @@ namespace Beeant.Repository.Services.Finance
             request.SetReturnUrl(processUrl);
             request.SetNotifyUrl(processUrl);
             AlipayTradeWapPayResponse response = AopClient.pageExecute(request);
+            info.Request = response.Body;
+            return true;
+        }
+
+        /// <summary>
+        /// PC 支付
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        protected virtual bool CreateByPage(PaylineEntity info)
+        {
+            var builder = new StringBuilder("{");
+            //订单描述，可空
+            builder.AppendFormat("\"body\":\"{0}\",", info.TypeName);
+            //订单标题
+            builder.AppendFormat("\"subject\":\"{0}\",", info.TypeName);
+            //商户订单号，64个字符以内、可包含字母、数字、下划线；需保证在商户端不重复
+            builder.AppendFormat("\"out_trade_no\":\"{0}\",", info.Number);
+            //订单总金额
+            builder.AppendFormat("\"total_amount\":\"{0}\",", info.Amount != 0 || info.PaylineItems == null ? info.Amount : info.PaylineItems.Sum(it => it.Amount));
+            //销售产品码，与支付宝签约的产品码名称。 注：目前仅支持FAST_INSTANT_TRADE_PAY
+            builder.AppendFormat("\"product_code\":\"{0}\"", "FAST_INSTANT_TRADE_PAY");
+            builder.Append("}");
+
+            AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+
+            request.BizContent = builder.ToString();
+            var processUrl = string.Format("{0}/AliPay/Process",
+                ConfigurationManager.GetSetting<string>("DistributedOutsidePayUrl"));
+            request.SetReturnUrl(processUrl);
+            request.SetNotifyUrl(processUrl);
+            AlipayTradePagePayResponse response = AopClient.pageExecute(request);
             info.Request = response.Body;
             return true;
         }
@@ -136,7 +177,7 @@ namespace Beeant.Repository.Services.Finance
             return info;
         }
 
-      
+
         /// <summary>
         /// 得到请求参数
         /// </summary>
@@ -165,7 +206,7 @@ namespace Beeant.Repository.Services.Finance
         {
             return AlipaySignature.RSACheckV1(inputPara, AliPayPublicKey, "UTF-8", "RSA2", false);
         }
- 
+
 
         #endregion
         /// <summary>

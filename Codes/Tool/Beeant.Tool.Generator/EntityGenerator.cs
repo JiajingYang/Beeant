@@ -23,7 +23,10 @@ namespace Beeant.Tool.Generator
             if (!file.Exists)
                 file.Create().Dispose();
             File.WriteAllText(file.FullName,GetContent());
+            var csproj = $"{GetRootPath()}Domain\\Beeant.Domain.Entities\\Beeant.Domain.Entities.csproj";
+            AppendCsproj(csproj, $"{Module}\\{EntityName}Entity.cs");
         }
+        
         /// <summary>
         /// 得到文本内容
         /// </summary>
@@ -34,10 +37,12 @@ namespace Beeant.Tool.Generator
             builder.AppendLine("using System;");
             foreach (DataGridViewRow row in DataGridView.Rows)
             {
+                if (row.Cells["Name"].Value==null)
+                    continue;
                 var value = row.Cells["Module"].Value.ToString();
                 if (string.IsNullOrWhiteSpace(value))
                     continue;
-                builder.AppendLine($"namespace Beeant.Domain.Entities.{value};");
+                builder.AppendLine($"using Beeant.Domain.Entities.{value};");
             }
             builder.AppendLine("");
             builder.AppendLine($"namespace Beeant.Domain.Entities.{Module}");
@@ -46,23 +51,30 @@ namespace Beeant.Tool.Generator
             builder.AppendLine($"    /// {EntityNickname}");
             builder.AppendLine("    /// </summary>");
             builder.AppendLine("    [Serializable]");
-            builder.AppendLine($"    public class {EntityName} : BaseEntity<{EntityName}>");
+            builder.AppendLine($"    public class {EntityName}Entity : BaseEntity<{EntityName}Entity>");
             builder.AppendLine("    {");
             foreach (DataGridViewRow row in DataGridView.Rows)
             {
-                if(!string.IsNullOrWhiteSpace(row.Cells["Redundancy"].Value.ToString()))
+                if (row.Cells["Name"].Value == null)
+                    continue;
+                if (!string.IsNullOrWhiteSpace(row.Cells["Redundancy"].Value.ToString()))
                     continue;
                 var name = row.Cells["Name"].Value.ToString();
                 var type = row.Cells["Type"].Value.ToString();
                 if (name.EndsWith("Id"))
+                {
                     type = $"{name.Replace("Id", "")}Entity";
+                    name = name.Substring(0, name.Length - 2);
+                }
                 else if(!string.IsNullOrWhiteSpace(row.Cells["ManyName"].Value.ToString()) )
-                    type = $"IList{row.Cells["ManyName"].Value}";
+                    type = $"IList<{row.Cells["ManyName"].Value}Entity>";
                 AppendPropertyName(builder, type, name, row.Cells["Nickname"].Value.ToString());
              
             }
             foreach (DataGridViewRow row in DataGridView.Rows)
             {
+                if (row.Cells["Name"].Value == null)
+                    continue;
                 if (!string.IsNullOrWhiteSpace(row.Cells["Redundancy"].Value.ToString()))
                     continue;
                 var name = row.Cells["Name"].Value.ToString();
@@ -114,6 +126,7 @@ namespace Beeant.Tool.Generator
                     continue;
                 }
             }
+            AppendPropertyName(builder, $"{EntityName}Entity", "DataEntity", "实体副本");
             builder.AppendLine("    }");
             builder.AppendLine("}");
             return builder.ToString();

@@ -29,8 +29,14 @@ Winner.DataLoader.prototype =
             self.LoadData(sender, info);
         });
         if (info.IsExecute) {
-            self.HideContens(info);
-            self.LoadData(sender, info);
+            var isLoad = true;
+            if (func != null) {
+                isLoad = func(info, event);
+            }
+            if (isLoad) {
+                self.HideContens(info);
+                self.LoadData(sender, info);
+            }
         }
     },
     HideContens: function (info) {

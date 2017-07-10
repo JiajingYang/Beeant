@@ -39,7 +39,7 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Freight
             var info = base.FillEntity();
             if (info != null)
             {
-                info.Carries = Edit1.GetSaveCarries();
+                info.Regions = Edit1.GetSaveRegions();
             }
             return info;
         }

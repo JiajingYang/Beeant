@@ -50,7 +50,7 @@ namespace Beeant.Domain.Services.Basedata
         /// <returns></returns>
         protected override bool ValidateAdd(TagEntity info)
         {
-            return ValidateTag(info, null) && ValidateTagGroup(info,null); 
+            return ValidateTag(info, null) ; 
         }
         /// <summary>
         /// 修改验证
@@ -60,29 +60,10 @@ namespace Beeant.Domain.Services.Basedata
         protected override bool ValidateModify(TagEntity info)
         {
             var dataEntity = Repository.Get<TagEntity>(info.Id);
-            return ValidateTag(info, dataEntity) && ValidateTagGroup(info, dataEntity); 
+            return ValidateTag(info, dataEntity); 
         }
 
-        /// <summary>
-        /// 验证标签组
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="dataEntity"></param>
-        /// <returns></returns>
-        protected virtual bool ValidateTagGroup(TagEntity info, TagEntity dataEntity)
-        {
-            if (!info.HasSaveProperty(it => it.TagGroup.Id))
-                return true;
-            if (dataEntity != null && dataEntity.TagGroup.Id == info.TagGroup.Id)
-                return true;
-            var tagGroup = Repository.Get<TagGroupEntity>(info.TagGroup.Id);
-            if (tagGroup == null)
-            {
-                info.AddErrorByName(typeof(TagGroupEntity).FullName,"NoExist");
-                return false;
-            }
-            return true;
-        }
+     
         /// <summary>
         /// 验证标签
         /// </summary>

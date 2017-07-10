@@ -13,6 +13,10 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public OrderEntity Order { get; set; }
         /// <summary>
+        /// 标签
+        /// </summary>
+        public string Tag { get; set; }
+        /// <summary>
         /// 名称
         /// </summary>
         public string Name { get; set; }

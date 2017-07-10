@@ -75,7 +75,7 @@
         </asp:TemplateField>
                <asp:TemplateField HeaderText="请求限制（数量/秒"  ItemStyle-CssClass="center status">
             <ItemTemplate>
-                <%#Eval("SencondCount")%>
+                <%#Eval("SecondCount")%>
             </ItemTemplate>
         </asp:TemplateField>
              <asp:TemplateField HeaderText="请求限制时间(秒)"  ItemStyle-CssClass="center status">
@@ -96,7 +96,7 @@
         </Columns>
      </asp:GridView>
         </div>
-     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Voucher.Id,Protocol.Name,Protocol.Nickname,IsForbid,SencondCount,DayCount,IsLog,InsertTime" FromExp="VoucherProtocolEntity" />
+     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Voucher.Id,Protocol.Name,Protocol.Nickname,IsForbid,SecondCount,DayCount,IsLog,InsertTime" FromExp="VoucherProtocolEntity" />
                 
         </div>
 

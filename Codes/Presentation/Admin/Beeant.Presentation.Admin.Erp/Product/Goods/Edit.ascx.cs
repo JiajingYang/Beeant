@@ -12,6 +12,7 @@ using Beeant.Domain.Entities.Order;
 using Beeant.Domain.Entities.Product;
 using Beeant.Presentation.Admin.Erp.Controls.Basedata;
 using Beeant.Basic.Services.WebForm.Extension;
+using Beeant.Domain.Entities.Basedata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Winner.Base;
@@ -26,13 +27,7 @@ namespace Beeant.Presentation.Admin.Erp.Product.Goods
         public bool IsPublish { get; set; }
         public SaveType SaveType { get; set; }
 
-        /// <summary>
-        /// 运费
-        /// </summary>
-        public TagRadioButtonList TagCheckBoxList
-        {
-            get { return ckTag; }
-        }
+     
         /// <summary>
         /// 产品
         /// </summary>
@@ -67,7 +62,9 @@ namespace Beeant.Presentation.Admin.Erp.Product.Goods
             base.OnInit(e);
             if (!IsPostBack)
             {
-                ckTag.LoadData();
+                ckTags.Query = new QueryInfo();
+                ckTags.Query.Query<TagEntity>().Where(it => it.Type == "Goods");
+                ckTags.LoadData();
                 cbPayTypes.LoadData();
                 LoadBranchId();
                 ddlFreight.LoadData(0);

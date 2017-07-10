@@ -2,7 +2,6 @@
 using Dependent;
 using Beeant.Application.Services;
 using Beeant.Domain.Entities.Account;
-using Beeant.Domain.Entities.Finance;
 using Beeant.Domain.Entities.Product;
 using Beeant.Basic.Services.WebForm.Pages;
 
@@ -56,11 +55,6 @@ namespace Beeant.Presentation.Admin.Erp.Product.Goods
             var info = base.FillEntity();
             if (info != null)
             {
-                var values = Edit1.TagCheckBoxList.GetSelectedValues();
-                if (values.Length > 0)
-                {
-                    info.Tag = values;
-                }
                 info.IsSales = false;
                 info.Products = Edit1.GetProducts(info);
                 info.GoodsImages = Edit1.GetGoodsImages(info);

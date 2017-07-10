@@ -2,7 +2,7 @@
 <%@ Register TagPrefix="uc5" TagName="GeneralCheckBoxList" Src="~/Controls/GeneralCheckBoxList.ascx" %>
 <%@ Register TagPrefix="cc2" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit, Version=1.0.20229.37663, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e" %>
 <%@ Register TagPrefix="cc1" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit, Version=1.0.20229.37663, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e" %>
-<%@ Register TagPrefix="uc8" TagName="TagRadioButtonList" Src="~/Controls/Basedata/TagRadioButtonList.ascx" %>
+<%@ Register Src="/Controls/GeneralDropDownList.ascx" TagName="GeneralDropDownList" TagPrefix="uc8" %>
 <%@ Register TagPrefix="uc6" TagName="MonthsCheckBoxList" Src="~/Controls/MonthsCheckBoxList.ascx" %>
 <%@ Register src="/Controls/GeneralCheckBoxList.ascx" tagname="GeneralCheckBoxList" tagprefix="uc1" %>
 <div class="edit" >
@@ -19,10 +19,12 @@
       
         <tr>
           
-             <td class="font">标签</td>
-            <td class="mtext" colspan="3" >
-                <uc8:TagRadioButtonList ID="ckTag" runat="server" SaveName="Tag" BindName="Tag" />
-            </td>
+            <tr>
+                <td class="font">标签</td>
+                <td class="text">
+                    <uc8:GeneralDropDownList ID="ddlTag" runat="server" SaveName="Tag" BindName="Tag" ObjectName="Beeant.Domain.Entities.Basedata.TagEntity,Beeant.Domain.Entities" />
+                </td>
+            </tr>
                
        </tr>
         <tr>

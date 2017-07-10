@@ -218,12 +218,22 @@ namespace Beeant.Tool.Generator
                 var iocConfig = new IocConfigGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
                 var entityConfig = new EntityConfigGenerator { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
                 var validationConfig = new ValidationConfigGenerator() { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
-                entity.Generate();
-                domain.Generate();
-                application.Generate();
-                iocConfig.Generate();
-                entityConfig.Generate();
-                validationConfig.Generate();
+                var reportConfig = new ValidationConfigGenerator() { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                var report = new ValidationConfigGenerator() { DataGridView = dataGridView1, EntityName = GetEntityName(), Module = GetModuleName(), EntityNickname = txtEntityNickname.Text };
+                if (txtTable.Text.ToLower().StartsWith("r"))
+                {
+                    report.Generate();
+                    reportConfig.Generate();
+                }
+                else
+                {
+                    entity.Generate();
+                    domain.Generate();
+                    application.Generate();
+                    iocConfig.Generate();
+                    entityConfig.Generate();
+                    validationConfig.Generate();
+                }
                 MessageBox.Show("生成成功");
 
             }

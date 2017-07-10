@@ -60,12 +60,10 @@
     <Compile Include="Authority\OwnerAccountDomainService.cs" />
     <Compile Include="Authority\RoleAccountDomainService.cs" />
     <Compile Include="Basedata\AlbumDomainService.cs" />
-    <Compile Include="Basedata\PostageDomainService.cs" />
     <Compile Include="Basedata\DistrictDomainService.cs" />
     <Compile Include="Basedata\BrandDomainService.cs" />
     <Compile Include="Basedata\DeliveryDomainService.cs" />
     <Compile Include="Basedata\TagDomainService.cs" />
-    <Compile Include="Basedata\TagGroupDomainService.cs" />
     <Compile Include="Cms\ClassDomainService.cs" />
     <Compile Include="Cms\ContentDomainService.cs" />
     <Compile Include="Cms\CmsDomainService.cs" />
@@ -124,7 +122,6 @@
     <Compile Include="Product\IProductContract.cs" />
     <Compile Include="Promotion\CouponerDomainService.cs" />
     <Compile Include="Basedata\FreightDomainService.cs" />
-    <Compile Include="Basedata\CarryDomainService.cs" />
     <Compile Include="Order\OrderAttachmentDomainService.cs" />
     <Compile Include="Order\OrderExpressDomainService.cs" />
     <Compile Include="Order\OrderNoteDomainService.cs" />

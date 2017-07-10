@@ -1,5 +1,0 @@
-C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Copy\bin\Debug\Beeant.Tool.Copy.exe.config
-C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Copy\bin\Debug\Beeant.Tool.Copy.exe
-C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Copy\bin\Debug\Beeant.Tool.Copy.pdb
-C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Copy\obj\Debug\Beeant.Tool.Copy.exe
-C:\Work\Program\Skytrip\Codes\Tool\Beeant.Tool.Copy\obj\Debug\Beeant.Tool.Copy.pdb

@@ -8,12 +8,6 @@
 
  
 
-
-
-<%@ Register src="../../Controls/Basedata/TagRadioButtonList.ascx" tagname="TagRadioButtonList" tagprefix="uc8" %>
-
-
-
 <%@ Register src="/Controls/GeneralCheckBoxList.ascx" tagname="GeneralCheckBoxList" tagprefix="uc1" %>
 <%@ Register src="/Controls/Basedata/FreightDropDownList.ascx" tagname="FreightDropDownList" tagprefix="uc7" %>
 
@@ -97,7 +91,7 @@
           <tr  style="display: none;">
              <td class="font">标签</td>
             <td class="text" colspan="3" >
-                <uc8:TagRadioButtonList ID="ckTag" runat="server" SaveName="Tag" BindName="Tag" />
+                <uc1:GeneralCheckBoxList ID="ckTags" runat="server" ObjectName="Beeant.Domain.Entities.Basedata.TagEntity,Beeant.Domain.Entities" BindName="Tag" SaveName="Tag" DataValueField="Value"/>
             </td> 
        </tr>
        <tr  style="display: none;">

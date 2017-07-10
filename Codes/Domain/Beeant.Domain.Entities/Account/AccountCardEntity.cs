@@ -14,6 +14,10 @@ namespace Beeant.Domain.Entities.Account
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// 卡类型
+        /// </summary>
+        public string Type { get; set; }
+        /// <summary>
         /// 标签
         /// </summary>
         public string Tag { get; set; }
@@ -21,17 +25,6 @@ namespace Beeant.Domain.Entities.Account
         /// 卡号
         /// </summary>
         public string Number { get; set; }
-        /// <summary>
-        /// 日充值限额
-        /// </summary>
-        public decimal DayRechargeAmount { get; set; }
-        /// <summary>
-        /// 日提现限额
-        /// </summary>
-        public decimal DayWithdrawAmount { get; set; }
-        /// <summary>
-        /// 日消费限额
-        /// </summary>
-        public decimal DayConsumeAmount { get; set; }
+
     }
 }

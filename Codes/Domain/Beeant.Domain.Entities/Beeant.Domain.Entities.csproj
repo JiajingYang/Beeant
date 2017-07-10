@@ -52,6 +52,7 @@
     <Compile Include="Api\ApiArgsEntity.cs" />
     <Compile Include="Api\ApiEnginEntity.cs" />
     <Compile Include="Basedata\CountryEntity.cs" />
+    <Compile Include="Basedata\FreightType.cs" />
     <Compile Include="Cms\CmsEntity.cs" />
     <Compile Include="Cms\NoticeEntity.cs" />
     <Compile Include="Finance\InvoiceinItemEntity.cs" />
@@ -74,8 +75,6 @@
     <Compile Include="Authority\OwnerEntity.cs" />
     <Compile Include="Authority\OwnerAccountEntity.cs" />
     <Compile Include="Basedata\AlbumEntity.cs" />
-    <Compile Include="Basedata\CarryEntity.cs" />
-    <Compile Include="Basedata\PostageEntity.cs" />
     <Compile Include="Cms\PostcardEntity.cs" />
     <Compile Include="Crm\ContractEntity.cs" />
     <Compile Include="Crm\CustomerChannelEntity.cs" />
@@ -141,7 +140,6 @@
     <Compile Include="Basedata\CurrencyEntity.cs" />
     <Compile Include="Basedata\DistrictEntity.cs" />
     <Compile Include="Basedata\PayTypeEntity.cs" />
-    <Compile Include="Basedata\TagGroupEntity.cs" />
     <Compile Include="Basedata\TagEntity.cs" />
     <Compile Include="Basedata\UnitEntity.cs" />
     <Compile Include="BaseEntity.cs" />

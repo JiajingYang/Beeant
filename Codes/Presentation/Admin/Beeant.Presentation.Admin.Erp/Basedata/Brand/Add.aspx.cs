@@ -17,15 +17,7 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Brand
         protected override BrandEntity FillEntity()
         {
             var info = base.FillEntity();
-            if (info != null)
-            {
-               
-                var values = Edit1.TagCheckBoxList.GetSelectedValues();
-                if (values.Length > 0)
-                {
-                    info.Tag = values;
-                }
-            }
+ 
             return info;
         }
     }

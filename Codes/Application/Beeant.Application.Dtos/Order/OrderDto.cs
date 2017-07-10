@@ -100,10 +100,8 @@ namespace Beeant.Application.Dtos.Order
         {
             get
             {
-                decimal price = int.MaxValue;
-                if (Products != null)
-                    price= Products.Sum(it => it.Price * it.Count);
-                price = price + FreightPrice - CouponPrice;
+             
+                var price = ProductPrice + FreightPrice - CouponPrice;
                 return price;
             }
         }
@@ -151,10 +149,32 @@ namespace Beeant.Application.Dtos.Order
                 return;
             foreach (var product in Products)
             {
-                product.SetFreight(Settlement.Address, Settlement.Area);
+                product.SetFreight(Settlement.Address, Settlement.Area, ProductPrice - CouponPrice);
             }
-            FreightPrice = Products.Where(it => it.Freight != null).Sum(it=>it.Freight.Price);
-            FreightCost = Products.Where(it => it.Freight != null).Sum(it => it.Freight.Cost);
+            var freights = Products.Where(it => it.Freight != null).Select(it=>it.Freight).OrderByDescending(it => it.Price).ToList();
+            var maxFreight = freights.FirstOrDefault();
+            if(maxFreight==null)
+                return;
+            var price = maxFreight.Price;
+            var cost = maxFreight.Cost;
+            for (int i = 1; i < freights.Count; i++)
+            {
+                if (freights[i].Price == 0)
+                {
+                    cost += freights[i].Cost;
+                    continue;
+                }
+                if (freights[i].Calculator == null)
+                {
+                    price += freights[i].Price;
+                    cost += freights[i].Cost;
+                }
+                var p = freights[i].GetContinuePrice(freights[i].Calculator);
+                price += p;
+                cost += p;
+            }
+            FreightPrice = price;
+            FreightCost = cost;
         }
    
         /// <summary>

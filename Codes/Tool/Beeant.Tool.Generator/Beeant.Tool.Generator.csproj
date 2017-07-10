@@ -45,12 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PresentationGenerator.cs" />
+    <Compile Include="ReportConfigGenerator.cs" />
+    <Compile Include="EntityGenerator.cs" />
     <Compile Include="ValidationConfigGenerator.cs" />
     <Compile Include="EntityConfigGenerator.cs" />
     <Compile Include="IocConfigGenerator.cs" />
     <Compile Include="ApplicationGenerator.cs" />
     <Compile Include="GeneratorBase.cs" />
-    <Compile Include="EntityGenerator.cs" />
+    <Compile Include="ReportGenerator.cs" />
     <Compile Include="DomainGenerator.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -129,6 +129,10 @@ namespace Beeant.Domain.Entities.Account
         /// 身份信息
         /// </summary>
         public virtual IList<AccountIdentityEntity> AccountIdentites { get; set; }
+        /// <summary>
+        /// 卡信息
+        /// </summary>
+        public virtual IList<AccountCardEntity> AccountCards { get; set; }
 
     }
     

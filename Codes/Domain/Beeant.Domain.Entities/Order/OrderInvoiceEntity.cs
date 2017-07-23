@@ -13,6 +13,10 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public OrderEntity Order { get; set; }
         /// <summary>
+        /// 关键字
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
         /// 名称
         /// </summary>
         public string Name { get; set; }
@@ -40,6 +44,7 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         protected override void SetAddBusiness()
         {
+            Key = Key ?? "";
             InvokeItemLoader("Order");
             SetOrder(Amount);
 
@@ -91,9 +96,9 @@ namespace Beeant.Domain.Entities.Order
                 Order.SetProperty(it => it.InvoiceAmount);
             }
         }
+    
 
 
-     
 
     }
     

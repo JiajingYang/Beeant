@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ using Aop.Api.Util;
 using Component.Extension;
 using Configuration;
 using Beeant.Domain.Entities.Finance;
+using Beeant.Domain.Entities.Log;
 using Winner.Persistence;
 
 namespace Beeant.Repository.Services.Finance
@@ -69,7 +71,7 @@ namespace Beeant.Repository.Services.Finance
         private IAopClient _aopClient;
         protected virtual IAopClient AopClient
         {
-            get 
+            get
             {
                 if (_aopClient == null)
                     _aopClient = new DefaultAopClient(Url, AppId, PrivateKey, "json", "1.0", "RSA2", AliPayPublicKey, "UTF-8", false);
@@ -83,14 +85,25 @@ namespace Beeant.Repository.Services.Finance
         /// <returns></returns>
         public override bool Create(PaylineEntity info)
         {
+            var rev = false;
             switch (info.ChannelType)
             {
                 case Domain.Entities.ChannelType.Mobile:
-                    return CreateByWap(info);
+                    rev= CreateByWap(info);break;
                 case Domain.Entities.ChannelType.Website:
-                    return CreateByPage(info);
+                    rev = CreateByPage(info); break;
             }
-            return false;
+            LogHelper.AddEcho(new EchoEntity
+            {
+                Method = "Beeant.Repository.Services.Finance.AliPaylineRepository.Create",
+                Request = info.Request,
+                Response ="" ,
+                Remark = "",
+                Url = HttpContext.Current.Request.Url.ToString(),
+                Key = info.Number,
+                SaveType = SaveType.Add
+            });
+            return rev;
         }
 
         /// <summary>
@@ -116,6 +129,7 @@ namespace Beeant.Repository.Services.Finance
             request.SetNotifyUrl(processUrl);
             AlipayTradeWapPayResponse response = AopClient.pageExecute(request);
             info.Request = response.Body;
+      
             return true;
         }
 
@@ -169,11 +183,19 @@ namespace Beeant.Repository.Services.Finance
                 return null;
             info.OutNumber = sPara["trade_no"];
             info.Status = isVerify ? PaylineStatusType.Success : PaylineStatusType.Failure;
-            info.Response = sPara.SerializeJson();
             info.SetProperty(it => it.OutNumber);
             info.SetProperty(it => it.Status);
-            info.SetProperty(it => it.Response);
             info.SaveType = SaveType.Modify;
+            LogHelper.AddEcho(new EchoEntity
+            {
+                Method = "Beeant.Repository.Services.Finance.AliPaylineRepository.Process",
+                Request = "",
+                Response = sPara.SerializeJson(),
+                Remark = "",
+                Url = HttpContext.Current.Request.Url.ToString(),
+                Key = number,
+                SaveType = SaveType.Add
+            });
             return info;
         }
 
@@ -244,5 +266,49 @@ namespace Beeant.Repository.Services.Finance
             info.SetProperty(it => it.Status);
             return true;
         }
+
+
+        #region 退款
+
+        public override bool Refund(PaylineEntity info)
+        {
+            var builder = new StringBuilder("{");
+            //订单支付时传入的商户订单号,不能和 trade_no同时为空。
+            builder.AppendFormat("\"out_trade_no\":\"{0}\",", info.Number);
+            //支付宝交易号，和商户订单号不能同时为空  2017开头
+            builder.AppendFormat("\"trade_no\":\"{0}\",", info.OutNumber);
+            //需要退款的金额，该金额不能大于订单金额,单位为元，支持两位小数
+            builder.AppendFormat("\"refund_amount\":\"{0}\",", 0 - info.Amount);
+            //	退款的原因说明
+            builder.AppendFormat("\"refund_reason\":\"{0}\",", "测试退款");
+            //	标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传。
+            builder.AppendFormat("\"out_request_no\":\"{0}\"", info.Number);
+            ////商户的操作员编号
+            //builder.AppendFormat("\"operator_id\":\"{0}\"", "FAST_INSTANT_TRADE_PAY");
+            ////	商户的门店编号
+            //builder.AppendFormat("\"store_id\":\"{0}\"", "FAST_INSTANT_TRADE_PAY");
+            ////商户的终端编号
+            //builder.AppendFormat("\"terminal_id\":\"{0}\"", "FAST_INSTANT_TRADE_PAY");
+            builder.Append("}");
+
+            AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+
+            request.BizContent = builder.ToString();
+
+            AlipayTradeRefundResponse response = AopClient.Execute(request);
+            info.Request = response.Body;
+            if (response.Msg == "Success")
+            {
+                info.OutNumber = response.TradeNo;
+                info.Status = PaylineStatusType.Success;
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
+
     }
 }

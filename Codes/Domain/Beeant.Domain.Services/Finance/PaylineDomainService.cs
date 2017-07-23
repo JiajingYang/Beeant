@@ -148,10 +148,13 @@ namespace Beeant.Domain.Services.Finance
         /// <returns></returns>
         protected virtual bool ValidateAmount(PaylineEntity info)
         {
-            var amount = info.Amount != 0 || info.PaylineItems == null
-                ? info.Amount
-                : info.PaylineItems.Sum(it => it.Amount);
-            if (amount == 0)
+            if (info.Amount == 0 && (info.PaylineItems == null || info.PaylineItems.Count == 0))
+            {
+                info.AddErrorByName(typeof(PaylineEntity).FullName, "NoAllowAmount");
+                return false;
+            }
+            if (info.PaylineItems != null && info.PaylineItems.Count > 0 && info.Type != PaylineType.Balance &&
+                info.Amount < info.PaylineItems.Sum(it => it.Amount))
             {
                 info.AddErrorByName(typeof(PaylineEntity).FullName, "NoAllowAmount");
                 return false;

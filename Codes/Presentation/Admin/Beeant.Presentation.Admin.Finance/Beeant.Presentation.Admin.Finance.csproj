@@ -159,13 +159,6 @@
     <Compile Include="Controls\Basedata\BrandComboBox.ascx.designer.cs">
       <DependentUpon>BrandComboBox.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Basedata\TagRadioButtonList.ascx.cs">
-      <DependentUpon>TagRadioButtonList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Controls\Basedata\TagRadioButtonList.ascx.designer.cs">
-      <DependentUpon>TagRadioButtonList.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Account\AccountComboBox.ascx.cs">
       <DependentUpon>AccountComboBox.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -193,13 +186,6 @@
     </Compile>
     <Compile Include="Controls\MonthsCheckBoxList.ascx.designer.cs">
       <DependentUpon>MonthsCheckBoxList.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Basedata\TagCheckBoxList.ascx.cs">
-      <DependentUpon>TagCheckBoxList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Controls\Basedata\TagCheckBoxList.ascx.designer.cs">
-      <DependentUpon>TagCheckBoxList.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\Finance\BankComboBox.ascx.cs">
       <DependentUpon>BankComboBox.ascx</DependentUpon>
@@ -242,13 +228,6 @@
     </Compile>
     <Compile Include="Controls\Basedata\StyleDropDownList.ascx.designer.cs">
       <DependentUpon>StyleDropDownList.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Basedata\TagDropDownList.ascx.cs">
-      <DependentUpon>TagDropDownList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Controls\Basedata\TagDropDownList.ascx.designer.cs">
-      <DependentUpon>TagDropDownList.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\Editor.ascx.cs">
       <DependentUpon>Editor.ascx</DependentUpon>
@@ -618,19 +597,16 @@
     <Content Include="Controls\Basedata\DistrictDropDownList.ascx" />
     <Content Include="Controls\Basedata\PackUnitComboBox.ascx" />
     <Content Include="Controls\Basedata\BrandComboBox.ascx" />
-    <Content Include="Controls\Basedata\TagRadioButtonList.ascx" />
     <Content Include="Controls\Account\AccountComboBox.ascx" />
     <Content Include="Controls\GeneralTreeView.ascx" />
     <Content Include="Controls\GeneralZTreeView.ascx" />
     <Content Include="Controls\MonthsCheckBoxList.ascx" />
-    <Content Include="Controls\Basedata\TagCheckBoxList.ascx" />
     <Content Include="Controls\Finance\BankComboBox.ascx" />
     <Content Include="Controls\User\UserComboBox.ascx" />
     <Content Include="Controls\Basedata\UnitComboBox.ascx" />
     <Content Include="Controls\DataSearch.ascx" />
     <Content Include="Controls\Basedata\FreightDropDownList.ascx" />
     <Content Include="Controls\Basedata\StyleDropDownList.ascx" />
-    <Content Include="Controls\Basedata\TagDropDownList.ascx" />
     <Content Include="Controls\Editor.ascx" />
     <Content Include="Controls\Message.ascx" />
     <Content Include="Controls\Pager.ascx" />

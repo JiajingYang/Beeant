@@ -84,6 +84,7 @@
     <Compile Include="Account\AccountItemDomainService.cs" />
     <Compile Include="Account\AccountLoginDomainService.cs" />
     <Compile Include="Finance\BankDomainService.cs" />
+    <Compile Include="Finance\IPaylineContract.cs" />
     <Compile Include="Finance\PaylineItemDomainService.cs" />
     <Compile Include="Finance\PaylineDomainService.cs" />
     <Compile Include="Finance\IPaylineRepository.cs" />
@@ -106,6 +107,8 @@
     <Compile Include="Merchant\SaleDomainService.cs" />
     <Compile Include="Merchant\PartnerDomainService.cs" />
     <Compile Include="Member\AddressDomainService.cs" />
+    <Compile Include="Order\OrderLinkmanDomainService.cs" />
+    <Compile Include="Order\OrderCardDomainService.cs" />
     <Compile Include="Order\OrderNumberDomainService.cs" />
     <Compile Include="Order\OrderInsuranceDomainService.cs" />
     <Compile Include="Order\OrderProductDomainService.cs" />

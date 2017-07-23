@@ -12,6 +12,10 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public OrderEntity Order { get; set; }
         /// <summary>
+        /// 关键字
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
         /// 问题
         /// </summary>
         public string Question { get; set; }
@@ -47,7 +51,11 @@ namespace Beeant.Domain.Entities.Order
         {
             get { return Type.GetName(); }
         }
-  
+        protected override void SetAddBusiness()
+        {
+            Key = Key ?? "";
+            base.SetAddBusiness();
+        }
     }
 
 }

@@ -1,29 +1,29 @@
-﻿using Beeant.Domain.Entities.Account;
+﻿using System.Linq;
+using Beeant.Domain.Entities.Account;
 using Beeant.Basic.Services.WebForm.Pages;
 using Winner.Persistence;
+using Winner.Persistence.Linq;
 
 namespace Beeant.Presentation.Admin.Cloud.Ajax.Account
 {
-    public partial class Account : AjaxPageBase<AccountEntity>
+    public partial class Account : AjaxPageBase<AccountIdentityEntity>
     {
 
-        protected override string GetListItem(AccountEntity info)
+        protected override string GetListItem(AccountIdentityEntity info)
         {
-           return string.Format("Text:'{0}|{1}',Value:'{2}'",info.Name,info.RealName, info.Id);
+            if (info.Account == null)
+                return null;
+           return string.Format("Text:'{0}|{1}',Value:'{2}'",info.Number, info.Account.RealName,info.Account.Id);
         }
         protected override void SetQueryWhere(QueryInfo query)
         {
-            query.Where("IsUsed");
-            if (!string.IsNullOrEmpty(Request.QueryString["name"]))
-            {
-                query.Where(string.Format("{0} && (Name.StartsWith(@Name) || RealName.StartsWith(@Name))", query.WhereExp));
-                query.SetParameter("Name", Server.UrlDecode(Request.QueryString["name"]));
-            }
-      
+            var name = Server.UrlDecode(Request.QueryString["name"].Trim());
+            query.Query<AccountIdentityEntity>()
+                .Where(it => it.Number == name);
         }
         protected override void SetQuerySelect(QueryInfo query)
         {
-            query.SelectExp = "Id,Name,RealName";
+            query.SelectExp = "Id,Number,Account.RealName,Account.Id";
         }
     }
 }

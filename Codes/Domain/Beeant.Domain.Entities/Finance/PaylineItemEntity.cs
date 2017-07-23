@@ -9,6 +9,10 @@ namespace Beeant.Domain.Entities.Finance
     public class PaylineItemEntity : BaseEntity<PaylineItemEntity>
     {
         /// <summary>
+        /// 关键字
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
         /// 订单
         /// </summary>
         public OrderEntity Order { get; set; }
@@ -23,6 +27,7 @@ namespace Beeant.Domain.Entities.Finance
 
         protected override void SetAddBusiness()
         {
+            Key = Key ?? "";
             if (Payline != null)
                 Payline.Amount += Amount;
             base.SetAddBusiness();

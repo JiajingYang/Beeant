@@ -94,7 +94,7 @@ namespace Beeant.Tool.Generator
                 var objectProperty = isMany ? "Id" : $"{name}.Id";
                 var mapProperty = isMany ? $"{EntityName}.Id" : $"Id";
                 builder.AppendLine($"          <Property PropertyName=\"{name}\">");
-                builder.AppendLine($"            <MapObject Name=\"Beeant.Domain.Entities.{module}.{type}, Beeant.Domain.Entities\" ObjectProperty=\"{objectProperty}\" MapObjectProperty=\"{mapProperty}\"  IsAdd=\"false\"  IsModify=\"false\" IsRemove=\"{(Module==module && isMany?"true":"false")}\" IsRemote=\"{(Module != module? "true" : "false")}\" IsRestore=\"{(Module == module && isMany ? "true" : "false")}\"  MapType=\"{(isMany ? "OneToMany" : "OneToOne")}\" >");
+                builder.AppendLine($"            <MapObject Name=\"Beeant.Domain.Entities.{module}.{type},Beeant.Domain.Entities\" ObjectProperty=\"{objectProperty}\" MapObjectProperty=\"{mapProperty}\"  IsAdd=\"false\"  IsModify=\"false\" IsRemove=\"{(Module==module && isMany?"true":"false")}\" IsRemote=\"{(Module != module? "true" : "false")}\" IsRestore=\"{(Module == module && isMany ? "true" : "false")}\"  MapType=\"{(isMany ? "OneToMany" : "OneToOne")}\" >");
                 builder.AppendLine($"            </MapObject>");
                 builder.AppendLine($"          </Property>");
             }

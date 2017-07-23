@@ -10,13 +10,17 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public OrderEntity Order { get; set; }
         /// <summary>
-        /// 名称
+        /// 编号
         /// </summary>
-        public string Name { get; set; }
+        public string Key { get; set; }
         /// <summary>
         /// 标签
         /// </summary>
         public string Tag { get; set; }
+        /// <summary>
+        /// 快递名称
+        /// </summary>
+        public string Name { get; set; }
         /// <summary>
         /// 快递编号
         /// </summary>
@@ -29,6 +33,13 @@ namespace Beeant.Domain.Entities.Order
         /// 数据实体
         /// </summary>
         public OrderNumberEntity DataEntity { get; set; }
+        /// <summary>
+        /// 设置添加业务
+        /// </summary>
+        protected override void SetAddBusiness()
+        {
+            Key = Key ?? "";
 
+        }
     }
 }

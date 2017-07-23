@@ -207,16 +207,16 @@ namespace Winner.Persistence
             Cache.Type = cacheType;
             return this;
         }
+
         /// <summary>
         /// 设置缓存
         /// </summary>
-        /// <param name="name"></param>
         /// <returns></returns>
-        public virtual QueryInfo AppendCacheDependency(string name)
+        public virtual QueryInfo AppendCacheDependency<T>()
         {
             Cache = Cache ?? new CacheInfo();
             Cache.Dependencies = Cache.Dependencies ?? new List<string>();
-            Cache.Dependencies.Add(name);
+            Cache.Dependencies.Add(typeof(T).FullName);
             return this;
         }
         /// <summary>
@@ -478,13 +478,12 @@ namespace Winner.Persistence
         /// <summary>
         /// 设置缓存
         /// </summary>
-        /// <param name="name"></param>
         /// <returns></returns>
-        public new QueryInfo<T> AppendCacheDependency(string name)
+        public new QueryInfo<T> AppendCacheDependency<TDependency>()
         {
             Cache = Cache ?? new CacheInfo();
             Cache.Dependencies = Cache.Dependencies ?? new List<string>();
-            Cache.Dependencies.Add(name);
+            Cache.Dependencies.Add(typeof(TDependency).FullName);
             return this;
         }
         /// <summary>

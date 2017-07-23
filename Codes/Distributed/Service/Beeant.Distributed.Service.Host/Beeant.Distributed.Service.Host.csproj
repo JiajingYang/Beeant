@@ -55,6 +55,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AccountIdentityService.cs" />
+    <Compile Include="Service\PaylineService.cs" />
     <Compile Include="Service\ProductService.cs" />
     <Compile Include="Service\SearchService.cs" />
     <Compile Include="Service\QueueService.cs" />

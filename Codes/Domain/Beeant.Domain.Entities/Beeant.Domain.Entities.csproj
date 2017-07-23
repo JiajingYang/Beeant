@@ -98,9 +98,11 @@
     <Compile Include="Log\WebImageEntity.cs" />
     <Compile Include="Log\RecyclerEntity.cs" />
     <Compile Include="Merchant\MerchantOrderEntity.cs" />
+    <Compile Include="Order\OrderCardEntity.cs" />
     <Compile Include="Order\OrderAttachmentEntity.cs" />
     <Compile Include="Order\OrderComplaintEntity.cs" />
     <Compile Include="Order\OrderComplaintType.cs" />
+    <Compile Include="Order\OrderLinkmanEntity.cs" />
     <Compile Include="Order\OrderNumberEntity.cs" />
     <Compile Include="Order\OrderExpressEntity.cs" />
     <Compile Include="Order\OrderInsuranceEntity.cs" />

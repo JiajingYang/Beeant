@@ -1,6 +1,6 @@
 G:\Program\Beeant\Codes\Tool\Beeant.Tool.Publish\bin\Debug\Beeant.Tool.Publish.exe.config
 G:\Program\Beeant\Codes\Tool\Beeant.Tool.Publish\bin\Debug\Beeant.Tool.Publish.exe
 G:\Program\Beeant\Codes\Tool\Beeant.Tool.Publish\bin\Debug\Beeant.Tool.Publish.pdb
-G:\Program\Beeant\Codes\Tool\Beeant.Tool.Publish\obj\Debug\Beeant.Tool.Publish.csprojResolveAssemblyReference.cache
 G:\Program\Beeant\Codes\Tool\Beeant.Tool.Publish\obj\Debug\Beeant.Tool.Publish.exe
 G:\Program\Beeant\Codes\Tool\Beeant.Tool.Publish\obj\Debug\Beeant.Tool.Publish.pdb
+G:\Program\Beeant\Codes\Tool\Beeant.Tool.Publish\obj\Debug\Beeant.Tool.Publish.csprojResolveAssemblyReference.cache

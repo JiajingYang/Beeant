@@ -19,9 +19,14 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public ProductEntity Product { get; set; }
         /// <summary>
+        /// 关键字
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
         ///名称
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// 关系
         /// </summary>
@@ -82,6 +87,11 @@ namespace Beeant.Domain.Entities.Order
         public string ExpireDateName
         {
             get { return ExpireDate == this.GetMinDateTime() ? "" : ExpireDate.ToString("yyyy-MM-dd"); }
+        }
+        protected override void SetAddBusiness()
+        {
+            Key = Key ?? "";
+            base.SetAddBusiness();
         }
     }
     

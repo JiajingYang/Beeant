@@ -14,6 +14,10 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public DateTime DeliveryDate { get; set; }
         /// <summary>
+        /// 关键字
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
         /// 快递名称
         /// </summary>
         public string Name { get; set; }
@@ -62,7 +66,11 @@ namespace Beeant.Domain.Entities.Order
         public OrderExpressEntity DataEntity { get; set; }
 
 
-    
+        protected override void SetAddBusiness()
+        {
+            Key = Key ?? "";
+            base.SetAddBusiness();
+        }
 
 
 

@@ -38,7 +38,6 @@ namespace Beeant.Repository.Services.Finance
             info.Request ="";
             info.OutNumber =info.Number;
             info.Status = PaylineStatusType.Success;
-            info.Response = "";
             info.Amount = 0;
             return true;
         }
@@ -90,7 +89,6 @@ namespace Beeant.Repository.Services.Finance
             info.Request = "";
             info.OutNumber = info.Number;
             info.Status = PaylineStatusType.Success;
-            info.Response = "";
             info.Amount = 0;
             return true;
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Beeant.Domain.Entities.Product;
 using Beeant.Domain.Entities.Promotion;
@@ -13,6 +14,14 @@ namespace Beeant.Domain.Entities.Order
         /// 订单
         /// </summary>
         public OrderEntity Order { get; set; }
+        /// <summary>
+        /// 编号
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
+        /// 编号
+        /// </summary>
+        public string Number { get; set; }
         /// <summary>
         /// 名称
         /// </summary>
@@ -133,6 +142,7 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         protected override void SetAddBusiness()
         {
+            Key = Key ?? "";
             SetAmount(null);
             SetFileName();
             InvokeItemLoader("Product");

@@ -264,7 +264,7 @@ namespace Winner.Persistence.Compiler.Common
             if (property.Map != null)
             {
                 var subSelect = propertyName;
-                if (property.PropertyName.Equals(propertyName))
+                if (propertyName == property.PropertyName || propertyName.EndsWith(string.Format(".{0}", property.PropertyName)))
                 {
                     subSelect = "*";
                 }

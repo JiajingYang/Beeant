@@ -370,42 +370,29 @@ namespace Winner.Persistence
         /// <param name="key"></param>
         protected virtual void RemoveCommonCache(OrmObjectInfo obj, object key)
         {
-            if (!string.IsNullOrWhiteSpace(obj.CacheDependency))
-            {
-                var varsionKey = GetVersionCacheKey(obj.CacheDependency);
-                RemoveRemoteCache(varsionKey);
-            }
+
             var cacheKey = GetEntityCacheKey(obj, key);
             object cacheValue = null;
             if (obj.CacheType == CacheType.Local)
             {
                 cacheValue = GetLocalCache(cacheKey, Type.GetType(obj.ObjectName));
                 if (cacheValue == null) return;
-                if (obj.CacheType != CacheType.None)
-                {
-                    RemoveLocalCache(cacheKey);
-                }
+                RemoveLocalCache(cacheKey);
             }
             else if (obj.CacheType == CacheType.Remote)
             {
                 cacheValue = GetRemoteCache(cacheKey, Type.GetType(obj.ObjectName));
                 if (cacheValue == null) return;
-                if (obj.CacheType != CacheType.None)
-                {
-                    RemoveRemoteCache(cacheKey);
-                }
+                RemoveRemoteCache(cacheKey);
             }
-            else
+            else if (obj.CacheType == CacheType.LocalAndRemote)
             {
-                var varsionKey = GetVersionCacheKey(key);
+                var varsionKey = GetVersionCacheKey(cacheKey);
                 cacheValue = GetLocalCache(cacheKey, Type.GetType(obj.ObjectName));
                 if (cacheValue == null) return;
-                if (obj.CacheType != CacheType.None)
-                {
-                    RemoveRemoteCache(varsionKey);
-                    RemoveLocalCache(varsionKey);
-                    RemoveLocalCache(cacheKey);
-                }
+                RemoveRemoteCache(varsionKey);
+                RemoveLocalCache(varsionKey);
+                RemoveLocalCache(cacheKey);
             }
             var ormMaps =
             obj.Properties.Where(it => it.Map != null && it.Map.IsRemoveCache)
@@ -433,7 +420,7 @@ namespace Winner.Persistence
             {
                 foreach (var entity in Local.Storages)
                 {
-                    if (entity.Value.Object.CacheType!= CacheType.None || entity.Value.Object.Properties.Count(it=>it.Map!=null && it.Map.IsRemoveCache)>0)
+                    if (entity.Value.Object.IsCacheDependency || entity.Value.Object.CacheType!= CacheType.None || entity.Value.Object.Properties.Count(it=>it.Map!=null && it.Map.IsRemoveCache)>0)
                     {
                         Action<KeyValuePair<object, SaveInfo>> action = FlushCache;
                         action.BeginInvoke(entity, null, null);
@@ -448,7 +435,15 @@ namespace Winner.Persistence
         /// </summary>
         protected virtual void FlushCache(KeyValuePair<object,SaveInfo> entity)
         {
-            if (entity.Value.Information.SaveType == SaveType.None)
+          
+            if ( entity.Value.Information.SaveType == SaveType.None)
+                return;
+            if (entity.Value.Object.IsCacheDependency)
+            {
+                var varsionKey = GetVersionCacheKey(entity.Key.GetType().FullName);
+                RemoveRemoteCache(varsionKey);
+            }
+            if (entity.Value.Object.CacheType == CacheType.None)
                 return;
             var id = entity.Key.GetProperty(entity.Value.Object.PrimaryProperty.PropertyName);
             if (id == null || id.GetType().IsValueType && id.Equals(0))
@@ -558,7 +553,6 @@ namespace Winner.Persistence
             {
                 lock (KeyLoker)
                 {
-                    cacheResult = GetQueryCache<T>(obj,query);
                     if (null == cacheResult || cacheResult.Result == null)
                     {
                         cacheResult = new QueryCacheInfo<T>
@@ -602,11 +596,11 @@ namespace Winner.Persistence
                 }
                
             }
-            if (query.Cache.Type == CacheType.Local)
+            if (query.Cache.Type == CacheType.Local || query.Cache.Type == CacheType.LocalAndRemote)
             {
                 return GetLocalCache<QueryCacheInfo<T>>(query.Cache.Key);
             }
-            if (query.Cache.Type == CacheType.Remote)
+            if (query.Cache.Type == CacheType.Remote || query.Cache.Type == CacheType.LocalAndRemote)
             {
                 return GetRemoteCache<QueryCacheInfo<T>>(query.Cache.Key);
             }
@@ -634,16 +628,23 @@ namespace Winner.Persistence
                     if (string.IsNullOrWhiteSpace(version))
                     {
                         version = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        SetRemoteCache(subVersionKey, version, DateTime.MaxValue);
+                        if (query.Cache.TimeSpan != 0)
+                        {
+                            SetRemoteCache(subVersionKey, version, query.Cache.TimeSpan);
+                        }
+                        else if (query.Cache.Time != DateTime.MinValue)
+                        {
+                            SetRemoteCache(subVersionKey, version, query.Cache.Time);
+                        }
+                        
                     }
-                    SetRemoteCache(subVersionKey, version, DateTime.MaxValue);
                     if (query.Cache.TimeSpan != 0)
                     {
-                        SetLocalCache(subVersionKey, cacheResult, query.Cache.TimeSpan);
+                        SetLocalCache(subVersionKey, version, query.Cache.TimeSpan);
                     }
                     else if (query.Cache.Time != DateTime.MinValue)
                     {
-                        SetLocalCache(subVersionKey, cacheResult, query.Cache.Time);
+                        SetLocalCache(subVersionKey, version, query.Cache.Time);
                     }
                 }
             }

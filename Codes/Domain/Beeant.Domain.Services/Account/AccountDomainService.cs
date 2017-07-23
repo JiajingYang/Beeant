@@ -17,6 +17,10 @@ namespace Beeant.Domain.Services.Account
         /// 编号
         /// </summary>
         public IDomainService AccountNumberDomainService { get; set; }
+        /// <summary>
+        /// 编号
+        /// </summary>
+        public IDomainService AccountCardDomainService { get; set; }
         private IDictionary<string, IUnitofworkHandle> _itemHandles;
         /// <summary>
         /// 处理
@@ -28,7 +32,8 @@ namespace Beeant.Domain.Services.Account
                 return _itemHandles ?? (_itemHandles = new Dictionary<string, IUnitofworkHandle>
                     {
                         {"AccountIdentites", new UnitofworkHandle<AccountIdentityEntity>{DomainService= AccountIdentityDomainService}},
-                        {"AccountNumbers", new UnitofworkHandle<AccountNumberEntity>{DomainService= AccountNumberDomainService}}
+                        {"AccountNumbers", new UnitofworkHandle<AccountNumberEntity>{DomainService= AccountNumberDomainService}},
+                        {"AccountCards", new UnitofworkHandle<AccountCardEntity>{DomainService= AccountCardDomainService}}
                     });
             }
             set

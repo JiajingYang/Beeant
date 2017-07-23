@@ -7,6 +7,7 @@ using System.Web;
 using System.Xml;
 using Configuration;
 using Beeant.Domain.Entities.Finance;
+using Beeant.Domain.Entities.Log;
 using Winner.Persistence;
 using Component.Extension;
 
@@ -74,6 +75,16 @@ namespace Beeant.Repository.Services.Finance
             info.OutNumber = resParams["prepay_id"];
             info.Status = PaylineStatusType.Waiting;
             info.Request = GetRequest(info, resParams);
+            LogHelper.AddEcho(new EchoEntity
+            {
+                Method = "Beeant.Repository.Services.Finance.WechatPaylineRepository.Create",
+                Request = info.Request,
+                Response ="" ,
+                Remark = "",
+                Url = HttpContext.Current.Request.Url.ToString(),
+                Key = info.Number,
+                SaveType = SaveType.Add
+            });
             return true;
         }
 
@@ -232,12 +243,20 @@ namespace Beeant.Repository.Services.Finance
                 return info;
             }
             info.Status = result["trade_state"] == "SUCCESS" ? PaylineStatusType.Success : PaylineStatusType.Failure;
-            info.Response = sPara.SerializeJson();
             info.OutNumber = result.ContainsKey("transaction_id") ? result["transaction_id"] : "";
             info.SetProperty(it => it.Status);
-            info.SetProperty(it => it.Response);
             info.SetProperty(it => it.OutNumber);
             info.SaveType = SaveType.Modify;
+            LogHelper.AddEcho(new EchoEntity
+            {
+                Method = "Beeant.Repository.Services.Finance.WechatPaylineRepository.Process",
+                Request = "",
+                Response = sPara.SerializeJson(),
+                Remark = "",
+                Url = HttpContext.Current.Request.Url.ToString(),
+                Key = info.Number,
+                SaveType = SaveType.Add
+            });
             return info;
         }
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Beeant.Tool.Publish
@@ -14,7 +15,7 @@ namespace Beeant.Tool.Publish
             {
                 Replace(path);
             }
-   
+            Console.ReadKey();
         }
         /// <summary>
         /// 得到替换目录
@@ -84,9 +85,12 @@ namespace Beeant.Tool.Publish
             foreach (var file in files)
             {
                 var desFileName = string.Format(@"{0}\{1}", desPath, file.Name);
-                var desFile=new FileInfo(desFileName);
+                var desFile = new FileInfo(desFileName);
                 if (!desFile.Exists || file.LastWriteTime > desFile.LastWriteTime)
+                {
                     file.CopyTo(desFileName, desFile.Exists);
+                    Console.WriteLine(desFileName);
+                }
             }
             var directories = orgDirectory.GetDirectories();
             foreach (var directory in directories)

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Web.Mvc;
 using Configuration;
 using Beeant.Basic.Services.Mvc.Result;
 
@@ -6,9 +7,7 @@ namespace Beeant.Basic.Services.Mvc.Extension
 {
     static public class ActionResultControllerExtension
     {
-
-   
-
+        
         /// <summary>
         /// 登入
         /// </summary>
@@ -52,6 +51,29 @@ namespace Beeant.Basic.Services.Mvc.Extension
                 }
             }
             return b;
+        }
+
+
+        /// <summary>
+        /// 输出html
+        /// </summary>
+        /// <param name="ctrl"></param>
+        /// <param name="url"></param>
+        /// <param name="vd"></param>
+        /// <param name="td"></param>
+        /// <returns></returns>
+        public static string RenderView(this Controller ctrl,  string url, ViewDataDictionary vd, TempDataDictionary td)
+        {
+            ControllerContext cc = ctrl.ControllerContext;
+            string html = string.Empty;
+            IView v = ViewEngines.Engines.FindView(cc, url, "").View;
+            using (StringWriter sw = new StringWriter())
+            {
+                ViewContext vc = new ViewContext(cc, v, vd, td, sw);
+                vc.View.Render(vc, sw);
+                html = sw.ToString();
+            }
+            return html;
         }
     }
 }

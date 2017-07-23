@@ -1,35 +1,40 @@
 ﻿using System;
-using Beeant.Domain.Entities.Account;
 
 namespace Beeant.Domain.Entities.Order
 {
     [Serializable]
-    public class OrderNoteEntity : BaseEntity<OrderNoteEntity>
+    public class OrderCardEntity : BaseEntity<OrderCardEntity>
     {
-        
         /// <summary>
-        /// 订单
+        /// 订单信息 
         /// </summary>
         public OrderEntity Order { get; set; }
         /// <summary>
-        /// 编号
+        /// 关键字
         /// </summary>
         public string Key { get; set; }
         /// <summary>
-        /// 内容
+        /// 名称
         /// </summary>
-        public string Content { get; set; }
+        public string Name { get; set; }
         /// <summary>
-        /// 用户
+        /// 标签
         /// </summary>
-        public AccountEntity Account { get; set; }
+        public string Tag { get; set; }
         /// <summary>
-        /// 设置添加业务
+        /// 卡号
         /// </summary>
+        public string Number { get; set; }
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string Description { get; set; }
+
+        public OrderCardEntity DataEntity { get; set; }
         protected override void SetAddBusiness()
         {
             Key = Key ?? "";
-
+            base.SetAddBusiness();
         }
     }
 }

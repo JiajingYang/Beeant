@@ -54,6 +54,14 @@ namespace Beeant.Domain.Services.Order
         /// 订单保险明细
         /// </summary>
         public IDomainService OrderNumberDomainService { get; set; }
+        /// <summary>
+        /// 卡信息
+        /// </summary>
+        public IDomainService OrderCardDomainService { get; set; }
+        /// <summary>
+        /// 卡信息
+        /// </summary>
+        public IDomainService OrderLinkmanDomainService { get; set; }
 
         private IDictionary<string, IUnitofworkHandle> _itemHandles;
         /// <summary>
@@ -74,7 +82,9 @@ namespace Beeant.Domain.Services.Order
                         {"OrderComplaints", new UnitofworkHandle<CouponEntity>{DomainService= OrderComplaintDomainService} },
                         {"OrderExpresses", new UnitofworkHandle<OrderExpressEntity>{DomainService= OrderExpressDomainService}},
                         {"OrderInvoices", new UnitofworkHandle<OrderInvoiceEntity>{DomainService= OrderInvoiceDomainService}},
-                        {"OrderNumbers", new UnitofworkHandle<OrderNumberEntity>{DomainService= OrderNumberDomainService}}
+                        {"OrderNumbers", new UnitofworkHandle<OrderNumberEntity>{DomainService= OrderNumberDomainService}},
+                        {"OrderCards", new UnitofworkHandle<OrderCardEntity>{DomainService= OrderCardDomainService}},
+                        {"OrderLinkmans", new UnitofworkHandle<OrderLinkmanEntity>{DomainService= OrderLinkmanDomainService}}
                     });
             }
             set

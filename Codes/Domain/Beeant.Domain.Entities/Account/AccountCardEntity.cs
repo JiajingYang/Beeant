@@ -13,10 +13,7 @@ namespace Beeant.Domain.Entities.Account
         /// 名称
         /// </summary>
         public string Name { get; set; }
-        /// <summary>
-        /// 卡类型
-        /// </summary>
-        public string Type { get; set; }
+
         /// <summary>
         /// 标签
         /// </summary>
@@ -25,6 +22,9 @@ namespace Beeant.Domain.Entities.Account
         /// 卡号
         /// </summary>
         public string Number { get; set; }
-
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string Description { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Beeant.Domain.Entities;
+using Beeant.Domain.Entities.Finance;
 
 namespace Beeant.Distributed.Outside.Pay.Models
 {
@@ -22,9 +23,17 @@ namespace Beeant.Distributed.Outside.Pay.Models
         /// </summary>
         public string OrderPayId { get; set; }
         /// <summary>
+        /// 退款
+        /// </summary>
+        public string RefundOrderId { get; set; }
+        /// <summary>
         /// 输出
         /// </summary>
         public IDictionary<string, string> Forms { get; set; }
+
+        public PaylineEntity Payline { get; set; }
+
+        public bool IsSuccess { get; set; }
 
     }
 }

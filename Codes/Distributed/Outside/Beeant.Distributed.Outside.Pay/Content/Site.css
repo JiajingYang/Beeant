@@ -1,0 +1,25 @@
+﻿/*扫码支付*/
+.scancode-main{ width: 1000px;margin:0 auto}
+.scancode-main .order-mess{ line-height: 90px;font-size: 14px;color: #666;font-weight: bold}
+.scancode-main .order-mess .s-price{ float: right;font-size: 14px;font-weight: normal}
+.scancode-main .order-mess .s-price>span{ color: #ff5d5b;font-size: 16px;margin: 0 4px;font-weight: bold}
+.code-mess{    padding: 12px 30px; height:500px;
+    -moz-box-shadow: 0 0 20px rgba(0,0,0,.12);
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,.12);
+    box-shadow: 0 0 20px rgba(0,0,0,.12);
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;}
+.code-mess:hover{-moz-box-shadow: 0 0 20px rgba(0,0,0,.24);
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,.24);
+    box-shadow: 0 0 20px rgba(0,0,0,.24)}
+.code-mess h2{ font-size: 16px;position: relative}
+.code-mess h2 label{color: #ff8c00;font-size: 12px;position: absolute;left: 150px}
+.code-bd{padding-top: 10px}
+.code-bd .code-img{ float: left;padding-left: 150px;padding-right: 20px}
+.code-bd .code-img div{color: #ff8c00;font-size: 14px;}
+.code-bd .code-demo{float: left;}
+.select-other{ padding-top: 10px;font-size: 14px;color: #38a2d2}
+.select-other label{ font-family: SimSun;font-size: 22px;margin-right: 6px;vertical-align: middle}
+.select-other a{vertical-align: middle}

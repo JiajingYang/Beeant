@@ -16,6 +16,10 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public decimal Deposit { get; set; }
         /// <summary>
+        /// 关键字
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
         /// 订单编号
         /// </summary>
         public string Number { get; set; }
@@ -32,10 +36,6 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public DateTime OrderDate { get; set; }
 
-        /// <summary>
-        /// 总金额
-        /// </summary>
-        public decimal TotalAmount { get; set; }
         /// <summary>
         /// 实收金额
         /// </summary>
@@ -251,6 +251,7 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         protected override void SetAddBusiness()
         {
+            Key = Key ?? "";
             Number = Number ?? Guid.NewGuid().ToString().Replace("-", "");
             SetRelateSaveType(SaveType.Add);
             InvokeItemLoader("Account");

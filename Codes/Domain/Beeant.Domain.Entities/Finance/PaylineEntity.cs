@@ -110,7 +110,7 @@ namespace Beeant.Domain.Entities.Finance
                     continue;
                 paylineItem.Amount = paylineItem.Order.PayAmount == 0 && paylineItem.Order.Deposit > 0
                     ? paylineItem.Order.Deposit
-                    : paylineItem.Order.TotalAmount - paylineItem.Order.PayAmount;
+                    : paylineItem.Order.TotalPayAmount - paylineItem.Order.PayAmount;
             }
             Amount = PaylineItems.Sum(it => it.Amount);
         }

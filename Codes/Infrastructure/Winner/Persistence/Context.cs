@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -442,6 +443,8 @@ namespace Winner.Persistence
             {
                 var varsionKey = GetVersionCacheKey(entity.Key.GetType().FullName);
                 RemoveRemoteCache(varsionKey);
+                if (DependencyDelegates.ContainsKey(varsionKey))
+                    DependencyDelegates[varsionKey](entity.Key.GetType().FullName);
             }
             if (entity.Value.Object.CacheType == CacheType.None)
                 return;
@@ -514,6 +517,7 @@ namespace Winner.Persistence
 
         #region 自定义缓存或DB加载
 
+        private IDictionary<string,Action<string>> DependencyDelegates { get; set; }=new ConcurrentDictionary<string, Action<string>>();
         /// <summary>
         /// 缓存值
         /// </summary>
@@ -646,6 +650,8 @@ namespace Winner.Persistence
                     {
                         SetLocalCache(subVersionKey, version, query.Cache.Time);
                     }
+                    if(query.Cache.DependencyDelegate!=null && !DependencyDelegates.ContainsKey(subVersionKey))
+                        DependencyDelegates.Add(subVersionKey, query.Cache.DependencyDelegate);
                 }
             }
             if (query.Cache.Type == CacheType.Local || query.Cache.Type == CacheType.LocalAndRemote)

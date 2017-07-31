@@ -30,7 +30,10 @@ namespace Winner.Persistence
         /// 是否订阅
         /// </summary>
         public IList<string> Dependencies { get; set; }
-
+        /// <summary>
+        /// 依赖缓存委托
+        /// </summary>
+        public Action<string> DependencyDelegate { get; set; }
 
     }
 }

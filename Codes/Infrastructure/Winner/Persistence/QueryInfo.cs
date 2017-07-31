@@ -222,6 +222,16 @@ namespace Winner.Persistence
         /// <summary>
         /// 设置缓存
         /// </summary>
+        /// <returns></returns>
+        public virtual QueryInfo SetCacheDependencyDelegate(Action<string> action)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.DependencyDelegate = action;
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public virtual QueryInfo SetCacheName(string name)
@@ -484,6 +494,16 @@ namespace Winner.Persistence
             Cache = Cache ?? new CacheInfo();
             Cache.Dependencies = Cache.Dependencies ?? new List<string>();
             Cache.Dependencies.Add(typeof(TDependency).FullName);
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <returns></returns>
+        public new QueryInfo<T> SetCacheDependencyDelegate(Action<string> action)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.DependencyDelegate = action;
             return this;
         }
         /// <summary>

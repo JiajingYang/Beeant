@@ -88,7 +88,7 @@ namespace Winner.Creation
                 target = obj;
             TrySetProperty(target, info.Properties);
             return target;
-        }
+        } 
 
         ///  <summary>
         /// 尝试创建实例
@@ -120,7 +120,7 @@ namespace Winner.Creation
             {
                 var property = target.GetType().GetProperties().FirstOrDefault(it => it.Name.Equals(p.Name));
                 if (property == null) continue;
-                var value = GetPropertyValue(property, p);
+                var value = GetPropertyValue(target,property, p);
                 if (value == null) continue;
                 property.SetValue(target, value, null);
                 if(!p.IsShare) TrySetProperty(value, p.Properties);
@@ -130,14 +130,19 @@ namespace Winner.Creation
         /// <summary>
         /// 得到属性值
         /// </summary>
+        /// <param name="target"></param>
         /// <param name="property"></param>
         /// <param name="p"></param>
-        protected virtual object GetPropertyValue(PropertyInfo property, FactoryPropertyInfo p)
+        protected virtual object GetPropertyValue(object target, PropertyInfo property, FactoryPropertyInfo p)
         {
             object value;
             if (property.PropertyType.IsInterface)
             {
                 var t = Factories.FirstOrDefault(it => it.Name.Equals(p.Value));
+                if (t != null && t.Target != null && t.Target.GetType() == target.GetType())
+                {
+                    return target;
+                }
                 value = t == null ? CreateClass(p.Value)
                             : p.IsShare ? t.Target : Create(t);
             }

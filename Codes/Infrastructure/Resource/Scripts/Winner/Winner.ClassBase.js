@@ -224,7 +224,7 @@ Winner.ClassBase.prototype =
         return result;
     },
     SetDto: function (content, data) {
-        var setVal = function (content, con) {
+        var setVal = function (ctrl, con) {
             if (ctrl.attr("ShowValue") != undefined && (data[con] == null || data[con] == "")) {
                 ctrl.val(ctrl.attr("ShowValue"));
             } else {
@@ -250,9 +250,75 @@ Winner.ClassBase.prototype =
             else if (ctrl.attr("type") == "checkbox")
                 setCheckBox(content, con);
             else
-                setVal(content, con);
+                setVal(ctrl, con);
         }
-
+    },
+    GetForm: function (content) {
+        var form = new FormData();
+        $(content).find("input,select,textarea").each(function () {
+            if (this.type == "radio" || this.type == "checkbox")
+                return;
+            if ($(this).attr("disabled") == "disabled")
+                return null;
+            var name = $(this).attr("name");
+            if (name != undefined) {
+                var value = $(this).val() == $(this).attr("ShowValue") || $(this).val() == "" ? "" : $(this).val();
+                form.append(name, value);
+            }
+        });
+        $(content).find("input[type=radio]").each(function () {
+            if ($(this).attr("disabled") == "disabled")
+                return null;
+            var name = $(this).attr("name");
+            if (name != undefined) {
+                var value = $(content).find('input:radio[name=' + name + ']:checked').val();
+                form.append(name, value);
+            }
+        });
+        $(content).find("input[type=checkbox]").each(function () {
+            if ($(this).attr("disabled") == "disabled")
+                return null;
+            var name = $(this).attr("name");
+            if (name != undefined) {
+                var vals = [];
+                $(content).find('input:checkbox[name=' + name + ']:checked').each(function (index, sender) {
+                    vals.push(this.value);
+                });
+                var value = vals.join(",");
+                form.append(name, value);
+            }
+        });
+        return form;
+    },
+    SetForm : function (content, forms) {
+        var setVal = function (ctrl, form) {
+            if (ctrl.attr("ShowValue") != undefined && (form.value == null || form.value == "")) {
+                ctrl.val(ctrl.attr("ShowValue"));
+            } else {
+                ctrl.val(form.value);
+            }
+        }
+        var setRadio = function (content, form) {
+            $(content).find('input:radio[name=' + form.name + ']').each(function () {
+                this.checked = this.value == form.value;
+            });
+        }
+        var setCheckBox = function (content, form) {
+            $(content).find('input:checkbox[name=' + form.name + ']').each(function () {
+                this.checked = form.value != null && (form.value.toString().indexOf(this.value) > -1);
+            });
+        }
+        for (var i = 0; i < forms.length; i++) {
+            var ctrl = $("*[name=" + forms[i].name + "]");
+            if (ctrl.length == 0)
+                continue;
+            if (ctrl.attr("type") == "radio")
+                setRadio(content, forms[i]);
+            else if (ctrl.attr("type") == "checkbox")
+                setCheckBox(content, forms[i]);
+            else
+                setVal(ctrl, forms[i]);
+        }
     }
 };
 var Wcb = new Winner.ClassBase();

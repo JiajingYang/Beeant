@@ -124,17 +124,17 @@ namespace Beeant.Domain.Services.Workflow
                 return true;
             if (args.Task == null && args.Entity.SaveType == SaveType.Add)
                 return true;
-            var query=new QueryInfo {IsReturnCount = false};
-            query.SetPageSize(1)
-                .Query<TaskEntity>()
-                .Where(it => it.DataId == args.Entity.Id && it.Flow.Id == args.Flow.Id)
-                .Select(it => it.Id);
-            var infos = Repository.GetEntities<TaskEntity>(query);
-            if (infos != null && infos.Count > 0)
-            {
-                args.AddError("TaskAlreadCreated");
-                return false;
-            }
+            //var query=new QueryInfo {IsReturnCount = false};
+            //query.SetPageSize(1)
+            //    .Query<TaskEntity>()
+            //    .Where(it => it.DataId == args.Entity.Id && it.Flow.Id == args.Flow.Id)
+            //    .Select(it => it.Id);
+            //var infos = Repository.GetEntities<TaskEntity>(query);
+            //if (infos != null && infos.Count > 0)
+            //{
+            //    args.AddError("TaskAlreadCreated");
+            //    return false;
+            //}
             return true;
         }
       
@@ -173,11 +173,12 @@ namespace Beeant.Domain.Services.Workflow
         /// <returns></returns>
         public virtual IList<TaskEntity> GetCurrentTasks(long dataId,long[] nodeIds)
         {
-            var query = new QueryInfo();
-            query.Query<TaskEntity>()
-                .Where(it => it.DataId== dataId && nodeIds.Contains(it.Node.Id));
-            var infos = Repository.GetEntities<TaskEntity>(query);
-            return infos;
+            //var query = new QueryInfo();
+            //query.Query<TaskEntity>()
+            //    .Where(it => it.DataId== dataId && nodeIds.Contains(it.Node.Id));
+            //var infos = Repository.GetEntities<TaskEntity>(query);
+            //return infos
+            return null;
         } 
         /// <summary>
         /// 得到对象

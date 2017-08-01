@@ -127,7 +127,7 @@ namespace Beeant.Basic.Services.WebForm.Pages
             {
                 if (_requestId.HasValue)
                     return _requestId.Value;
-                _requestId = Task == null || Task.Account==null || Task.Account.Id== AccountId ? base.RequestId : Task.DataId;
+                _requestId = Task == null || Task.Account==null || Task.Account.Id== AccountId ? base.RequestId : Task.Consumer.Id;
                 return _requestId.Value;
             }
             set { base.RequestId = value; }
@@ -194,15 +194,16 @@ namespace Beeant.Basic.Services.WebForm.Pages
         /// <returns></returns>
         protected virtual bool CheckSubmitButton()
         {
-        
-            var query = new QueryInfo { IsReturnCount = false };
-            query.SetPageSize(1)
-                .Query<TaskEntity>()
-                .Where(it => it.DataId == RequestId && it.Flow.Id == WorkflowArgs.Flow.Id)
-                .OrderByDescending(it=>it.Id)
-                .Select(it => it.Node.NodeType);
-            var info = Ioc.Resolve<IApplicationService, TaskEntity>().GetEntities<TaskEntity>(query)?.FirstOrDefault();
-            return info==null || info.Node!=null && info.Node.NodeType == NodeType.Start;
+
+            //var query = new QueryInfo { IsReturnCount = false };
+            //query.SetPageSize(1)
+            //    .Query<TaskEntity>()
+            //    .Where(it => it.DataId == RequestId && it.Flow.Id == WorkflowArgs.Flow.Id)
+            //    .OrderByDescending(it=>it.Id)
+            //    .Select(it => it.Node.NodeType);
+            //var info = Ioc.Resolve<IApplicationService, TaskEntity>().GetEntities<TaskEntity>(query)?.FirstOrDefault();
+            //return info==null || info.Node!=null && info.Node.NodeType == NodeType.Start;
+            return true;
         }
         /// <summary>
         /// 检查是否隐藏提交
@@ -210,13 +211,14 @@ namespace Beeant.Basic.Services.WebForm.Pages
         /// <returns></returns>
         protected virtual bool CheckHandleButton()
         {
-            var query = new QueryInfo { IsReturnCount = false };
-            query.SetPageSize(1)
-                .Query<TaskEntity>()
-                .Where(it => it.DataId == RequestId && it.Flow.Id == WorkflowArgs.Flow.Id && it.Status== TaskStatusType.Waiting && it.Account.Id==Identity.Id)
-                .Select(it => it.Id);
-            var infos = Ioc.Resolve<IApplicationService, TaskEntity>().GetEntities<TaskEntity>(query);
-            return infos != null && infos.Count > 0;
+            //var query = new QueryInfo { IsReturnCount = false };
+            //query.SetPageSize(1)
+            //    .Query<TaskEntity>()
+            //    .Where(it => it.DataId == RequestId && it.Flow.Id == WorkflowArgs.Flow.Id && it.Status== TaskStatusType.Waiting && it.Account.Id==Identity.Id)
+            //    .Select(it => it.Id);
+            //var infos = Ioc.Resolve<IApplicationService, TaskEntity>().GetEntities<TaskEntity>(query);
+            //return infos != null && infos.Count > 0;
+            return true;
         }
         /// <summary>
         /// 重新保存

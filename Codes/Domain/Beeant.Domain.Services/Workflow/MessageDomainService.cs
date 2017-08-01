@@ -66,10 +66,10 @@ namespace Beeant.Domain.Services.Workflow
         protected virtual AccountEntity GetSumbitAccount(WorkflowArgsEntity args)
         {
             var query=new QueryInfo {IsReturnCount=false};
-            query.SetPageSize(1)
-                .Query<TaskEntity>()
-                .Where(it => it.DataId == args.Task.DataId && it.Flow.Id == args.Flow.Id && it.Status==TaskStatusType.Created)
-                .Select(it=>it.Account.Id);
+            //query.SetPageSize(1)
+            //    .Query<TaskEntity>()
+            //    .Where(it => it.DataId == args.Task.DataId && it.Flow.Id == args.Flow.Id && it.Status==TaskStatusType.Created)
+            //    .Select(it=>it.Account.Id);
             var entities = Repository.GetEntities<TaskEntity>(query);
             return entities?.FirstOrDefault()?.Account;
         }

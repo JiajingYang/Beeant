@@ -209,6 +209,7 @@
     <Compile Include="Workflow\IWorkflowDomainService.cs" />
     <Compile Include="Workflow\LevelDomainService.cs" />
     <Compile Include="Workflow\MessageDomainService.cs" />
+    <Compile Include="Workflow\TaskDomainService.cs" />
     <Compile Include="Workflow\PropertyDomainService.cs" />
     <Compile Include="Workflow\NodeDomainService.cs" />
     <Compile Include="Workflow\AuditorAccountDomainService.cs" />

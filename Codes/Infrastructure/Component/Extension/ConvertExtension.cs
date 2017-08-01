@@ -384,5 +384,15 @@ namespace Component.Extension
             return string.Format("{0:x}", i -(new DateTime(2000,01,01).Ticks));
 
         }
+
+        /// <summary>
+        /// 得到状态名称,返回开启或者停止
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static DateTime GetDefault(this DateTime date)
+        {
+            return new DateTime(1800, 1, 1);
+        }
     }
 }

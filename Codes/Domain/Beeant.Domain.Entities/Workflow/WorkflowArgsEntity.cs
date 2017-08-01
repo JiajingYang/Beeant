@@ -79,9 +79,9 @@ namespace Beeant.Domain.Entities.Workflow
             {
                 if (_node != null)
                     return _node;
-                if (Flow == null || Flow.Nodes == null || Task == null || Task.Node == null)
-                    return null;
-                _node = Flow.Nodes.FirstOrDefault(it => it.Id == Task.Node.Id);
+                //if (Flow == null || Flow.Nodes == null || Task == null || Task.Node == null)
+                //    return null;
+                //_node = Flow.Nodes.FirstOrDefault(it => it.Id == Task.Node.Id);
                 return _node;
             }
             set
@@ -168,18 +168,18 @@ namespace Beeant.Domain.Entities.Workflow
         public virtual void CreateTasks(IList<TaskEntity> currentNodeTasks)
         {
             SetTask();
-            if (Flow == null || Flow.Nodes == null || Task == null || Task.Node == null)
-                return;
-            var node = Flow.Nodes.FirstOrDefault(it => it.Id == Task.Node.Id);
-            if (node == null)
-                return;
+            //if (Flow == null || Flow.Nodes == null || Task == null || Task.Node == null)
+            //    return;
+            //var node = Flow.Nodes.FirstOrDefault(it => it.Id == Task.Node.Id);
+            //if (node == null)
+            //    return;
            
-            NextNodes = GetNextNodes(node);
-            if (NextNodes == null || NextNodes.Count == 0)
-                return;
-            if (!CheckCreateTask(node, currentNodeTasks))
-                return;
-            NextTasks = GetTasks(NextNodes);
+            //NextNodes = GetNextNodes(node);
+            //if (NextNodes == null || NextNodes.Count == 0)
+            //    return;
+            //if (!CheckCreateTask(node, currentNodeTasks))
+            //    return;
+            //NextTasks = GetTasks(NextNodes);
         }
         /// <summary>
         /// 设置当前任务
@@ -188,31 +188,31 @@ namespace Beeant.Domain.Entities.Workflow
         {
             if ( Node==null)
                 return;
-            if (Task == null)
-            {
-                Task = new TaskEntity
-                {
-                    Data = Entity,
-                    Flow = Flow,
-                    Level = Level,
-                    Node = Node,
-                    OverTime = DateTime.Now,
-                    HandleTime = DateTime.Now,
-                    Account = new AccountEntity { Id = AccountId },
-                    Remark = "",
-                    Status = TaskStatusType.Created,
-                    SaveType = SaveType.Add
-                };
-                Task.FillDataEntity(Node.NodeProperties);
-            }
-            else
-            {
-                Task.HandleTime = DateTime.Now;
-                Task.Remark = Remark;
-                Task.SaveType = SaveType.Modify;
-                Task.SetProperty(it => it.Remark).SetProperty(it => it.HandleTime);
-                Task.FillDataEntity(Node.NodeProperties);
-            }
+            //if (Task == null)
+            //{
+            //    Task = new TaskEntity
+            //    {
+            //        Data = Entity,
+            //        Flow = Flow,
+            //        Level = Level,
+            //        Node = Node,
+            //        OverTime = DateTime.Now,
+            //        HandleTime = DateTime.Now,
+            //        Account = new AccountEntity { Id = AccountId },
+            //        Remark = "",
+            //        Status = TaskStatusType.Created,
+            //        SaveType = SaveType.Add
+            //    };
+            //    Task.FillDataEntity(Node.NodeProperties);
+            //}
+            //else
+            //{
+            //    Task.HandleTime = DateTime.Now;
+            //    Task.Remark = Remark;
+            //    Task.SaveType = SaveType.Modify;
+            //    Task.SetProperty(it => it.Remark).SetProperty(it => it.HandleTime);
+            //    Task.FillDataEntity(Node.NodeProperties);
+            //}
 
         }
 
@@ -230,17 +230,17 @@ namespace Beeant.Domain.Entities.Workflow
                 var accountId = GetTaskAccountId(node);
                 if (accountId == 0 || accountId == AccountId)
                    continue;
-                var task = new TaskEntity
-                {
-                    Flow = new FlowEntity { Id = Flow.Id },
-                    Data = Entity,
-                    Node = node,
-                    Level = new LevelEntity { Id = LevelId },
-                    OverTime = DateTime.Now.AddMinutes(node.Timeout),
-                    Account = new AccountEntity { Id = accountId },
-                    SaveType = SaveType.Add
-                };
-                tasks.Add(task);
+                //var task = new TaskEntity
+                //{
+                //    Flow = new FlowEntity { Id = Flow.Id },
+                //    Data = Entity,
+                //    Node = node,
+                //    Level = new LevelEntity { Id = LevelId },
+                //    OverTime = DateTime.Now.AddMinutes(node.Timeout),
+                //    Account = new AccountEntity { Id = accountId },
+                //    SaveType = SaveType.Add
+                //};
+                //tasks.Add(task);
             }
             return tasks;
         }

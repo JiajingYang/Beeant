@@ -261,6 +261,7 @@
     <Compile Include="Workflow\ConditionEntity.cs" />
     <Compile Include="Workflow\FlowEntity.cs" />
     <Compile Include="Workflow\ConditionType.cs" />
+    <Compile Include="Workflow\ITaskTab .cs" />
     <Compile Include="Workflow\PropertyEntity.cs" />
     <Compile Include="Workflow\TaskStatusType.cs" />
     <Compile Include="Workflow\GroupFlowEntity.cs" />

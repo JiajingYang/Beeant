@@ -80,7 +80,19 @@ namespace Winner.Persistence.Translation
                         return infos;
                     }
                     query.DataCount = 0;
-                    BeginInvokeQuery(obj,query,context,isLazyLoadExecute,result,queries,0);
+                    if (query.IsAsParallel)
+                    {
+                        BeginInvokeQuery(obj, query, context, isLazyLoadExecute, result, queries, 0);
+                    }
+                    else
+                    {
+                        foreach (var q in queries)
+                        {
+                            var r = GetResult<T>(obj,q,context,isLazyLoadExecute);
+                            result.Add(r);
+                            query.DataCount += q.DataCount;
+                        }
+                    }
                     query.Sql = queries[0].Sql;
                     return MergeResult(result, obj, query);
                 }
@@ -141,13 +153,28 @@ namespace Winner.Persistence.Translation
         protected virtual T MergeResult<T>(IList<T> results,OrmObjectInfo obj, QueryInfo query)
         {
             var infos = new ArrayList();
-            foreach (var result in results)
+            if(query.IsAsParallel)
             {
-                var ts = result as IEnumerable<EntityInfo>;
-                if (ts == null) continue;
-                foreach (var t in ts)
+                foreach (var result in results.AsParallel())
                 {
-                    infos.Add(t);
+                    var ts = result as IEnumerable<EntityInfo>;
+                    if (ts == null) continue;
+                    foreach (var t in ts.AsParallel())
+                    {
+                        infos.Add(t);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var result in results)
+                {
+                    var ts = result as IEnumerable<EntityInfo>;
+                    if (ts == null) continue;
+                    foreach (var t in ts)
+                    {
+                        infos.Add(t);
+                    }
                 }
             }
             var type = Type.GetType(obj.ObjectName);

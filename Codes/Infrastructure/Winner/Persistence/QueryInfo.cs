@@ -25,6 +25,10 @@ namespace Winner.Persistence
         /// </summary>
         public virtual IDictionary<string,object> SqlParameters { get; set; } 
         /// <summary>
+        /// 是否平行计算
+        /// </summary>
+        public bool IsAsParallel { get; set; }
+        /// <summary>
         /// 设置查询缓存
         /// </summary>
         public virtual CacheInfo Cache { get; set; }
@@ -159,8 +163,14 @@ namespace Winner.Persistence
 
         #region 方法
 
-
-
+        /// <summary>
+        /// 并行计算
+        /// </summary>
+        public virtual QueryInfo AsParallel()
+        {
+            IsAsParallel = true;
+            return this;
+        }
         /// <summary>
         /// 设置参数
         /// </summary>
@@ -438,7 +448,14 @@ namespace Winner.Persistence
         #region 方法
 
 
-
+        /// <summary>
+        /// 并行计算
+        /// </summary>
+        public new QueryInfo<T> AsParallel()
+        {
+            IsAsParallel = true;
+            return this;
+        }
         /// <summary>
         /// 设置参数
         /// </summary>

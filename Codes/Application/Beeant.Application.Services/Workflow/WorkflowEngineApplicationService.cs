@@ -25,10 +25,7 @@ namespace Beeant.Application.Services.Workflow
         /// </summary>
         public IWorkflowDomainService WorkflowDomainService { get; set; }
  
-        /// <summary>
-        /// 消息记录
-        /// </summary>
-        public IMessageDomainService MessageDomainService { get; set; }
+       
         /// <summary>
         /// 存储实例
         /// </summary>
@@ -52,7 +49,7 @@ namespace Beeant.Application.Services.Workflow
         /// <summary>
         /// 服务领域
         /// </summary>
-        public IDictionary<long,IDomainService> DomainServices { get; set; }=new Dictionary<long, IDomainService>();
+        public IDictionary<long,IDomainService> DomainServices { get; set; }
  
         /// <summary>
         /// 处理工作流
@@ -101,7 +98,7 @@ namespace Beeant.Application.Services.Workflow
                 unitofworks.AddList(domainUnitofworks);
             }
 
-            unitofworks.AddList(MessageDomainService.GetUnitofworks(args));
+       
             return unitofworks;
         }
         #region 发送消息
@@ -126,8 +123,8 @@ namespace Beeant.Application.Services.Workflow
             if (args.Messages == null) return;
             foreach (var message in args.Messages)
             {
-                if(message.Account==null)
-                    continue;
+                //if(message.Account==null)
+                //    continue;
                 SendDefaultMesssage(args, message);
                 SendEmailMesssage(args,message);
                 SendMobileMesssage(args,message);
@@ -141,16 +138,16 @@ namespace Beeant.Application.Services.Workflow
         /// <param name="message"></param>
         protected virtual void SendDefaultMesssage(WorkflowArgsEntity args, MessageEntity message)
         {
-            if ((args.Node.MessageType & (int) MessageType.Default) == 0 ||
-                string.IsNullOrWhiteSpace(args.Node.DefaultMessage))
-                return;
-            var url = ConfigurationManager.GetSetting<string>(args.Flow.Url);
-            url = string.Format("{0}{1}?taskid={2}", string.IsNullOrWhiteSpace(url) ? args.Flow.Url : url,
-                args.Flow.DefaultUrl, message.Task?.Id);
-            var detail = args.Node.DefaultMessage.Replace("【Remark】", args.Remark).Replace("【Url】", url);
-            var name = string.Format(MessageFlag, message.Account.Id);
-            QueueRepository.Open(name, 20);
-            QueueRepository.Push(name, detail);
+            //if ((args.Node.MessageType & (int) MessageType.Default) == 0 ||
+            //    string.IsNullOrWhiteSpace(args.Node.DefaultMessage))
+            //    return;
+            //var url = ConfigurationManager.GetSetting<string>(args.Flow.Url);
+            //url = string.Format("{0}{1}?taskid={2}", string.IsNullOrWhiteSpace(url) ? args.Flow.Url : url,
+            //    args.Flow.DefaultUrl, message.Task?.Id);
+            //var detail = args.Node.DefaultMessage.Replace("【Remark】", args.Remark).Replace("【Url】", url);
+            //var name = string.Format(MessageFlag, message.Account.Id);
+            //QueueRepository.Open(name, 20);
+            //QueueRepository.Push(name, detail);
         }
 
         /// <summary>
@@ -160,20 +157,20 @@ namespace Beeant.Application.Services.Workflow
         /// <param name="message"></param>
         protected virtual void SendEmailMesssage(WorkflowArgsEntity args, MessageEntity message)
         {
-            if ((args.Node.MessageType & (int) MessageType.Email) == 0 ||
-                string.IsNullOrWhiteSpace(args.Node.EmailMessage))
-                return;
-            var account = Repository.Get<AccountEntity>(message.Account.Id);
-            if (account == null || string.IsNullOrEmpty(account.Email))
-                return;
-            var url = ConfigurationManager.GetSetting<string>(args.Flow.Url);
-            url = string.Format("{0}{1}", string.IsNullOrWhiteSpace(url) ? args.Flow.Url : url, args.Flow.EmailUrl);
-            var detail = args.Node.EmailMessage.Replace("【Remark】", args.Remark).Replace("【Url】", url);
-            EmailRepository.Send(new EmailEntity
-            {
-                IsLog = true,
-                Mail = new MailInfo {Subject = message.Title, Body = detail, ToMails = new[] { account.Email}}
-            });
+            //if ((args.Node.MessageType & (int) MessageType.Email) == 0 ||
+            //    string.IsNullOrWhiteSpace(args.Node.EmailMessage))
+            //    return;
+            //var account = Repository.Get<AccountEntity>(message.Account.Id);
+            //if (account == null || string.IsNullOrEmpty(account.Email))
+            //    return;
+            //var url = ConfigurationManager.GetSetting<string>(args.Flow.Url);
+            //url = string.Format("{0}{1}", string.IsNullOrWhiteSpace(url) ? args.Flow.Url : url, args.Flow.EmailUrl);
+            //var detail = args.Node.EmailMessage.Replace("【Remark】", args.Remark).Replace("【Url】", url);
+            //EmailRepository.Send(new EmailEntity
+            //{
+            //    IsLog = true,
+            //    //Mail = new MailInfo {Subject = message.Title, Body = detail, ToMails = new[] { account.Email}}
+            //});
         }
 
         /// <summary>
@@ -186,28 +183,17 @@ namespace Beeant.Application.Services.Workflow
             if ((args.Node.MessageType & (int) MessageType.Email) == 0 ||
                 string.IsNullOrWhiteSpace(args.Node.MobileMessage))
                 return;
-            var account = Repository.Get<AccountEntity>(message.Account.Id);
-            if (account == null || string.IsNullOrEmpty(account.Mobile))
-                return;
-            var url = ConfigurationManager.GetSetting<string>(args.Flow.Url);
-            url = string.Format("{0}{1}", string.IsNullOrWhiteSpace(url) ? args.Flow.Url : url, args.Flow.MobileUrl);
-            url = SignUrl(message, url);
-            var detail = args.Node.MobileMessage.Replace("【Remark】", args.Remark).Replace("【Url】", url);
-            MobileRepository.Send(new MobileEntity {Body = detail, ToMobiles = new[] {account.Mobile}});
+            //var account = Repository.Get<AccountEntity>(message.Account.Id);
+            //if (account == null || string.IsNullOrEmpty(account.Mobile))
+            //    return;
+            //var url = ConfigurationManager.GetSetting<string>(args.Flow.Url);
+            //url = string.Format("{0}{1}", string.IsNullOrWhiteSpace(url) ? args.Flow.Url : url, args.Flow.MobileUrl);
+            //url = SignUrl(message, url);
+            //var detail = args.Node.MobileMessage.Replace("【Remark】", args.Remark).Replace("【Url】", url);
+            //MobileRepository.Send(new MobileEntity {Body = detail, ToMobiles = new[] {account.Mobile}});
         }
 
-        /// <summary>
-        /// 签名Url
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="url"></param>
-        protected virtual string SignUrl(MessageEntity message, string url)
-        {
-            var timespan = DateTime.Now.Ticks.ToString();
-            var mark = Winner.Creator.Get<Winner.Base.ISecurity>().EncryptSign(timespan);
-            url = string.Format("{0}?taskId={1}&userid={2}&timespan={3}&mark={4}", url, message.Task?.Id,message.Account?.Id, timespan, mark);
-            return url;
-        }
+       
 
         /// <summary>
         /// 得到消息
@@ -482,7 +468,18 @@ namespace Beeant.Application.Services.Workflow
         /// <param name="flow"></param>
         protected virtual IDomainService CreateDomainService(FlowEntity flow)
         {
-            return Winner.Creator.Get<Winner.Creation.IFactory>().Get<IDomainService>(flow.ClassName);
+            try
+            {
+                if (string.IsNullOrWhiteSpace(flow.ClassName)) return null;
+                var t = Type.GetType(flow.ClassName);
+                if (t == null) return null;
+                return Activator.CreateInstance(t) as IDomainService;
+            }
+            catch (Exception ex)
+            {
+                Winner.Creator.Get<Winner.Log.ILog>().AddException(ex);
+            }
+            return null;
         }
 
         /// <summary>

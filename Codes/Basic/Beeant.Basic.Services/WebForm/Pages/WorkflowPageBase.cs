@@ -127,7 +127,7 @@ namespace Beeant.Basic.Services.WebForm.Pages
             {
                 if (_requestId.HasValue)
                     return _requestId.Value;
-                _requestId = Task == null || Task.Account==null || Task.Account.Id== AccountId ? base.RequestId : Task.Consumer.Id;
+                _requestId = Task == null || Task.Account==null || Task.Account.Id== AccountId ? base.RequestId : Task.Id;
                 return _requestId.Value;
             }
             set { base.RequestId = value; }

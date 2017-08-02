@@ -242,7 +242,7 @@ Winner.ClassBase.prototype =
             });
         }
         for (var con in data) {
-            var ctrl = $("*[name=" + con + "]");
+            var ctrl = $(content).find("*[name=" + con + "]");
             if (ctrl.length == 0)
                 continue;
             if (ctrl.attr("type") == "radio")
@@ -309,7 +309,7 @@ Winner.ClassBase.prototype =
             });
         }
         for (var i = 0; i < forms.length; i++) {
-            var ctrl = $("*[name=" + forms[i].name + "]");
+            var ctrl = $(content).find("*[name=" + forms[i].name + "]");
             if (ctrl.length == 0)
                 continue;
             if (ctrl.attr("type") == "radio")

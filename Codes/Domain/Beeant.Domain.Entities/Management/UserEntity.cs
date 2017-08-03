@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Beeant.Domain.Entities.Account;
 using Beeant.Domain.Entities.Authority;
-using Beeant.Domain.Entities.Workflow;
 
 namespace Beeant.Domain.Entities.Management
 {
@@ -41,14 +40,8 @@ namespace Beeant.Domain.Entities.Management
         /// 
         /// </summary>
         public IList<OwnerAccountEntity> OwnerAccounts { get; set; }
-        /// <summary>
-        /// 授权用户
-        /// </summary>
-        public IList<AuditorAccountEntity> AuditorAccounts { get; set; }
-        /// <summary>
-        /// 授权用户
-        /// </summary>
-        public IList<GroupAccountEntity> GroupAccounts { get; set; }
+     
+
 
 
     }

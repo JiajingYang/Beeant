@@ -71,6 +71,10 @@ namespace Beeant.Domain.Entities.Workflow
         /// </summary>
         public string Tag { get; set; }
         /// <summary>
+        /// 级别
+        /// </summary>
+        public string Level { get; set; }
+        /// <summary>
         /// 数据
         /// </summary>
         public string Number { get; set; }
@@ -197,9 +201,10 @@ namespace Beeant.Domain.Entities.Workflow
             }
             History = new HistoryEntity
             {
-                Account = DataEntity.Account,
+                Account = Account ?? DataEntity.Account,
                 OverTime = DataEntity.OverTime,
                 Number = DataEntity.Number,
+                Level=DataEntity.Level,
                 Channel = Channel,
                 Status = Status,
                 Remark = Remark,
@@ -236,6 +241,40 @@ namespace Beeant.Domain.Entities.Workflow
             if (mark.ToLower() == mk.ToLower())
                 return false;
             return true;
+        }
+
+        public Action<TaskEntity> SendMessageHandle { get; set; }
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        public virtual void SendMessage()
+        {
+            SendMessage(this);
+        }
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="task"></param>
+        protected virtual void SendMessage(TaskEntity task)
+        {
+            if (task.SendMessageHandle != null)
+            {
+                task.SendMessageHandle.BeginInvoke(this, null, null);
+            }
+            if (task.NextTasks != null)
+            {
+                foreach (var nextTask in task.NextTasks)
+                {
+                    SendMessage(nextTask);
+                }
+            }
+            if (task.Tasks != null)
+            {
+                foreach (var currentTask in task.Tasks)
+                {
+                    SendMessage(currentTask);
+                }
+            }
         }
     }
 }

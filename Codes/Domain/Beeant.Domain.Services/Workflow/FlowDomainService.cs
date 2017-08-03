@@ -7,10 +7,7 @@ namespace Beeant.Domain.Services.Workflow
 {
     public class FlowDomainService : RealizeDomainService<FlowEntity>
     {
-        /// <summary>
-        /// 属性明细
-        /// </summary>
-        public IDomainService PropertyDomainService { get; set; }
+    
         /// <summary>
         /// 节点成本
         /// </summary>
@@ -26,7 +23,7 @@ namespace Beeant.Domain.Services.Workflow
             {
                 return _itemHandles ?? (_itemHandles = new Dictionary<string, IUnitofworkHandle>
                     {
-                        {"WorkProperties", new UnitofworkHandle<PropertyEntity>{DomainService= PropertyDomainService}},
+                       
                         {"Nodes",new UnitofworkHandle<NodeEntity>{DomainService= NodeDomainService} }
                        
                     });

@@ -56,7 +56,7 @@ namespace Beeant.Domain.Services.Account
             var query = new QueryInfo();
             query.Query<AccountIdentityEntity>().Where(it => it.Number==login.Name)
                 .Select(it => new object[] { it.Account.Id,it.Account.Name,
-                    it.Account.Password, it.Account.IsUsed,it.Account.AccountNumbers.Select(s=>new object[] {s.Tag,s.Number}) });
+                    it.Account.Password, it.Account.IsUsed,it.Account.AccountNumbers.Where(s=>s.IsIdentity).Select(s=>new object[] {s.Tag,s.Number}) });
             var infos = Repository.GetEntities<AccountIdentityEntity>(query);
             var account = infos?.FirstOrDefault()?.Account;
             if (account != null && account.IsUsed 

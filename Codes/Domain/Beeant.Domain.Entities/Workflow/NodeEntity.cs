@@ -12,18 +12,7 @@ namespace Beeant.Domain.Entities.Workflow
         /// 工作流类型
         /// </summary>
         public FlowEntity Flow { get; set; }
-        /// <summary>
-        /// 审核人员
-        /// </summary>
-        public AuditorEntity Auditor { get; set; }
-        /// <summary>
-        /// 是否同组审核
-        /// </summary>
-        public bool IsGroup{ get; set; }
-        public string IsGroupName
-        {
-            get { return this.GetStatusName(IsGroup); }
-        }
+
    
         /// <summary>
         /// 名称
@@ -157,16 +146,35 @@ namespace Beeant.Domain.Entities.Workflow
         /// </summary>
         public DelegateNodeMethod AfterDelegate { get; set; }
         /// <summary>
-        /// 状态属性
+        /// 审批
         /// </summary>
-        public IList<PropertyEntity> NodeProperties { get; set; }
+        public IList<NodeAccountEntity> NodeAccounts { get; set; }
      
         /// <summary>
         /// 条件
         /// </summary>
-        public IList<ConditionEntity> Conditions { get; set; } 
-
-
+        public IList<ConditionEntity> Conditions { get; set; }
+        /// <summary>
+        /// 得到任务编号
+        /// </summary>
+        /// <returns></returns>
+        public virtual long GetTaskAccountId()
+        {
+            if (NodeAccounts == null || NodeAccounts.Count == 0)
+                return 0;
+            if (AssignType == NodeAssignType.Average)
+            {
+                int index = (int)(DateTime.Now.Ticks % NodeAccounts.Count);
+                return NodeAccounts[index].Account == null ? 0 : NodeAccounts[index].Account.Id;
+            }
+            if (AssignType == NodeAssignType.Random)
+            {
+                Random rd = new Random(Guid.NewGuid().GetHashCode());
+                var index = rd.Next(0, NodeAccounts.Count - 1);
+                return NodeAccounts[index].Account == null ? 0 : NodeAccounts[index].Account.Id;
+            }
+            return 0;
+        }
        
     }
 }

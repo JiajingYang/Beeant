@@ -2,7 +2,6 @@
 using System.Linq;
 using Beeant.Domain.Entities;
 using Beeant.Domain.Entities.Account;
-using Beeant.Domain.Entities.Order;
 using Beeant.Domain.Entities.Utility;
 using Beeant.Domain.Entities.Workflow;
 using Beeant.Domain.Services.Utility;
@@ -155,6 +154,7 @@ namespace Beeant.Domain.Services.Workflow
                 return false;
             }
             unitofworks.AddList(units);
+            info.SendMessageHandle = SendMessage;
             return true;
         }
         /// <summary>
@@ -231,7 +231,7 @@ namespace Beeant.Domain.Services.Workflow
         /// <returns></returns>
         protected override bool ValidateAdd(TaskEntity info)
         {
-            return ValidateConsumer(info) &&　ValidateAccount(info) && ValidateTask(info); 
+            return ValidateConsumer(info) &&　ValidateAccount(info) && ValidateTask(info, null); 
         }
         /// <summary>
         /// 添加
@@ -240,7 +240,10 @@ namespace Beeant.Domain.Services.Workflow
         /// <returns></returns>
         protected override bool ValidateModify(TaskEntity info)
         {
-            return ValidateConsumer(info) && ValidateAccount(info) && ValidateTask(info);
+            var dataInfo = Repository.Get<TaskEntity>(info.Id);
+            if (dataInfo == null)
+                return false;
+            return ValidateConsumer(info) && ValidateTask(info, dataInfo);
         }
         /// <summary>
         /// 验证订单
@@ -276,24 +279,21 @@ namespace Beeant.Domain.Services.Workflow
             info.AddErrorByName(typeof(AccountEntity).FullName, "NoExist");
             return false;
         }
+
         /// <summary>
         /// 验证订单
         /// </summary>
         /// <param name="info"></param>
+        /// <param name="dataInfo"></param>
         /// <returns></returns>
-        protected virtual bool ValidateTask(TaskEntity info)
+        protected virtual bool ValidateTask(TaskEntity info, TaskEntity dataInfo)
         {
-            var query=new QueryInfo();
-            query.Query<TaskEntity>()
-                .Where(it => it.Number == info.Number && it.Account.Id==info.Account.Id && it.Status == TaskStatusType.Waiting)
-                .Select(it => it.Id);
-            var infos = Repository.GetEntities<TaskEntity>(query);
-            if (infos != null && infos.Count > 0)
-            {
-                info.AddErrorByName(typeof(TaskEntity).FullName, "TaskWaiting");
-                return false;
-            }
-            return true;
+            if (!info.HasSaveProperty(it => it.Status) || info.SaveType == SaveType.Add)
+                return true;
+            if (dataInfo != null && dataInfo.Status == TaskStatusType.Waiting)
+                return true;
+            info.AddErrorByName(typeof(TaskEntity).FullName, "TaskHandled");
+            return false;
         }
 
         #endregion

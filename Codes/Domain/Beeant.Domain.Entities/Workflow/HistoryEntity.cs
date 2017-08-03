@@ -21,6 +21,10 @@ namespace Beeant.Domain.Entities.Workflow
 
         public string Number { get; set; }
         /// <summary>
+        /// 级别
+        /// </summary>
+        public string Level { get; set; }
+        /// <summary>
         /// 状态
         /// </summary>
         public TaskStatusType Status { get; set; }

@@ -49,10 +49,7 @@ namespace Beeant.Domain.Entities.Workflow
         /// 状态
         /// </summary>
         public IList<NodeEntity> Nodes { get; set; }
-        /// <summary>
-        /// 组织流程
-        /// </summary>
-        public IList<GroupFlowEntity> GroupFlows { get; set; }
+    
 
 
     }

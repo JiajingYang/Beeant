@@ -2,15 +2,15 @@
 
 namespace Beeant.Domain.Entities.Workflow
 {
-    public class AuditorAccountEntity : BaseEntity<AuditorAccountEntity>
+    public class NodeAccountEntity : BaseEntity<NodeAccountEntity>
     {
         /// <summary>
-        /// 用户
+        /// 账号
         /// </summary>
         public AccountEntity Account { get; set; }
         /// <summary>
-        /// 组织
+        /// 节点
         /// </summary>
-        public AuditorEntity Auditor { get; set; }
+        public NodeEntity Node { get; set; }
     }
 }

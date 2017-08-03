@@ -200,19 +200,12 @@
     <Compile Include="Utility\IQueueRepository.cs" />
     <Compile Include="Utility\LoginDomainService.cs" />
     <Compile Include="Utility\ICacheRepository.cs" />
-    <Compile Include="Workflow\AuditorAccountDomainService.cs" />
-    <Compile Include="Workflow\AuditorDomainService.cs" />
     <Compile Include="Workflow\ConditionDomainService.cs" />
     <Compile Include="Workflow\FlowDomainService.cs" />
-    <Compile Include="Workflow\GroupAccountDomainService.cs" />
-    <Compile Include="Workflow\GroupDomainService.cs" />
-    <Compile Include="Workflow\GroupFlowDomainService.cs" />
-    <Compile Include="Workflow\IWorkflowDomainService.cs" />
+    <Compile Include="Workflow\NodeAccountDomainService.cs" />
     <Compile Include="Workflow\LevelDomainService.cs" />
     <Compile Include="Workflow\NodeDomainService.cs" />
-    <Compile Include="Workflow\PropertyDomainService.cs" />
     <Compile Include="Workflow\TaskDomainService.cs" />
-    <Compile Include="Workflow\WorkflowDomainService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Component\Component.csproj">

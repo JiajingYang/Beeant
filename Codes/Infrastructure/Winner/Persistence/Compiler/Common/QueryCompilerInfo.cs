@@ -195,19 +195,29 @@ namespace Winner.Persistence.Compiler.Common
             }
             else
             {
+                if (Query != null && Query.DbRoute != null && Query.DbRoute.IsMapTableAutoSharding)
+                {
+                    SubQuery.TableIndex = Query.TableIndex;
+                }
                 TranslateQuery(Object, SubQuery,this);
                 if (SubQuery.SqlParameters != null)
                 {
                     Query.SqlParameters = Query.SqlParameters ?? new Dictionary<string, object>(Query.Parameters);
+               
+
                     foreach (var sqlParameter in SubQuery.SqlParameters)
                     {
                         if (!Query.SqlParameters.ContainsKey(sqlParameter.Key))
                             Query.SqlParameters.Add(sqlParameter.Key, sqlParameter.Value);
                     }
-                    foreach (var parameter in SubQuery.Parameters)
+                    if (SubQuery.Parameters != null)
                     {
-                        if(!SubQuery.SqlParameters.ContainsKey(parameter.Key) && Query.Parameters.ContainsKey(parameter.Key))
-                            Query.Parameters.Remove(parameter.Key);
+                        foreach (var parameter in SubQuery.Parameters)
+                        {
+                            if (!SubQuery.SqlParameters.ContainsKey(parameter.Key) &&
+                                Query.Parameters.ContainsKey(parameter.Key))
+                                Query.Parameters.Remove(parameter.Key);
+                        }
                     }
                 }
                 SubQuery.Sql = Regex.Replace(SubQuery.Sql, @" as \w*", "");

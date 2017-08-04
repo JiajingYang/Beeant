@@ -25,19 +25,7 @@
             <td class="mtext" colspan="3" ><input id="txtClassName" runat="server" class="input long"  type="text"  BindName="ClassName" SaveName="ClassName"  /> </td>
         </tr>
  
-           <tr>
-          <tr>
-          <td class="font">默认处理地址</td>
-            <td class="mtext" colspan="3" ><input id="txtDefaultUrl" runat="server" class="input long"  type="text"  BindName="DefaultUrl" SaveName="DefaultUrl"  /> </td>
-        </tr>
-        <tr>
-        <td class="font">邮箱处理地址</td>
-            <td class="mtext" colspan="3" ><input id="txtEmailUrl" runat="server" class="input long"  type="text"  BindName="EmailUrl" SaveName="EmailUrl"  /> </td>
-        </tr>
-        <tr>
-        <td class="font">手机处理地址</td>
-            <td class="mtext" colspan="3" ><input id="txtMobileUrl" runat="server" class="input long"  type="text"  BindName="MobileUrl" SaveName="MobileUrl"  /> </td>
-        </tr>
+ 
          <tr>
          <td class="font">备注</td>
             <td class="mtext" colspan="3" ><input id="txtRemark" runat="server" class="input long"  type="text"  BindName="Remark" SaveName="Remark"  /> </td>
@@ -96,23 +84,7 @@
             </ItemTemplate>
         </asp:TemplateField>
  
-          <asp:TemplateField HeaderText="默认处理地址" ItemStyle-CssClass="left name">
-            <ItemTemplate>
-                <%#Eval("DefaultUrl")%>
-            </ItemTemplate>
-        </asp:TemplateField>
-
-         <asp:TemplateField HeaderText="邮箱处理地址" ItemStyle-CssClass="left name">
-            <ItemTemplate>
-                <%#Eval("EmailUrl")%>
-            </ItemTemplate>
-        </asp:TemplateField>
-
-         <asp:TemplateField HeaderText="手机处理地址" ItemStyle-CssClass="left name">
-            <ItemTemplate>
-                <%#Eval("MobileUrl")%>
-            </ItemTemplate>
-        </asp:TemplateField>
+        
             
             <asp:TemplateField HeaderText="排序" ItemStyle-CssClass="center time">
             <ItemTemplate>
@@ -127,7 +99,7 @@
         </Columns>
      </asp:GridView>
         </div>
-     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   Select="Id,Name,ClassName,DefaultUrl,EmailUrl,MobileUrl,Sequence,InsertTime" From="FlowEntity" />
+     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   Select="Id,Name,ClassName,Sequence,InsertTime" From="FlowEntity" />
                         
      <uc3:Progress ID="Progress1" runat="server" />
      </ContentTemplate>

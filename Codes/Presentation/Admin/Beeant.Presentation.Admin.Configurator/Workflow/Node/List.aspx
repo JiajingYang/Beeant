@@ -24,19 +24,12 @@
             <td class="text"><input id="txtNickname" runat="server" type="text" class="input"  BindName="Nickname" SaveName="Nickname"  /></td>
         </tr>
          <tr>
-            <td class="font">审核组</td>
-            <td class="text" >
-                <uc4:GeneralDropDownList ID="ddlAuditor" runat="server" ObjectName="AuditorEntity"  BindName="Auditor.Id" SaveName="Auditor.Id" />
-            </td>
+         
            <td class="font">工作流</td>
             <td class="text">
                 <uc4:GeneralDropDownList ID="ddlFlow" runat="server" ObjectName="FlowEntity"  BindName="Flow.Id" SaveName="Flow.Id" />
             </td>
-        </tr>
-          <tr>
-            <td class="font">是否同组审批</td>
-            <td class="text">
-                <asp:CheckBox ID="ckIsGroup" runat="server"  BindName="IsGroup" SaveName="IsGroup" /></td>
+      
             <td class="font">超时时间</td>
             <td class="text" ><input id="txtTimeout" runat="server" type="text" class="input"  BindName="Timeout" SaveName="Timeout"  /></td>
         </tr>
@@ -70,33 +63,7 @@
                   
           
         </tr>
-       <tr>              
-          
-           <td class="font">消息类型</td>
-            <td class="text"  >
-                   <asp:CheckBoxList ID="ckMessageType" runat="server" ></asp:CheckBoxList>
-            </td>
-           <td class="font">消息标题</td>
-            <td class="mtext" colspan="3" ><input id="txtMessageTitle" runat="server" class="input long"  type="text"  BindName="MessageTitle" SaveName="MessageTitle"  /> </td>
-        </tr>
-          <tr>
-         <td class="font">默认消息模板</td>
-            <td class="mtext" colspan="3" >
-                <textarea id="txtDefaultMessage" runat="server"  type="text"  BindName="DefaultMessage" SaveName="DefaultMessage"  /> 
-            </td>
-        </tr>
-          <tr>
-         <td class="font">邮件消息模板</td>
-            <td class="mtext" colspan="3" >
-                <textarea id="txtEmailMessage" runat="server"  type="text"  BindName="EmailMessage" SaveName="EmailMessage"  /> 
-            </td>
-        </tr>
-          <tr>
-         <td class="font">手机消息模板</td>
-            <td class="mtext" colspan="3" >
-                <textarea id="txtMobileMessage" runat="server"  type="text"  BindName="MobileMessage" SaveName="MobileMessage"  /> 
-            </td>
-        </tr>
+ 
          <tr>              
          <td class="font">条件比较方法</td>
             <td class="mtext" colspan="3" ><input id="txtConditionMethod" runat="server" class="input long"  type="text"  BindName="ConditionMethod" SaveName="ConditionMethod"  /> </td>
@@ -168,9 +135,9 @@
             <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Modify" CommandArgument='<%#Eval("Id") %>'>编辑</asp:LinkButton>
             </ItemTemplate>
         </asp:TemplateField>
-         <asp:TemplateField HeaderText="编辑属性" ItemStyle-CssClass="center loperate">
+         <asp:TemplateField HeaderText="编辑消息" ItemStyle-CssClass="center loperate">
             <ItemTemplate>
-                <a href='/Workflow/Property/list.aspx?nodeid=<%#Eval("Id") %>' target="_blank">编辑属性</a>
+                <a href='/Workflow/NodeMessage/list.aspx?nodeid=<%#Eval("Id") %>' target="_blank">编辑属性</a>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="编辑条件" ItemStyle-CssClass="center operate">
@@ -178,6 +145,11 @@
               <a href='/Workflow/Condition/list.aspx?nodeid=<%#Eval("Id") %>' target="_blank">编辑条件</a>
             </ItemTemplate>
         </asp:TemplateField>
+           <asp:TemplateField HeaderText="节点消息" ItemStyle-CssClass="center operate">
+               <ItemTemplate>
+                   <a href='/Workflow/NodeMessage/list.aspx?nodeid=<%#Eval("Id") %>' target="_blank">节点消息</a>
+               </ItemTemplate>
+           </asp:TemplateField>
         <asp:TemplateField HeaderText="名称"  ItemStyle-CssClass="left name">
             <ItemTemplate>
                 <%#Eval("Name")%>
@@ -193,16 +165,7 @@
                 <%#Eval("Flow.Name")%>
             </ItemTemplate>
         </asp:TemplateField>
-          <asp:TemplateField HeaderText="审批组" ItemStyle-CssClass="left status">
-            <ItemTemplate>
-                <%#Eval("Auditor.Name")%>
-            </ItemTemplate>
-        </asp:TemplateField>
-           <asp:TemplateField HeaderText="是否同组审批" ItemStyle-CssClass="left status">
-            <ItemTemplate>
-                <%#Eval("IsGroupName")%>
-            </ItemTemplate>
-        </asp:TemplateField>
+
            <asp:TemplateField HeaderText="分配规则" ItemStyle-CssClass="left status">
             <ItemTemplate>
                 <%#Eval("AssignTypeName")%>
@@ -228,11 +191,7 @@
                 <%#Eval("NodeTypeName")%>
             </ItemTemplate>
         </asp:TemplateField>
-           <asp:TemplateField HeaderText="消息类型" ItemStyle-CssClass="left status">
-            <ItemTemplate>
-                <%#Eval("MessageTypeName")%>
-            </ItemTemplate>
-        </asp:TemplateField>
+       
            
            <asp:TemplateField HeaderText="排序" ItemStyle-CssClass="left status">
             <ItemTemplate>
@@ -248,7 +207,7 @@
         </Columns>
      </asp:GridView>
         </div>
-     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Name,Nickname,Flow.Name,Auditor.Name,AssignType,ConditionType,PassName,RejectName,NodeType,MessageType,Sequence,InsertTime" FromExp="NodeEntity" />
+     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Name,Nickname,Flow.Name,AssignType,ConditionType,PassName,RejectName,NodeType,Sequence,InsertTime" FromExp="NodeEntity" />
 
      <uc3:Progress ID="Progress1" runat="server" />
      </ContentTemplate>

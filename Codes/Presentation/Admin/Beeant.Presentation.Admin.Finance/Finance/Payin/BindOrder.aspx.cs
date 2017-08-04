@@ -51,7 +51,7 @@ namespace Beeant.Presentation.Admin.Finance.Finance.Payin
                  .Where(
                      it =>
                      it.Account.Id == received.Account.Id 
-                     && it.TotalAmount > it.PayAmount);
+                     && it.TotalPayAmount > it.PayAmount);
             base.SetQueryWhere(query);
         }
 

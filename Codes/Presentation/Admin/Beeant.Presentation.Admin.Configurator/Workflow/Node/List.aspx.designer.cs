@@ -40,15 +40,6 @@ namespace Beeant.Presentation.Admin.Configurator.Workflow.Node {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtNickname;
         
         /// <summary>
-        /// ddlAuditor 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::Beeant.Presentation.Admin.Configurator.Controls.GeneralDropDownList ddlAuditor;
-        
-        /// <summary>
         /// ddlFlow 控件。
         /// </summary>
         /// <remarks>
@@ -56,15 +47,6 @@ namespace Beeant.Presentation.Admin.Configurator.Workflow.Node {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::Beeant.Presentation.Admin.Configurator.Controls.GeneralDropDownList ddlFlow;
-        
-        /// <summary>
-        /// ckIsGroup 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox ckIsGroup;
         
         /// <summary>
         /// txtTimeout 控件。
@@ -128,51 +110,6 @@ namespace Beeant.Presentation.Admin.Configurator.Workflow.Node {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtRejectName;
-        
-        /// <summary>
-        /// ckMessageType 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBoxList ckMessageType;
-        
-        /// <summary>
-        /// txtMessageTitle 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtMessageTitle;
-        
-        /// <summary>
-        /// txtDefaultMessage 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtDefaultMessage;
-        
-        /// <summary>
-        /// txtEmailMessage 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtEmailMessage;
-        
-        /// <summary>
-        /// txtMobileMessage 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtMobileMessage;
         
         /// <summary>
         /// txtConditionMethod 控件。

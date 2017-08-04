@@ -1,9 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Delete.aspx.cs" Inherits="Beeant.Presentation.Admin.Configurator.Workflow.AuditorAccount.Delete" MasterPageFile="~/Datum.Master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Delete.aspx.cs" Inherits="Beeant.Presentation.Admin.Configurator.Workflow.NodeAccount.Delete" MasterPageFile="~/Datum.Master" %>
  
 <%@ Register src="/Controls/Pager.ascx" tagname="Pager" tagprefix="uc1" %>
 <%@ Register src="/Controls/Progress.ascx" tagname="Progress" tagprefix="uc3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-   <title> 回收组</title>  
+   <title> 回收节点</title>  
  </asp:Content>
  <asp:Content ID="Content2" ContentPlaceHolderID="Body" runat="server">
 
@@ -28,12 +28,16 @@
                <input value='<%#Eval("Id") %>' id="ckSelect" runat="server" type="checkbox" SubCheckName="selectall" ComfirmValidate="Remove"/>
            </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="组名"  ItemStyle-CssClass="left">
+        <asp:TemplateField HeaderText="节点名"  ItemStyle-CssClass="left">
             <ItemTemplate>
-                <%#Eval("Auditor.Name")%>
+                <%#Eval("Node.Name")%>
             </ItemTemplate>
         </asp:TemplateField>
-       
+           <asp:TemplateField HeaderText="节点简称"  ItemStyle-CssClass="left">
+               <ItemTemplate>
+                   <%#Eval("Node.Nickname")%>
+               </ItemTemplate>
+           </asp:TemplateField>
          <asp:TemplateField HeaderText="录入时间" ItemStyle-CssClass="center time">
             <ItemTemplate>
                 <%#Eval("InsertTime","{0:yyyy-MM-dd HH:mm}")%>
@@ -42,7 +46,7 @@
         </Columns>
      </asp:GridView>
         </div>
-     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Auditor.Name,InsertTime" FromExp="UserAuditorEntity" />
+     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Node.Name,Node.Nickname,InsertTime" FromExp="NodeAccountEntity" />
 
      <uc3:Progress ID="Progress1" runat="server" />
      </ContentTemplate>

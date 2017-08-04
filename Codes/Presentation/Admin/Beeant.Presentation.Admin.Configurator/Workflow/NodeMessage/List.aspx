@@ -1,11 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="List.aspx.cs" Inherits="Beeant.Presentation.Admin.Configurator.Workflow.Property.List" MasterPageFile="~/Datum.Master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="List.aspx.cs" Inherits="Beeant.Presentation.Admin.Configurator.Workflow.NodeMessage.List" MasterPageFile="~/Datum.Master" %>
 <%@ Register src="/Controls/Pager.ascx" tagname="Pager" tagprefix="uc1" %>
  <%@ Register src="/Controls/DataSearch.ascx" tagname="DataSearch" tagprefix="uc2" %>
   <%@ Register src="/Controls/Progress.ascx" tagname="Progress" tagprefix="uc3" %>
       <%@ Register src="/Controls/Message.ascx" tagname="Message" tagprefix="uc4" %>
    <%@ Register src="../../Controls/GeneralDropDownList.ascx" tagname="GeneralDropDownList" tagprefix="uc5" %>   
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-   <title><%=NodeName%>属性编辑</title>  
+   <title><%=NodeName%>消息模板</title>  
  </asp:Content>
  <asp:Content ID="Content2" ContentPlaceHolderID="Body" runat="server">
     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
@@ -15,12 +15,27 @@
        <input type="button" id="Hide" class="btn" value="隐藏"/>
     <table class="tb">
         <tr>
-            <td class="font">名称</td>
-            <td class="text"><input id="txtName" runat="server" type="text" class="input"  BindName="Name" SaveName="Name"  /></td>
-             <td class="font">昵称</td>
-            <td class="text"><input id="txtNickname" runat="server" type="text" class="input"  BindName="Nickname" SaveName="Nickname"  /></td>
+            <td class="font">标题</td>
+            <td class="mtext" colspan="3"><input id="txtTitle" runat="server" type="text" class="input"  BindName="Title" SaveName="Title"  /></td>
+           
         </tr>
-     
+        <tr>
+            <td class="font">URL</td>
+            <td class="mtext" colspan="3"><input id="txtUrl" runat="server" type="text" class="input"  BindName="Url" SaveName="Url"  /></td>
+           
+        </tr>
+        <tr>
+            <td class="font">类型</td>
+            <td class="mtext" colspan="3">
+                <uc5:GeneralDropDownList ID="ddlType" ObjectName="Beeant.Domain.Entities.Workflow.MessageType"  IsEnum="True" runat="server" BindName="Type" SaveName="Type" />
+            </td>
+           
+        </tr>
+        <tr>
+            <td class="font">内容</td>
+            <td class="mtext" colspan="3"><textarea id="txtDetail" runat="server" type="text" class="input"  BindName="Detail" SaveName="Detail"  ></textarea></td>
+           
+        </tr>
          <tr>
             <td colspan="4" class="center"><asp:Button ID="btnSave" runat="server" Text="保存" CssClass="btn"   /></td>
         </tr>
@@ -62,14 +77,14 @@
                   <asp:LinkButton runat="server" CommandName="Modify" CommandArgument='<%#Eval("Id") %>'>编辑</asp:LinkButton>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="属性名称"  ItemStyle-CssClass="left name">
+        <asp:TemplateField HeaderText="标题"  ItemStyle-CssClass="left name">
             <ItemTemplate>
-                <%#Eval("Name")%>
+                <%#Eval("Title")%>
             </ItemTemplate>
         </asp:TemplateField>
-              <asp:TemplateField HeaderText="属性昵称"  ItemStyle-CssClass="left name">
+              <asp:TemplateField HeaderText="类型"  ItemStyle-CssClass="left name">
             <ItemTemplate>
-                <%#Eval("Nickname")%>
+                <%#Eval("TypeName")%>
             </ItemTemplate>
         </asp:TemplateField>
           
@@ -81,7 +96,7 @@
         </Columns>
      </asp:GridView>
         </div>
-     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Name,Nickname,InsertTime" From="StatusPropertyEntity" />
+     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Title,Type,InsertTime" From="NodeMessageEntity" />
 
      <uc3:Progress ID="Progress1" runat="server" />
      </ContentTemplate>

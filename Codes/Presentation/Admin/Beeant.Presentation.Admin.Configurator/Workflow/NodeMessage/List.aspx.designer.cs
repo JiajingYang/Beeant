@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace Beeant.Presentation.Admin.Configurator.Workflow.Property {
+namespace Beeant.Presentation.Admin.Configurator.Workflow.NodeMessage {
     
     
     public partial class List {
@@ -22,22 +22,40 @@ namespace Beeant.Presentation.Admin.Configurator.Workflow.Property {
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
-        /// txtName 控件。
+        /// txtTitle 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtTitle;
         
         /// <summary>
-        /// txtNickname 控件。
+        /// txtUrl 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtNickname;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtUrl;
+        
+        /// <summary>
+        /// ddlType 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Beeant.Presentation.Admin.Configurator.Controls.GeneralDropDownList ddlType;
+        
+        /// <summary>
+        /// txtDetail 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtDetail;
         
         /// <summary>
         /// btnSave 控件。

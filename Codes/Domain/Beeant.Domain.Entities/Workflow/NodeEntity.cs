@@ -94,22 +94,7 @@ namespace Beeant.Domain.Entities.Workflow
                 return _messageTypeName;
             }
         }
-        /// <summary>
-        /// 消息标题
-        /// </summary>
-        public string MessageTitle { get; set; }
-        /// <summary>
-        /// 消息内容
-        /// </summary>
-        public string DefaultMessage { get; set; }
-        /// <summary>
-        /// 消息内容
-        /// </summary>
-        public string EmailMessage { get; set; }
-        /// <summary>
-        /// 消息内容
-        /// </summary>
-        public string MobileMessage { get; set; }
+
         /// <summary>
         /// 排序
         /// </summary>
@@ -149,7 +134,10 @@ namespace Beeant.Domain.Entities.Workflow
         /// 审批
         /// </summary>
         public IList<NodeAccountEntity> NodeAccounts { get; set; }
-     
+        /// <summary>
+        /// 节点消息
+        /// </summary>
+        public IList<NodeMessageEntity> NodeMessages { get; set; }
         /// <summary>
         /// 条件
         /// </summary>

@@ -1,34 +1,17 @@
 ﻿using System;
-using Beeant.Domain.Entities.Account;
 
 namespace Beeant.Domain.Entities.Workflow
 {
+    
     [Serializable]
-    public enum MessageType
-    {
-
-        /// <summary>
-        /// 默认
-        /// </summary>
-        Default = 1,
-        /// <summary>
-        /// 邮箱
-        /// </summary>
-        Email = 2,
-        /// <summary>
-        /// 短信
-        /// </summary>
-        Mobile = 4
-    }
-    [Serializable]
-    public class MessageEntity : BaseEntity<MessageEntity>
+    public class NodeMessageEntity : BaseEntity<NodeMessageEntity>
     {
        
    
         /// <summary>
         /// 任务
         /// </summary>
-        public TaskEntity Task { get; set; }
+        public NodeEntity Node { get; set; }
         /// <summary>
         /// 类型
         /// </summary>
@@ -46,10 +29,5 @@ namespace Beeant.Domain.Entities.Workflow
         /// 内容
         /// </summary>
         public string Detail { get; set; }
-
-        public static string GetMessageTag(long accountId)
-        {
-            return string.Format("WorkflowTask{0}", accountId);
-        }
     }
 }

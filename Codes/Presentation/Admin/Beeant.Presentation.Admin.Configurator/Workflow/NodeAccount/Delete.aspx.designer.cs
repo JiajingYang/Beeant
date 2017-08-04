@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace Beeant.Presentation.Admin.Configurator.Workflow.GroupAccount {
+namespace Beeant.Presentation.Admin.Configurator.Workflow.NodeAccount {
     
     
     public partial class Delete {

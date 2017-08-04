@@ -5,9 +5,9 @@ using Beeant.Basic.Services.WebForm.Pages;
 using Winner.Persistence;
 using Winner.Persistence.Linq;
 
-namespace Beeant.Presentation.Admin.Configurator.Workflow.Property
+namespace Beeant.Presentation.Admin.Configurator.Workflow.NodeMessage
 {
-    public partial class List : MaintenPageBase<PropertyEntity>
+    public partial class List : MaintenPageBase<NodeMessageEntity>
     {
         public string NodeName { get; set; }
 
@@ -18,7 +18,7 @@ namespace Beeant.Presentation.Admin.Configurator.Workflow.Property
 
         protected override void SetQueryWhere(QueryInfo query)
         {
-            query.Query<PropertyEntity>().Where(it => it.Node.Id == NodeId);
+            query.Query<NodeMessageEntity>().Where(it => it.Node.Id == NodeId);
             base.SetQueryWhere(query);
         }
 
@@ -29,7 +29,7 @@ namespace Beeant.Presentation.Admin.Configurator.Workflow.Property
         /// 添加
         /// </summary>
         /// <returns></returns>
-        protected override PropertyEntity FillEntity()
+        protected override NodeMessageEntity FillEntity()
         {
             var info = base.FillEntity();
             if (info.SaveType == SaveType.Add)

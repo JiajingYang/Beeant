@@ -226,8 +226,14 @@ namespace Beeant.Application.Services.Workflow
                     .Select(
                         it => new object[]
                         {
-                        it,
-                        it.Nodes.Select(s =>new object[] {s,s.NodeAccounts.Select(n=>n),s.Conditions.Select(n=>n)}),
+                            it,
+                            it.Nodes.Select(s => new object[]
+                                {
+                                    s,
+                                    s.NodeAccounts.Select(n => n),
+                                    s.Conditions.Select(n => n),
+                                    s.NodeMessages.Select(n=>n)
+                                })
                         });
                 value = Repository.GetEntities<FlowEntity>(query)?.FirstOrDefault();
                 CacheRepository.Set(key, value, DateTime.MaxValue);

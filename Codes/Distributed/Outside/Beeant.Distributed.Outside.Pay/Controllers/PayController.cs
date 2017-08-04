@@ -124,7 +124,7 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
             var query=new QueryInfo();
             query.Query<OrderEntity>()
                 .Where(it => orderIds.Contains(it.Id) &&　it.Account.Id== Identity.Id)
-                .Select(it => new object[] {it.Id,it.TotalAmount, it.TotalInvoiceAmount,it.TotalPayAmount, it.PayAmount,it.Deposit});
+                .Select(it => new object[] {it.Id,it.TotalInvoiceAmount,it.TotalPayAmount, it.PayAmount,it.Deposit});
             var orders = this.GetEntities<OrderEntity>(query);
             return orders;
         }

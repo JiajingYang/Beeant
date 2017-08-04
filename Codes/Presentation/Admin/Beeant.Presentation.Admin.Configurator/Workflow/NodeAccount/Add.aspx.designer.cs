@@ -7,10 +7,10 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace Beeant.Presentation.Admin.Configurator.Workflow.GroupFlow {
+namespace Beeant.Presentation.Admin.Configurator.Workflow.NodeAccount {
     
     
-    public partial class Delete {
+    public partial class Add {
         
         /// <summary>
         /// UpdatePanel1 控件。
@@ -22,13 +22,13 @@ namespace Beeant.Presentation.Admin.Configurator.Workflow.GroupFlow {
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
-        /// btnRemove 控件。
+        /// btnAdd 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRemove;
+        protected global::System.Web.UI.WebControls.Button btnAdd;
         
         /// <summary>
         /// GridView1 控件。

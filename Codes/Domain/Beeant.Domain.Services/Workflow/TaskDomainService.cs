@@ -188,7 +188,7 @@ namespace Beeant.Domain.Services.Workflow
         protected virtual void SendDefaultMesssage(MessageEntity message)
         {
             var detail = message.Detail.Replace("【Remark】", message.Task.Remark).Replace("【Url】", message.Url);
-            var name = string.Format("WorkflowTask{0}", message.Task.Account.Id);
+            var name = MessageEntity.GetMessageTag(message.Task.Account.Id);
             QueueRepository.Open(name, 5);
             QueueRepository.Push(name, detail);
         }

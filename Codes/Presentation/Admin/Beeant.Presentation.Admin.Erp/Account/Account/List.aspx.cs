@@ -11,8 +11,7 @@ namespace Beeant.Presentation.Admin.Erp.Account.Account
         {
             if (!IsPostBack)
             {
-                txtBeginInsertTime.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                txtEndInsertTime.Text = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+             
             }
             base.Page_Load(sender, e);
         }

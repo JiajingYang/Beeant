@@ -29,22 +29,7 @@ namespace Beeant.Domain.Entities.Workflow
         /// 排序
         /// </summary>
         public int Sequence { get; set; }
-        /// <summary>
-        /// 地址
-        /// </summary>
-        public string Url { get; set; }
-        /// <summary>
-        /// 编辑URL
-        /// </summary>
-        public string EmailUrl { get; set; }
-        /// <summary>
-        /// 处理URL
-        /// </summary>
-        public string MobileUrl { get; set; }
-        /// <summary>
-        /// 信息明细URL
-        /// </summary>
-        public string DefaultUrl { get; set; }
+    
         /// <summary>
         /// 状态
         /// </summary>

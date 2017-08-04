@@ -1,9 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Delete.aspx.cs" Inherits="Beeant.Presentation.Admin.Configurator.Workflow.GroupFlow.Delete" MasterPageFile="~/Datum.Master" %>
-<%@ Import Namespace="Beeant.Presentation.Admin.Configurator.Authority.UserRole" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Add.aspx.cs" Inherits="Beeant.Presentation.Admin.Configurator.Workflow.NodeAccount.Add" MasterPageFile="~/Datum.Master" %>
+
 <%@ Register src="/Controls/Pager.ascx" tagname="Pager" tagprefix="uc1" %>
 <%@ Register src="/Controls/Progress.ascx" tagname="Progress" tagprefix="uc3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-   <title><%=this.GetUserName()%>回收组</title>  
+   <title>授权用户</title>  
  </asp:Content>
  <asp:Content ID="Content2" ContentPlaceHolderID="Body" runat="server">
 
@@ -13,7 +13,7 @@
 
         <div class="mainten">
 
-        <asp:Button ID="btnRemove" runat="server" Text="回收" onclick="Remove_Click" ConfirmBox="Remove" ConfirmMessage="您确定要回收吗" ComfirmCheckBoxMessage="你没有选择任何行"></asp:Button>
+        <asp:Button ID="btnAdd" runat="server" Text="授权" onclick="btnAdd_Click"  ConfirmBox="Add" ConfirmMessage="您确定要授权吗" ComfirmCheckBoxMessage="你没有选择任何行" ></asp:Button>
         </div>
 
         <div class="list">
@@ -25,15 +25,24 @@
              <input id="ckSelectAll" type="checkbox" AllCheckName="selectall"  />
             </HeaderTemplate>
             <ItemTemplate>
-               <input value='<%#Eval("Id") %>' id="ckSelect" runat="server" type="checkbox" SubCheckName="selectall" ComfirmValidate="Remove"/>
+               <input value='<%#Eval("Id") %>' id="ckSelect" runat="server" type="checkbox" SubCheckName="selectall" ComfirmValidate="Add"/>
            </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="组名"  ItemStyle-CssClass="left">
+        <asp:TemplateField HeaderText="节点名"  ItemStyle-CssClass="left">
             <ItemTemplate>
-                <%#Eval("Group.Name")%>
+                <%#Eval("Name")%>
             </ItemTemplate>
         </asp:TemplateField>
-       
+           <asp:TemplateField HeaderText="节点别名"  ItemStyle-CssClass="left">
+               <ItemTemplate>
+                   <%#Eval("Nickname")%>
+               </ItemTemplate>
+           </asp:TemplateField>
+           <asp:TemplateField HeaderText="流程"  ItemStyle-CssClass="left">
+               <ItemTemplate>
+                   <%#Eval("Flow.Name")%>
+               </ItemTemplate>
+           </asp:TemplateField>
          <asp:TemplateField HeaderText="录入时间" ItemStyle-CssClass="center time">
             <ItemTemplate>
                 <%#Eval("InsertTime","{0:yyyy-MM-dd HH:mm}")%>
@@ -42,7 +51,7 @@
         </Columns>
      </asp:GridView>
         </div>
-     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Group.Name,InsertTime" FromExp="GroupFlowEntity" />
+     <uc1:Pager ID="Pager1" runat="server" PageSize="10"   SelectExp="Id,Flow.Name,Name,Nickname,Remark,InsertTime" FromExp="NodeEntity" />
 
      <uc3:Progress ID="Progress1" runat="server" />
      </ContentTemplate>

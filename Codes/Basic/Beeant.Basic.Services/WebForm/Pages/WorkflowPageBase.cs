@@ -20,8 +20,11 @@ namespace Beeant.Basic.Services.WebForm.Pages
     public abstract class  WorkflowPageBase<T> : DatumPageBase<T> where T : BaseEntity, new()
     {
         #region 属性
-      
 
+        public string Number
+        {
+            get { return Request["Number"]; }
+        }
         private long? _taskId;
         /// <summary>
         /// 任务编号
@@ -146,8 +149,8 @@ namespace Beeant.Basic.Services.WebForm.Pages
             LoadSubmitButtonControl();
             LoadRejectButtonControl();
             LoadPassButtonControl();
-            SetControlVisible();
             LoadHistoryPagerControl();
+            SetControlVisible();
         }
         /// <summary>
         /// 设置
@@ -181,16 +184,13 @@ namespace Beeant.Basic.Services.WebForm.Pages
         /// <returns></returns>
         protected virtual bool CheckSubmitButton()
         {
-
-            //var query = new QueryInfo { IsReturnCount = false };
-            //query.SetPageSize(1)
-            //    .Query<TaskEntity>()
-            //    .Where(it => it.DataId == RequestId && it.Flow.Id == WorkflowArgs.Flow.Id)
-            //    .OrderByDescending(it => it.Id)
-            //    .Select(it => it.Node.NodeType);
-            //var info = Ioc.Resolve<IApplicationService, TaskEntity>().GetEntities<TaskEntity>(query)?.FirstOrDefault();
-            //return info == null || info.Node != null && info.Node.NodeType == NodeType.Start;
-            return true;
+            var query = new QueryInfo { IsReturnCount = false };
+            query.SetPageSize(1)
+                .Query<HistoryEntity>()
+                .Where(it => it.Number == Number)
+                .OrderByDescending(it => it.Id);
+            var info = Ioc.Resolve<IApplicationService, HistoryEntity>().GetEntities<HistoryEntity>(query)?.FirstOrDefault();
+            return info == null;
         }
         /// <summary>
         /// 检查是否隐藏提交
@@ -198,14 +198,13 @@ namespace Beeant.Basic.Services.WebForm.Pages
         /// <returns></returns>
         protected virtual bool CheckHandleButton()
         {
-            //var query = new QueryInfo { IsReturnCount = false };
-            //query.SetPageSize(1)
-            //    .Query<TaskEntity>()
-            //    .Where(it => it.DataId == RequestId && it.Flow.Id == WorkflowArgs.Flow.Id && it.Status== TaskStatusType.Waiting && it.Account.Id==Identity.Id)
-            //    .Select(it => it.Id);
-            //var infos = Ioc.Resolve<IApplicationService, TaskEntity>().GetEntities<TaskEntity>(query);
-            //return infos != null && infos.Count > 0;
-            return true;
+            var query = new QueryInfo { IsReturnCount = false };
+            query.SetPageSize(1)
+                .Query<TaskEntity>()
+                .Where(it => it.Number == Number  && it.Status == TaskStatusType.Waiting && it.Account.Id == Identity.Id)
+                .Select(it => it.Id);
+            var infos = Ioc.Resolve<IApplicationService, TaskEntity>().GetEntities<TaskEntity>(query);
+            return infos != null && infos.Count > 0;
         }
         /// <summary>
         /// 重新保存
@@ -373,6 +372,8 @@ namespace Beeant.Basic.Services.WebForm.Pages
                 LoadLevel();
             }
             base.Page_Load(sender, e);
+       
+           
         }
  
         /// <summary>
@@ -406,10 +407,8 @@ namespace Beeant.Basic.Services.WebForm.Pages
 
         protected override T GetEntity()
         {
-            if (Task == null)
-                return null;
             var query = new QueryInfo();
-            query.Where("Number==@Number").SetParameter("Number", Task.Number);
+            query.Where("Number==@Number").SetParameter("Number", Number);
             var info = Ioc.Resolve<IApplicationService, T>().GetEntities<T>(query)?.FirstOrDefault();
             return info;
         }

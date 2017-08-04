@@ -6,30 +6,31 @@ using Winner.Persistence;
 using Winner.Persistence.Linq;
 
 
-namespace Beeant.Presentation.Admin.Configurator.Workflow.GroupAccount
+namespace Beeant.Presentation.Admin.Configurator.Workflow.NodeAccount
 {
-    public partial class Add : Basic.Services.WebForm.Pages.ListPageBase<GroupEntity>
+    public partial class Add : Basic.Services.WebForm.Pages.ListPageBase<NodeEntity>
     {
         public long AccountId
         {
-            get { return Request["AccountId"].Convert<long>(); }
+            get { return Request["Accountid"].Convert<long>(); }
         }
 
         protected override void SetQueryWhere(QueryInfo query)
         {
             if(AccountId == 0)
                 return;
-            query.Query<GroupEntity>().Where(
-                it => it.GroupAccounts.Count(i => i.Account.Id == AccountId) == 0);
+            query.Query<NodeEntity>().Where(
+                it => it.NodeAccounts.Count(i => i.Account.Id == AccountId) == 0);
 
         }
 
         protected void btnAdd_Click(object sender, System.EventArgs e)
         {
-            var infos = GetSaveEntities<GroupAccountEntity>(SaveType.Add);
+            var infos = GetSaveEntities<NodeAccountEntity>(SaveType.Add);
             SaveEntities(infos, "授权成功", "授权失败");
            
         }
+
         /// <summary>
         /// 重写
         /// </summary>
@@ -39,13 +40,14 @@ namespace Beeant.Presentation.Admin.Configurator.Workflow.GroupAccount
         /// <returns></returns>
         protected override TEntityType CreateSaveEntity<TEntityType>(long id, SaveType saveType)
         {
-            var info = new GroupAccountEntity
+            var info = new NodeAccountEntity
             {
-                    SaveType=saveType,
-                    Group = new GroupEntity { Id = id }, Account = new AccountEntity { Id = AccountId }
-                };
+                SaveType = saveType,
+                Node = new NodeEntity { Id = id},
+                Account = new AccountEntity { Id = AccountId }
+            };
             return info as TEntityType;
-        }      
+        }
 
     }
 }

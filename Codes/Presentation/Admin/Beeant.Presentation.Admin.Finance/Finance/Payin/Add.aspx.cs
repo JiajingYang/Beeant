@@ -95,7 +95,7 @@ namespace Beeant.Presentation.Admin.Finance.Finance.Payin
                 var query = new QueryInfo();
                 query.Query<OrderEntity>().Where(it => productIds.Contains(it.Id)).Select(it => new object[]
                     {
-                        it.Id, it.Status,it.InsertTime,it.TotalAmount,it.TotalInvoiceAmount, it.InvoiceAmount
+                        it.Id, it.Status,it.InsertTime,it.TotalPayAmount,it.TotalInvoiceAmount, it.InvoiceAmount
                     });
                 return Ioc.Resolve<IApplicationService, OrderEntity>().GetEntities<OrderEntity>(query);
 

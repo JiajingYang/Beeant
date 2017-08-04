@@ -40,8 +40,6 @@ namespace Beeant.Presentation.Admin.Configurator.Management.User
             base.OnInit(e);
             LoadRoles();
             LoadOwners();
-            LoadGroups();
-            LoadAuditors();
         }
 
         /// <summary>
@@ -55,17 +53,7 @@ namespace Beeant.Presentation.Admin.Configurator.Management.User
             gvRole.DataSource = roleEntities;
             gvRole.DataBind();
         }
-        /// <summary>
-        /// 加载组
-        /// </summary>
-        protected virtual void LoadGroups()
-        {
-            var query = new QueryInfo();
-            query.Query<GroupEntity>().Select(it => new object[] { it.Id, it.Name, it.InsertTime });
-            var groupEntities = Ioc.Resolve<IApplicationService>().GetEntities<GroupEntity>(query);
-            gvGroup.DataSource = groupEntities;
-            gvGroup.DataBind();
-        }
+      
         /// <summary>
         /// 加载组
         /// </summary>
@@ -77,18 +65,7 @@ namespace Beeant.Presentation.Admin.Configurator.Management.User
             gvOnwer.DataSource = groupEntities;
             gvOnwer.DataBind();
         }
-        /// <summary>
-        /// 加载组
-        /// </summary>
-        protected virtual void LoadAuditors()
-        {
-            var query = new QueryInfo();
-            query.Query<AuditorEntity>().Select(it => new object[] { it.Id, it.Name, it.InsertTime });
-            var groupEntities = Ioc.Resolve<IApplicationService>().GetEntities<AuditorEntity>(query);
-            gvAuditor.DataSource = groupEntities;
-            gvAuditor.DataBind();
-        }
-
+     
         protected override void Save()
         {
             if (!txtPassword.Value.Equals(txtSurePassword.Value))
@@ -109,8 +86,6 @@ namespace Beeant.Presentation.Admin.Configurator.Management.User
             {
                 FillRoleAccounts(info);
                 FillOwnerAccounts(info);
-                FillAuditorAccounts(info);
-                FillAuditorAccounts(info);
                 if (info.Account != null)
                 {
                     info.Account.SaveType= SaveType.Add;
@@ -174,52 +149,7 @@ namespace Beeant.Presentation.Admin.Configurator.Management.User
                 info.OwnerAccounts.Add(ownerAccount);
             }
         }
-        /// <summary>
-        /// 填充用户
-        /// </summary>
-        /// <param name="info"></param>
-        protected virtual void FillGroupAccounts(UserEntity info)
-        {
-            info.GroupAccounts = new List<GroupAccountEntity>();
-            foreach (GridViewRow gvr in gvRole.Rows)
-            {
-                if (gvr.RowType != DataControlRowType.DataRow)
-                    continue;
-                var ckSelect = gvr.FindControl("ckSelect") as System.Web.UI.HtmlControls.HtmlInputCheckBox;
-                if (ckSelect == null || !ckSelect.Checked)
-                    continue;
-                var groupAccount = new GroupAccountEntity
-                {
-                    Group = new GroupEntity { Id = ckSelect.Value.Convert<long>() },
-                    Account = info.Account,
-                    SaveType = SaveType.Add,
-                };
-                info.GroupAccounts.Add(groupAccount);
-            }
-        }
-        /// <summary>
-        /// 填充用户
-        /// </summary>
-        /// <param name="info"></param>
-        protected virtual void FillAuditorAccounts(UserEntity info)
-        {
-            info.AuditorAccounts = new List<AuditorAccountEntity>();
-            foreach (GridViewRow gvr in gvRole.Rows)
-            {
-                if (gvr.RowType != DataControlRowType.DataRow)
-                    continue;
-                var ckSelect = gvr.FindControl("ckSelect") as System.Web.UI.HtmlControls.HtmlInputCheckBox;
-                if (ckSelect == null || !ckSelect.Checked)
-                    continue;
-                var auditorAccount = new AuditorAccountEntity
-                {
-                    Auditor = new AuditorEntity { Id = ckSelect.Value.Convert<long>() },
-                    Account = info.Account,
-                    SaveType = SaveType.Add,
-                };
-                info.AuditorAccounts.Add(auditorAccount);
-            }
-        }
+
         protected override void OnPreLoad(EventArgs e)
         {
             SaveButton = btnSave;

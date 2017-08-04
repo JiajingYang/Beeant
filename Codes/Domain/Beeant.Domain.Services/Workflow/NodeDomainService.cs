@@ -16,6 +16,10 @@ namespace Beeant.Domain.Services.Workflow
         /// </summary>
         public IDomainService NodeAccountDomainService { get; set; }
 
+        /// <summary>
+        /// 条件
+        /// </summary>
+        public IDomainService NodeMessageDomainService { get; set; }
         private IDictionary<string, IUnitofworkHandle> _itemHandles;
         /// <summary>
         /// 处理
@@ -27,8 +31,8 @@ namespace Beeant.Domain.Services.Workflow
                 return _itemHandles ?? (_itemHandles = new Dictionary<string, IUnitofworkHandle>
                     {
                         {"Conditions", new UnitofworkHandle<ConditionEntity>{DomainService= ConditionDomainService}},
-                        {"NodeAccounts", new UnitofworkHandle<NodeAccountEntity>{DomainService= NodeAccountDomainService}}
-
+                        {"NodeAccounts", new UnitofworkHandle<NodeAccountEntity>{DomainService= NodeAccountDomainService}},
+                        {"NodeMessages", new UnitofworkHandle<NodeMessageEntity>{DomainService= NodeMessageDomainService}}
                     });
             }
             set

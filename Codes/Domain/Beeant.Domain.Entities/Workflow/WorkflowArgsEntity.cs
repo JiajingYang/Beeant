@@ -186,84 +186,25 @@ namespace Beeant.Domain.Entities.Workflow
         /// <param name="task"></param>
         protected virtual void CreateMessage(NodeEntity node,TaskEntity task)
         {
-            var url = ConfigurationManager.GetSetting<string>(Flow.Url);
-            url = string.IsNullOrWhiteSpace(url) ? Flow.Url : url;
-            FillDefaultMessage(node, task, url);
-            FillEmailMessage(node, task, url);
-            FillMobileMessage(node, task, url);
-        }
-
-        /// <summary>
-        /// 创建默认消息
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="task"></param>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        protected virtual MessageEntity FillDefaultMessage(NodeEntity node, TaskEntity task,string url)
-        {
-            if ((node.MessageType & (int)MessageType.Default) == 0 ||
-                string.IsNullOrWhiteSpace(node.DefaultMessage))
-                return null;
-            var message = new MessageEntity
+            if(node.NodeMessages==null || node.NodeMessages.Count==0)
+                return;
+ 
+            task.Messages = task.Messages ?? new List<MessageEntity> ();
+            foreach (var nodeMessage in node.NodeMessages)
             {
-                Task = task,
-                Type= MessageType.Default,
-                Title = node.MessageTitle,
-                Detail = node.DefaultMessage,
-                Url = url,
-                SaveType = SaveType.Add
-            };
-            task.Messages = task.Messages ?? new List<MessageEntity>{ message };
-            return message;
-        }
-        /// <summary>
-        /// 创建邮箱消息
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="task"></param>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        protected virtual MessageEntity FillEmailMessage(NodeEntity node, TaskEntity task, string url)
-        {
-            if ((node.MessageType & (int)MessageType.Email) == 0 ||
-                string.IsNullOrWhiteSpace(node.EmailMessage))
-                return null;
-            var message = new MessageEntity
-            {
-                Task = task,
-                Type = MessageType.Email,
-                Title = node.MessageTitle,
-                Detail = node.EmailMessage,
-                Url = url,
-                SaveType = SaveType.Add
-            };
-            task.Messages = task.Messages ?? new List<MessageEntity> { message };
-            return message;
-        }
-        /// <summary>
-        /// 创建短信消息
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="task"></param>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        protected virtual MessageEntity FillMobileMessage(NodeEntity node, TaskEntity task, string url)
-        {
-            if ((node.MessageType & (int)MessageType.Mobile) == 0 ||
-                string.IsNullOrWhiteSpace(node.MobileMessage))
-                return null;
-            var message = new MessageEntity
-            {
-                Task = task,
-                Type = MessageType.Mobile,
-                Title = node.MessageTitle,
-                Detail = node.MobileMessage,
-                Url = url,
-                SaveType = SaveType.Add
-            };
-            task.Messages = task.Messages ?? new List<MessageEntity> { message };
-            return message;
+                var url = ConfigurationManager.GetSetting<string>(nodeMessage.Url);
+                url = string.IsNullOrWhiteSpace(url) ? nodeMessage.Url : url;
+                var message = new MessageEntity
+                {
+                    Task = task,
+                    Type = MessageType.Default,
+                    Title = nodeMessage.Title,
+                    Detail = nodeMessage.Detail,
+                    Url = url,
+                    SaveType = SaveType.Add
+                };
+                task.Messages.Add(message);
+            }
         }
         #endregion
 

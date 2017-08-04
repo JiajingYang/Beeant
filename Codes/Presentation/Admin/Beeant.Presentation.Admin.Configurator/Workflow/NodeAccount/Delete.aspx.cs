@@ -5,16 +5,16 @@ using Winner.Persistence;
 using Winner.Persistence.Linq;
 
 
-namespace Beeant.Presentation.Admin.Configurator.Workflow.GroupAccount
+namespace Beeant.Presentation.Admin.Configurator.Workflow.NodeAccount
 {
-    public partial class Delete : Basic.Services.WebForm.Pages.ListPageBase<GroupAccountEntity>
+    public partial class Delete : Basic.Services.WebForm.Pages.ListPageBase<NodeAccountEntity>
     {
 
         protected override void SetQueryWhere(QueryInfo query)
         {
-            if (string.IsNullOrEmpty(Request["AccountId"])) return;
-            query.Query<GroupAccountEntity>().Where(
-                it => it.Account.Id == Request["AccountId"].Convert<long>());
+            if (string.IsNullOrEmpty(Request["Accountid"])) return;
+            query.Query<NodeAccountEntity>().Where(
+                it => it.Account.Id == Request["Accountid"].Convert<long>());
 
         }
 

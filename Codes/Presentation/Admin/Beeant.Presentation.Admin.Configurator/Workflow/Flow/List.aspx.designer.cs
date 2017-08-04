@@ -49,33 +49,6 @@ namespace Beeant.Presentation.Admin.Configurator.Workflow.Flow {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtClassName;
         
         /// <summary>
-        /// txtDefaultUrl 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtDefaultUrl;
-        
-        /// <summary>
-        /// txtEmailUrl 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtEmailUrl;
-        
-        /// <summary>
-        /// txtMobileUrl 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtMobileUrl;
-        
-        /// <summary>
         /// txtRemark 控件。
         /// </summary>
         /// <remarks>

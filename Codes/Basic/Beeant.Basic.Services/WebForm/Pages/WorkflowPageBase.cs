@@ -356,7 +356,7 @@ namespace Beeant.Basic.Services.WebForm.Pages
             if (!string.IsNullOrEmpty(Request["mark"]))
             {
                 SetTask();
-                if (!Task.CheckSign(Request.Url.ToString()))
+                if (!Task.CheckSign(Request["timespan"], Request["mark"]))
                 {
                     throw new HttpException(403, "您无权访问该资源");
                 }

@@ -267,12 +267,30 @@ namespace Beeant.Domain.Entities.Workflow
                 SaveType = SaveType.Add
             };
         }
-
-  
+        /// <summary>
+        /// 得到任务结果
+        /// </summary>
+        /// <returns></returns>
+        public virtual TaskStatusType GetTaskResult()
+        {
+            if (NextTasks == null || NextTasks.Count == 0)
+                return Status;
+            var type = DataEntity == null ? Type : DataEntity.Type;
+            if (type == TaskType.Any)
+            {
+                if (Status == TaskStatusType.Passed)
+                    return TaskStatusType.Passed;
+                return TaskStatusType.Waiting;
+            }
+            if (Status == TaskStatusType.Rejected)
+                return TaskStatusType.Rejected;
+            return TaskStatusType.Waiting;
+        }
         /// <summary>
         /// 签名Url
         /// </summary>
         /// <param name="url"></param>
+        /// <param name="channel"></param>
         public virtual string SignUrl(string url,string channel)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -282,15 +300,16 @@ namespace Beeant.Domain.Entities.Workflow
             url = string.Format("{0}?taskId={1}&accountid={2}&timespan={3}&mark={4}&channel={5}", url, Id, Account?.Id, timespan, mark,channel);
             return url;
         }
+
         /// <summary>
         /// 得到消息
         /// </summary>
-        /// <param name="url"></param>
+        /// <param name="timespan"></param>
+        /// <param name="mark"></param>
         /// <returns></returns>
-        public virtual bool CheckSign(string url)
+        public virtual bool CheckSign(string timespan,string mark)
         {
-            var timespan = HttpUtility.ParseQueryString(url).Get("timespan");
-            var mark = HttpUtility.ParseQueryString(url).Get("mark");
+           
             if (string.IsNullOrEmpty(mark) || string.IsNullOrEmpty(timespan))
                 return false;
             var mk = Winner.Creator.Get<Winner.Base.ISecurity>().EncryptSign(timespan);

@@ -46,6 +46,8 @@ namespace Beeant.Application.Services.Workflow
             FillDataTask(args);
             FillCurrentOtherTasks(args);
             var entity = args.Task.Consumer as BaseEntity;
+            if (entity == null)
+                return false;
             entity = entity.Id == 0 ? entity : GetEntityByConditions(args);
             args.Task.Consumer = entity as ITaskTab;
            var unitofworks = GetHandleUnitofworks(args);

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Beeant.Domain.Entities.Account;
 using Beeant.Domain.Entities.Authority;
-using Beeant.Domain.Entities.Workflow;
-using Beeant.Domain.Services.Workflow;
 using Winner.Persistence;
 
 namespace Beeant.Domain.Services.Authority

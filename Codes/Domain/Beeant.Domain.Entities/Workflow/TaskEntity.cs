@@ -273,13 +273,13 @@ namespace Beeant.Domain.Entities.Workflow
         /// 签名Url
         /// </summary>
         /// <param name="url"></param>
-        public virtual string SignUrl(string url)
+        public virtual string SignUrl(string url,string channel)
         {
             if (string.IsNullOrWhiteSpace(url))
                 return "";
             var timespan = DateTime.Now.Ticks.ToString();
             var mark = Winner.Creator.Get<Winner.Base.ISecurity>().EncryptSign(timespan);
-            url = string.Format("{0}?taskId={1}&accountid={2}&timespan={3}&mark={4}", url, Id, Account?.Id, timespan, mark);
+            url = string.Format("{0}?taskId={1}&accountid={2}&timespan={3}&mark={4}&channel={5}", url, Id, Account?.Id, timespan, mark,channel);
             return url;
         }
         /// <summary>

@@ -140,7 +140,7 @@ namespace Beeant.Domain.Services.Workflow
             foreach (var message in info.Messages)
             {
                 message.Task = info;
-                message.Url = info.SignUrl(message.Url);
+                message.Url = info.SignUrl(message.Url, message.Type.ToString());
             }
             IList<MessageEntity> messages = info.Messages.Where(it => it.SaveType == SaveType.Add).ToList();
             var units = MessageDomainService.Handle(messages);

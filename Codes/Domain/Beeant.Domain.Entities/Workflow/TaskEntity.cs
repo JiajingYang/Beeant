@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Beeant.Domain.Entities.Account;
+using Component.Extension;
 using Winner.Persistence;
 
 namespace Beeant.Domain.Entities.Workflow
@@ -66,10 +67,7 @@ namespace Beeant.Domain.Entities.Workflow
         /// 用户
         /// </summary>
         public AccountEntity Account { get; set; }
-        /// <summary>
-        /// 标签
-        /// </summary>
-        public string Tag { get; set; }
+  
         /// <summary>
         /// 级别
         /// </summary>
@@ -111,6 +109,63 @@ namespace Beeant.Domain.Entities.Workflow
         /// 备注
         /// </summary>
         public string Remark { get; set; }
+
+        #region 配置属性
+
+        private string _variables;
+
+        /// <summary>
+        /// 设置
+        /// </summary>
+        public string Variables
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_variables) && VariablesDictionary != null)
+                    _variables = VariablesDictionary.SerializeJson();
+                return _variables;
+            }
+            set
+            {
+                _variables = value;
+                if (string.IsNullOrEmpty(value))
+                    return;
+                VariablesDictionary = value.DeserializeJson<Dictionary<string, object>>();
+            }
+        }
+        public IDictionary<string, object> VariablesDictionary { get; set; }
+
+        /// <summary>
+        /// 得到设置
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public virtual T GetVariable<T>(string key)
+        {
+            if (VariablesDictionary == null || !VariablesDictionary.ContainsKey(key))
+                return default(T);
+            return VariablesDictionary[key].Convert<T>();
+        }
+
+
+        /// <summary>
+        /// 设置
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public virtual void SetVariable(string key, object value)
+        {
+            VariablesDictionary = VariablesDictionary ?? new Dictionary<string, object>();
+            if (VariablesDictionary.ContainsKey(key))
+                VariablesDictionary[key] = value;
+            else
+                VariablesDictionary.Add(key, value);
+        }
+
+
+        #endregion
+
         /// <summary>
         /// 原数据
         /// </summary>
@@ -135,6 +190,7 @@ namespace Beeant.Domain.Entities.Workflow
         /// 历史记录
         /// </summary>
         public HistoryEntity History { get; set; }
+
         /// <summary>
         /// 添加
         /// </summary>

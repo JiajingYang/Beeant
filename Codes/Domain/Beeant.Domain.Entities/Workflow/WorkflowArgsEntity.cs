@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
 using Beeant.Domain.Entities.Account;
-using Component.Extension;
 using Configuration;
 using Winner;
 using Winner.Filter;
@@ -16,10 +15,7 @@ namespace Beeant.Domain.Entities.Workflow
     public class WorkflowArgsEntity
     {
         #region 输入参数
-        /// <summary>
-        /// 流程编号
-        /// </summary>
-        public long FlowId { get; set; }
+
         /// <summary>
         /// 当前执行的任务
         /// </summary>
@@ -44,9 +40,6 @@ namespace Beeant.Domain.Entities.Workflow
         /// </summary>
         public WorkflowEngineEntity Engine { get; set; }
 
-
-   
-       
         private FlowEntity _flow;
         /// <summary>
         /// 当前工作流
@@ -57,11 +50,22 @@ namespace Beeant.Domain.Entities.Workflow
             {
                 if (_flow != null)
                     return _flow;
-                if (Engine.GetFlowHandle == null) return null;
-                _flow = Engine.GetFlowHandle(FlowId);
+                var flowId = Engine.GetFlowIdByNodeIdHandle(NodeId);
+                if (flowId==0 && Engine.GetFlowHandle == null)
+                    return null;
+                _flow = Engine.GetFlowHandle(flowId);
                 return _flow;
             }
         }
+
+        public long NodeId
+        {
+            get
+            {
+                return DataTask == null ? Task.GetVariable<long>("NodeId") : DataTask.GetVariable<long>("NodeId");
+            }
+        }
+        
         private NodeEntity _node;
         /// <summary>
         /// 当前节点
@@ -74,8 +78,7 @@ namespace Beeant.Domain.Entities.Workflow
                     return _node;
                 if (Flow == null || Flow.Nodes == null )
                     return null;
-                var tag = DataTask == null ? Task.Tag : DataTask.Tag;
-                _node = Flow.Nodes.FirstOrDefault(it => it.Id == tag.Convert<long>());
+                _node = Flow.Nodes.FirstOrDefault(it => it.Id == NodeId);
                 return _node;
             }
             set
@@ -155,7 +158,6 @@ namespace Beeant.Domain.Entities.Workflow
                         Channel = Task.Channel,
                         OverTime = DateTime.Now.AddMinutes(node.Timeout),
                         Level = Task.Level,
-                        Tag = node.Id.ToString(),
                         Consumer = Task.Consumer,
                         Status = TaskStatusType.Waiting,
                         Type = node.NodeType == NodeType.Any ? TaskType.Any : TaskType.All,
@@ -164,6 +166,7 @@ namespace Beeant.Domain.Entities.Workflow
                         NextKey = "",
                         SaveType = SaveType.Add
                     };
+                    task.SetVariable("NodeId",node.Id);
                     CreateMessage(node, task);
                     Task.NextTasks.Add(task);
                 }
@@ -379,6 +382,10 @@ namespace Beeant.Domain.Entities.Workflow
         /// 得到组委托
         /// </summary>
         public Func<long, FlowEntity> GetFlowHandle { get; set; }
-  
+        /// <summary>
+        /// 得到组委托
+        /// </summary>
+        public Func<long, long> GetFlowIdByNodeIdHandle { get; set; }
+
     }
 }

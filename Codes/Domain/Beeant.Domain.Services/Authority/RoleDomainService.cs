@@ -1,11 +1,41 @@
-﻿using Beeant.Domain.Entities.Account;
+﻿using System.Collections.Generic;
+using Beeant.Domain.Entities.Account;
 using Beeant.Domain.Entities.Authority;
+using Beeant.Domain.Entities.Workflow;
+using Beeant.Domain.Services.Workflow;
 using Winner.Persistence;
 
 namespace Beeant.Domain.Services.Authority
 {
     public class RoleDomainService : RealizeDomainService<RoleEntity>
     {
+        /// <summary>
+        /// 角色功能
+        /// </summary>
+        public IDomainService RoleAblitityDomainService { get; set; }
+        /// <summary>
+        /// 角色账户
+        /// </summary>
+        public IDomainService RoleAccountDomainService { get; set; }
+        private IDictionary<string, IUnitofworkHandle> _itemHandles;
+        /// <summary>
+        /// 处理
+        /// </summary>
+        protected override IDictionary<string, IUnitofworkHandle> ItemHandles
+        {
+            get
+            {
+                return _itemHandles ?? (_itemHandles = new Dictionary<string, IUnitofworkHandle>
+                    {
+                        {"RoleAbilities", new UnitofworkHandle<RoleAbilityEntity>{DomainService= RoleAblitityDomainService}}
+                    ,   {"RoleAccounts", new UnitofworkHandle<RoleAccountEntity>{DomainService=RoleAccountDomainService}}
+                    });
+            }
+            set
+            {
+                base.ItemHandles = value;
+            }
+        }
         protected override bool ValidateAdd(RoleEntity info)
         {
             return ValidateAccount(info);

@@ -184,6 +184,7 @@ namespace Beeant.Application.Services.Workflow
         {
             var args = new WorkflowEngineEntity();
             args.GetFlowHandle = GetFlow;
+            args.GetFlowIdByNodeIdHandle = GetFlowIdByNodeId;
             CacheRepository.Set(CacheKey, args, DateTime.MaxValue);
             return args;
         }
@@ -257,7 +258,43 @@ namespace Beeant.Application.Services.Workflow
             }
         
         }
+        /// <summary>
+        /// 得到缓存值
+        /// </summary>
 
+        private static string NodeCacheKey = "WorkflowEngineNode";
+        /// <summary>
+        /// 得到缓存值
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetNodeCacheKey(long id)
+        {
+            return string.Format("{0}{1}", NodeCacheKey, id);
+        }
+        /// <summary>
+        /// 得到角色
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        protected virtual long GetFlowIdByNodeId(long id)
+        {
+            var key = GetNodeCacheKey(id);
+            var value = CacheRepository.Get<string>(key);
+            if (value == null)
+            {
+                var query = new QueryInfo();
+                query.Query<NodeEntity>()
+                    .Select(it => it.Flow.Id);
+                var flowId = Repository.GetEntities<NodeEntity>(query)?.FirstOrDefault()?.Flow?.Id;
+                if (flowId.HasValue)
+                {
+                    CacheRepository.Set(key, flowId, DateTime.MaxValue);
+                    value = flowId.ToString();
+                }
+                   
+            }
+            return value.Convert<long>();
+        }
         #endregion
 
 

@@ -29,7 +29,7 @@ namespace Beeant.Repository.Services.Finance
             {
                 Account = account,
                 Amount = 0 - info.Amount,
-                Data = info,
+                Number = info.Number,
                 Name = info.TypeName,
                 Remark = info.Remark,
                 SaveType = SaveType.Add,
@@ -80,7 +80,7 @@ namespace Beeant.Repository.Services.Finance
             {
                 Account = account,
                 Amount =info.Amount,
-                Data = info,
+                Number = info.Number,
                 Name = info.TypeName,
                 Remark = info.Remark,
                 SaveType = SaveType.Add,

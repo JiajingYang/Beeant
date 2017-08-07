@@ -67,7 +67,14 @@ namespace Beeant.Domain.Entities.Workflow
         /// 用户
         /// </summary>
         public AccountEntity Account { get; set; }
-  
+        /// <summary>
+        ///名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 标签
+        /// </summary>
+        public string Tag { get; set; }
         /// <summary>
         /// 级别
         /// </summary>

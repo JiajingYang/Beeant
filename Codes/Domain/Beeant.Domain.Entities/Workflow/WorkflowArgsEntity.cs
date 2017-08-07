@@ -156,6 +156,8 @@ namespace Beeant.Domain.Entities.Workflow
                     {
                         Account = new AccountEntity {Id = node.GetTaskAccountId()},
                         Channel = Task.Channel,
+                        Name=node.Nickname,
+                        Tag=Flow.Id.ToString(),
                         OverTime = DateTime.Now.AddMinutes(node.Timeout),
                         Level = Task.Level,
                         Consumer = Task.Consumer,

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EE4F4F40-618C-444C-9B22-6FBDC7F52B01}</ProjectGuid>
+    <ProjectGuid>{A5D7FB1A-FDA4-40E2-A1EA-EFD48A3AD781}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Beeant.Cloud.Crm</RootNamespace>
-    <AssemblyName>Beeant.Cloud.Crm</AssemblyName>
+    <RootNamespace>Beeant.Cloud.Workflow</RootNamespace>
+    <AssemblyName>Beeant.Cloud.Workflow</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CrmAuthorizeBaseController.cs" />
     <Compile Include="CrmAuthorizeFilterAttribute.cs" />
     <Compile Include="CrmDataFilterAttribute.cs" />
@@ -101,6 +100,9 @@
       <Project>{d876ee31-d4e2-4a84-bb70-c30cd79de8d9}</Project>
       <Name>Beeant.Repository.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

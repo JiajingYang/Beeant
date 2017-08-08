@@ -9,7 +9,6 @@ using Beeant.Basic.Services.Mvc.Bases;
 using Beeant.Basic.Services.Mvc.Extension;
 using Beeant.Basic.Services.Mvc.FilterAttribute;
 using Beeant.Distributed.Outside.Pay.Models;
-using Beeant.Domain.Entities;
 using Beeant.Domain.Entities.Account;
 using Beeant.Domain.Entities.Finance;
 using Beeant.Domain.Entities.Order;
@@ -44,10 +43,9 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
         protected virtual ActionResult Create(PaylineModel model,PaylineType paylineType)
         {
             var info = CreatePayline(model, paylineType);
+            model.Payline = info;
             if (string.IsNullOrEmpty(info.Request))
-                return Process(info);
-            if (info.Errors != null && info.Errors.Count > 0)
-                return PayError(info);
+                return Result(model);
             var request = info.Request.ToLower();
             if (request.StartsWith("http://") || request.StartsWith("https://"))
                 return Redirect(info.Request);
@@ -139,45 +137,42 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
         /// <returns></returns>
         protected virtual ActionResult Process(PaylineType paylineType)
         {
-            var info = GetPaylineApp(paylineType).Process();
-            return Process(info);
+            var model=new PaylineModel();
+            model.Payline = GetPaylineApp(paylineType).Process();
+            return Result(model);
         }
         /// <summary>
         /// 处理
         /// </summary>
-        /// <param name="info"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        protected virtual ActionResult Process(PaylineEntity info)
+        protected virtual ActionResult Result(PaylineModel model)
         {
-            if (info == null || info.Status!= PaylineStatusType.Success)
+            model.IsSuccess = model.Payline != null && model.Payline.Status == PaylineStatusType.Success;
+            var request = model.Payline == null || model.Payline.Request == null ? "" : model.Payline.Request.ToLower();
+            if (model.Payline != null && (request.StartsWith("http://") || request.StartsWith("https://")))
+                return Redirect(model.Payline.Request);
+            if (model.IsSuccess && !string.IsNullOrEmpty(Request["successhandle"]))
             {
-                return PayError(info);
+                var builder = new StringBuilder();
+                builder.AppendFormat("<script  type=\"text/javascript\" >document.domain='{0}';{1}('{2}');</script>",
+                    ConfigurationManager.GetSetting<string>("Domain"), Request["successhandle"], model.Payline.Id);
+                builder.Append(model.Payline.Request);
+                return Content(builder.ToString());
             }
-            var url = string.Format("{0}/Home/Index", info.ChannelType == ChannelType.Website ? this.GetUrl("PresentationWebsiteOrderUrl") : this.GetUrl("PresentationMobileOrderUrl"));
-            if (!string.IsNullOrEmpty(Request["successhandle"]))
+            if (!model.IsSuccess && !string.IsNullOrEmpty(Request["failhandle"]))
             {
-                return Content(string.Format("<script  type=\"text/javascript\" >document.domain='{0}';{1}('{2}');</script>", ConfigurationManager.GetSetting<string>("Domain"), Request["success"],info.Id));
+                var builder = new StringBuilder();
+                builder.AppendFormat("<script  type=\"text/javascript\" >document.domain='{0}';{1}('{2}');</script>",
+                    ConfigurationManager.GetSetting<string>("Domain"), Request["failhandle"], model.Payline?.Errors?.FirstOrDefault()?.Message);
+                builder.Append(model.Payline.Request);
+                return Content(builder.ToString());
             }
-            return new RedirectResult(url);
+            return model.IsSuccess ? View("Success", model) : View("Failure", model);
+     
         }
 
-        /// <summary>
-        /// 支付失败
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
-        protected virtual ActionResult PayError(PaylineEntity info)
-        {
-            var message = info?.Errors?.FirstOrDefault()?.Message;
-            message = string.IsNullOrWhiteSpace(message) ? "支付失败" : message;
-            if (!string.IsNullOrEmpty(Request["failhandle"]))
-            {
-           
-                return Content(string.Format("<script  type=\"text/javascript\" >document.domain='{0}';{1}('{2}');</script>", ConfigurationManager.GetSetting<string>("Domain"), Request["failhandle"], message));
-            }
-            var url = string.Format("{0}/Home/Index",HttpContext.Request.Browser.IsMobileDevice ? this.GetUrl("PresentationWebsiteOrderUrl") : this.GetUrl("PresentationMobileOrderUrl"));
-            return Content(string.Format("<script  type=\"text/javascript\" >alert('{0}');window.location.href='{1}'</script>",message, url));
-        }
+       
 
         #endregion
 
@@ -211,8 +206,8 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
                 builder.Append(info.Request);
                 return Content(builder.ToString());
             }
-            var url = string.Format("{0}/Home/Index", info.ChannelType == ChannelType.Website ? this.GetUrl("PresentationWebsiteOrderUrl") : this.GetUrl("PresentationMobileOrderUrl"));
-            return new RedirectResult(url);
+            return model.IsSuccess ?View("~/Views/Pay/ReturnSuccess.cshtml", model): View("~/Views/Pay/ReturnFailure.cshtml", model);
+ 
         }
         /// <summary>
         /// 创建
@@ -318,5 +313,13 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
 
         #endregion
 
+        /// <summary>
+        /// 通知
+        /// </summary>
+        [AuthorizeFilter]
+        public virtual ActionResult Select(PaylineModel model)
+        {
+            return null;
+        }
     }
 }

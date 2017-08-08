@@ -7,12 +7,12 @@ using Beeant.Application.Services;
 using Beeant.Basic.Services.Mvc.Extension.Mobile;
 using Beeant.Domain.Entities;
 using Beeant.Domain.Entities.Agent;
-using Beeant.Domain.Entities.Crm;
+using Beeant.Domain.Entities.Workflow;
 using Component.Extension;
 
-namespace Beeant.Cloud.Crm
+namespace Beeant.Cloud.Workflow
 {
-    public class CrmAuthorizeFilterAttribute :RoleFilterAttribute
+    public class WorkflowAuthorizeFilterAttribute :RoleFilterAttribute
     {
 
  
@@ -51,13 +51,13 @@ namespace Beeant.Cloud.Crm
         {
             if (Identity == null)
                 return false;
-            long tmcId = GetCrmId(filterContext);
-            var crm = Ioc.Resolve<IApplicationService, CrmEntity>().GetEntity<CrmEntity>(tmcId);
-            filterContext.Controller.ViewBag.CrmId = tmcId;
-            filterContext.Controller.ViewBag.Crm = crm;
-            filterContext.Controller.ViewBag.IsMainAccount = crm != null && Identity != null && crm.Account != null && crm.Account.Id == Identity.Id;
-            var isMainAccount = crm != null  && crm.Account != null && crm.Account.Id == Identity.Id;
-            var rev = crm != null && crm.ExpireDate>=DateTime.Now && (isMainAccount || VerifyResource(filterContext, Identity.Id));
+            long tmcId = GetWorkflowId(filterContext);
+            var flow = Ioc.Resolve<IApplicationService, FlowEntity>().GetEntity<FlowEntity>(tmcId);
+            filterContext.Controller.ViewBag.WorkflowId = tmcId;
+            filterContext.Controller.ViewBag.Workflow = flow;
+            filterContext.Controller.ViewBag.IsMainAccount = flow != null && Identity != null && flow.Account != null && flow.Account.Id == Identity.Id;
+            var isMainAccount = flow != null  && flow.Account != null && flow.Account.Id == Identity.Id;
+            var rev = flow != null && (isMainAccount || VerifyResource(filterContext, Identity.Id));
             return rev;
         }
 
@@ -66,14 +66,14 @@ namespace Beeant.Cloud.Crm
         /// </summary>
         /// <param name="filterContext"></param>
         /// <returns></returns>
-        protected virtual long GetCrmId(ActionExecutingContext filterContext)
+        protected virtual long GetWorkflowId(ActionExecutingContext filterContext)
         {
             var tmcid = filterContext.RouteData.Values["tmcid"] ?? filterContext.HttpContext.Request["tmcid"];
             if (tmcid != null)
             {
                 return tmcid.Convert<long>();
             }
-            return Identity == null ? 0 : Identity.GetNumber<long>("CrmId"); ;
+            return Identity == null ? 0 : Identity.GetNumber<long>("WorkflowId"); ;
         }
       
      

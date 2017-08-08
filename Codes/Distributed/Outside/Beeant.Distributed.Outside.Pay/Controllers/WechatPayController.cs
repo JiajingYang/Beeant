@@ -39,7 +39,7 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
                 };
                 return Create(model, PaylineType.Wechat);
             }
-            return PayError(null);
+            return Result(model);
         }
         /// <summary>
         /// 通知

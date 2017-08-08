@@ -1,4 +1,6 @@
 ﻿/*扫码支付*/
+.clear{zoom:0}
+.clear:after{ display: block;content:'';clear:both}
 .scancode-main{ width: 1000px;margin:0 auto}
 .scancode-main .order-mess{ line-height: 90px;font-size: 14px;color: #666;font-weight: bold}
 .scancode-main .order-mess .s-price{ float: right;font-size: 14px;font-weight: normal}
@@ -17,9 +19,62 @@
 .code-mess h2{ font-size: 16px;position: relative}
 .code-mess h2 label{color: #ff8c00;font-size: 12px;position: absolute;left: 150px}
 .code-bd{padding-top: 10px}
-.code-bd .code-img{ float: left;padding-left: 150px;padding-right: 20px}
+.code-bd .code-img{ float: left;padding-left: 150px;padding-right: 80px;padding-top: 80px;}
 .code-bd .code-img div{color: #ff8c00;font-size: 14px;}
 .code-bd .code-demo{float: left;}
 .select-other{ padding-top: 10px;font-size: 14px;color: #38a2d2}
 .select-other label{ font-family: SimSun;font-size: 22px;margin-right: 6px;vertical-align: middle}
 .select-other a{vertical-align: middle}
+
+/*支付成功*/
+.pay-success.main-center {
+    background: #f7f7f7;
+    padding: 30px;
+    width: 900px;
+    margin: 40px auto;
+    padding-bottom: 60px
+}
+
+.pay-success .cart-ico {
+    padding-left: 130px;
+    display: inline-block;
+    padding-right: 25px;
+    vertical-align: middle
+}
+
+.pay-success .nogoods-mess {
+    display: inline-block
+}
+
+.pay-success > h2 {
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    margin-bottom: 60px;
+    margin: 0;
+    margin-bottom: 45px;
+    line-height: 26px
+}
+
+.pay-success .nogoods-mess {
+    display: inline-block;
+    vertical-align: middle;
+    color: #666;
+}
+
+    .pay-success .nogoods-mess h2 {
+        font-size: 16px;
+        margin: 0;
+        line-height: 32px
+    }
+
+    .pay-success .nogoods-mess p {
+        margin: 0;
+        font-size: 12px;
+        color: #999
+    }
+
+    .pay-success .nogoods-mess a {
+        color: #1cbfda;
+        margin-right: 6px;
+    }
+

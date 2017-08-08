@@ -351,3 +351,5 @@
 /Codes/Distributed/Outside/Beeant.Distributed.Outside.Version/Config
 /Codes/Cloud/Site/Beeant.Cloud.Site/Beeant.Cloud.Site.csproj.user
 /Documents/Development/_EasyCHM_ErrorLog.Log
+/Codes/Cloud/Workflow/Beeant.Cloud.Workflow/bin
+/Codes/Cloud/Workflow/Beeant.Cloud.Workflow/obj

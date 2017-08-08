@@ -1,14 +1,14 @@
 ﻿using Beeant.Basic.Services.Mvc.Extension;
 using Beeant.Basic.Services.Mvc.FilterAttribute;
 using Beeant.Domain.Entities;
-using Beeant.Domain.Entities.Crm;
+using Beeant.Domain.Entities.Workflow;
 
-namespace Beeant.Cloud.Crm
+namespace Beeant.Cloud.Workflow
 {
-    public class CrmDataFilterAttribute : DataFilterAttribute
+    public class WorkflowDataFilterAttribute : DataFilterAttribute
     {
 
-        private string _identityName = "Crm.Id";
+        private string _identityName = "Workflow.Id";
         /// <summary>
         /// 值名称
         /// </summary>
@@ -23,7 +23,7 @@ namespace Beeant.Cloud.Crm
             get
             {
                 if (!_identityId.HasValue)
-                    _identityId = Identity == null ? 0 : Identity.GetNumber<long>("CrmId");
+                    _identityId = Identity == null ? 0 : Identity.GetNumber<long>("WorkflowId");
                 return _identityId.Value;
             }
             set { base.IdentityId = value; }

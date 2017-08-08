@@ -5,33 +5,33 @@ using Beeant.Basic.Services.Mvc.Extension;
 using Beeant.Domain.Entities;
 using Beeant.Domain.Entities.Cms;
 using Beeant.Domain.Entities.Hr;
-using Beeant.Domain.Entities.Crm;
+using Beeant.Domain.Entities.Workflow;
 using Component.Extension;
 using Configuration;
 
-namespace Beeant.Cloud.Crm
+namespace Beeant.Cloud.Workflow
 {
-    public class CrmAuthorizeBaseController : BaseController
+    public class WorkflowAuthorizeBaseController : BaseController
     {
         /// <summary>
         /// 站点Id
         /// </summary>
-        public virtual long CrmId
+        public virtual long WorkflowId
         {
             get
             {
-                if (ViewBag.CrmId != null)
-                    return ViewBag.CrmId;
+                if (ViewBag.WorkflowId != null)
+                    return ViewBag.WorkflowId;
                 var tmcid = RouteData.Values["tmcid"] ?? HttpContext.Request["tmcid"];
                 if (tmcid != null)
                 {
-                    ViewBag.CrmId = tmcid.Convert<long>();
+                    ViewBag.WorkflowId = tmcid.Convert<long>();
                 }
                 else
                 {
-                    ViewBag.CrmId = Identity == null ? 0 : Identity.GetNumber<long>("CrmId");
+                    ViewBag.WorkflowId = Identity == null ? 0 : Identity.GetNumber<long>("WorkflowId");
                 }
-                return ViewBag.CrmId;
+                return ViewBag.WorkflowId;
             }
         }
  
@@ -62,15 +62,15 @@ namespace Beeant.Cloud.Crm
         /// <summary>
         /// 身份验证
         /// </summary>
-        public virtual CrmEntity Crm
+        public virtual FlowEntity Flow
         {
             get
             {
-                if (CrmId == 0)
+                if (WorkflowId == 0)
                     return null;
-                if (ViewBag.Crm == null)
-                    ViewBag.Crm = this.GetEntity<CrmEntity>(CrmId);
-                return ViewBag.Crm;
+                if (ViewBag.Workflow == null)
+                    ViewBag.Workflow = this.GetEntity<FlowEntity>(WorkflowId);
+                return ViewBag.Workflow;
             }
         }
 
@@ -112,7 +112,7 @@ namespace Beeant.Cloud.Crm
             {
                 if (ViewBag.IsMainAccount!=null)
                   return ViewBag.IsMainAccount;
-                ViewBag.IsMainAccount = Crm!=null && Identity!=null && Crm.Account!=null && Crm.Account.Id== Identity.Id;
+                ViewBag.IsMainAccount = Flow != null && Identity!=null && Flow.Account!=null && Flow.Account.Id== Identity.Id;
                 return ViewBag.IsMainAccount;
             }
         }
@@ -140,7 +140,7 @@ namespace Beeant.Cloud.Crm
         /// </summary>
         public virtual string RouteOpenId
         {
-            get { return string.Format("CrmId{0}", CrmId); }
+            get { return string.Format("WorkflowId{0}", WorkflowId); }
         }
     }
 }

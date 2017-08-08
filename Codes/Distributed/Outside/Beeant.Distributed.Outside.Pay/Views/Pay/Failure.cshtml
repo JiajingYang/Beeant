@@ -1,0 +1,35 @@
+﻿@using Beeant.Basic.Services.Mvc.Extension
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "支付失败";
+}
+@model Beeant.Distributed.Outside.Pay.Models.PaylineModel
+@if (Model != null && Model.Payline != null)
+{
+<div class="main-center">
+    <div class="main-center pay-success">
+        <h2>付款结果</h2>
+        <span class="cart-ico">
+            <img src="~/Images/success_pay.png" />
+        </span>
+        <span class="nogoods-mess">
+            <h2>您付款失败</h2>
+            <p>
+                <a href="@(Server.UrlDecode(Request["ReturnUrl"]))">@(Server.UrlDecode(Request["ReturnTitle"]))</a>
+                <span><label>3</label>秒钟后将自动跳转到@(Server.UrlDecode(Request["AutoReturnTitle"]))</span>
+            </p>
+        </span>
+    </div>
+</div>
+<script>
+    setInterval(function() {
+        var time = $(".pay-success .nogoods-mess label");
+        if (time.text() > 0) {
+            time.text(time.text() - 1);
+        } else {
+            location.href = '@(Server.UrlDecode(Request["AutoReturnUrl"]))';
+        }
+    },1000)
+</script>
+}

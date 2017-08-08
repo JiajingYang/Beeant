@@ -34,6 +34,10 @@ namespace Beeant.Distributed.Outside.Pay.Models
         public PaylineEntity Payline { get; set; }
 
         public bool IsSuccess { get; set; }
+        /// <summary>
+        /// 支付方式
+        /// </summary>
+        public string[] PayTypes { get; set; }
 
     }
 }

@@ -10,7 +10,7 @@ using Winner.Persistence.Linq;
 
 namespace Beeant.Cloud.Crm.Mobile.Controllers.CustomerChannel
 {
-    [CrmAdminAuthorizeFilterAttribute]
+    [CrmAuthorizeFilterAttribute]
     public class CustomerChannelController : CrmAuthorizeBaseController
     {
         /// <summary>

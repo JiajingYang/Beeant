@@ -297,6 +297,16 @@ namespace Beeant.Repository.Services.Finance
 
             AlipayTradeRefundResponse response = AopClient.Execute(request);
             info.Request = response.Body;
+            LogHelper.AddEcho(new EchoEntity
+            {
+                Method = "Beeant.Repository.Services.Finance.AliPaylineRepository.Refund",
+                Request = request.BizContent,
+                Response = response.Body,
+                Remark = "",
+                Url = HttpContext.Current.Request.Url.ToString(),
+                Key = info.Number,
+                SaveType = SaveType.Add
+            });
             if (response.Msg == "Success")
             {
                 info.OutNumber = response.TradeNo;

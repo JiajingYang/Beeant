@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Xml;
@@ -48,7 +49,10 @@ namespace Beeant.Repository.Services.Finance
         {
             get { return WechatConfig.MchKey; }
         }
-
+        public string CertPath
+        {
+            get { return WechatConfig.CertPath; }
+        }
         #region 创建
 
         /// <summary>
@@ -410,19 +414,31 @@ namespace Beeant.Repository.Services.Finance
         /// <returns></returns>
         public override bool Refund(PaylineEntity info)
         {
-            string url = "https://api.mch.weixin.qq.com/sandboxnew/pay/orderquery";
+
+            string url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
             var requsetParams = new SortedDictionary<string, string>();
-            requsetParams.Add("total_fee ", Math.Abs(info.Amount * 100).ToString());
-            requsetParams.Add("refund_fee ", Math.Abs(info.Amount * 100).ToString());
-            requsetParams.Add("out_refund_no ", info.Number);
-            requsetParams.Add("transaction_id ", info.OutNumber);
+            requsetParams.Add("total_fee", Math.Abs(info.Amount * 100).Convert<int>().ToString());
+            requsetParams.Add("refund_fee", Math.Abs(info.Amount * 100).Convert<int>().ToString());
+            requsetParams.Add("out_refund_no", info.Number);
+            requsetParams.Add("transaction_id", info.OutNumber);
             requsetParams.Add("appid", AppId);
             requsetParams.Add("mch_id", MchId);
             requsetParams.Add("nonce_str", Guid.NewGuid().ToString().Replace("-", ""));//随机字符串
             requsetParams.Add("sign", MakeSign(requsetParams, MchKey));
             string xml = ToRequestXml(requsetParams);
-            string response = WebRequestHelper.SendPostRequest(url, Encoding.UTF8, xml);
+            var webRequest = (HttpWebRequest)WebRequestHelper.CreateWebRequestWithCertificate(url, CertPath, MchId);
+            string response = WebRequestHelper.SendPostRequest(webRequest,Encoding.UTF8,xml);
             var result = FromResponseXml(response);
+            LogHelper.AddEcho(new EchoEntity
+            {
+                Method = "Beeant.Repository.Services.Finance.WechatPaylineRepository.Refund",
+                Request = xml,
+                Response = result.SerializeJson(),
+                Remark = "",
+                Url = HttpContext.Current.Request.Url.ToString(),
+                Key = info.Number,
+                SaveType = SaveType.Add
+            });
             if (result == null || !result.ContainsKey("return_code") || result["return_code"] != "SUCCESS")
                 return false;
             info.Status = PaylineStatusType.Success;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Beeant.Domain.Entities.Account;
 using Component.Extension;
 using Winner.Persistence;
@@ -211,8 +210,17 @@ namespace Beeant.Domain.Entities.Workflow
                 {
                     task.Status = TaskStatusType.Created;
                     task.Key = NextKey;
+                    task.Tag = string.IsNullOrWhiteSpace(task.Tag) ? Tag : task.Tag;
+                    task.Name = string.IsNullOrWhiteSpace(task.Name) ? Name : task.Name;
                     task.PreviousKey = Key;
+                    task.Number =string.IsNullOrWhiteSpace(task.Number)? Number: task.Number;
+                    task.Consumer = task.Consumer ?? Consumer;
+                    task.OverTime =OverTime==DateTime.MinValue?DateTime.Now.AddMinutes((OverTime-InsertTime).TotalMinutes): OverTime;
                 }
+            }
+            else
+            {
+                NextKey = "";
             }
             
         }
@@ -221,7 +229,7 @@ namespace Beeant.Domain.Entities.Workflow
         /// </summary>
         protected override void SetModifyBusiness()
         {
-            if(HasSaveProperty(it=>it.Status))
+            if(!HasSaveProperty(it=>it.Status))
                 return;
             if (Status != TaskStatusType.Rejected && Status != TaskStatusType.Passed)
                 return;
@@ -229,8 +237,8 @@ namespace Beeant.Domain.Entities.Workflow
             if (DataEntity == null)
                 return;
             var nextKey= string.IsNullOrWhiteSpace(DataEntity.NextKey)? Guid.NewGuid().ToString().Replace("-", ""): DataEntity.NextKey;
-            var currentTasks = Tasks.Where(it => it.Key == DataEntity.Key).ToList();
-            var nextTasks = Tasks.Where(it => it.Key == DataEntity.NextKey).ToList();
+            var currentTasks = Tasks.Where(it => it.Key == DataEntity.Key && it.Id!=Id).ToList();
+            var nextTasks = Tasks.Where(it => it.Key == DataEntity.NextKey && it.Id != Id).ToList();
             foreach (var task in currentTasks)
             {
                 if (Status == TaskStatusType.Passed && task.Type == TaskType.Any ||Status == TaskStatusType.Rejected && task.Type == TaskType.All)
@@ -260,6 +268,11 @@ namespace Beeant.Domain.Entities.Workflow
                     task.Key = nextKey;
                     task.Status = nextTaskStatus;
                     task.PreviousKey = Key;
+                    task.Tag = string.IsNullOrWhiteSpace(task.Tag) ? DataEntity.Tag : task.Tag;
+                    task.Name = string.IsNullOrWhiteSpace(task.Name) ? DataEntity.Name : task.Name;
+                    task.Number = string.IsNullOrWhiteSpace(task.Number) ? DataEntity.Number : task.Number;
+                    task.Consumer = task.Consumer ?? Consumer;
+                    task.OverTime = OverTime == DateTime.MinValue ? DateTime.Now.AddMinutes((DataEntity.OverTime - DataEntity.InsertTime).TotalMinutes) : OverTime;
                 }
             }
             History = new HistoryEntity
@@ -304,23 +317,23 @@ namespace Beeant.Domain.Entities.Workflow
                 return "";
             var timespan = DateTime.Now.Ticks.ToString();
             var mark = Winner.Creator.Get<Winner.Base.ISecurity>().EncryptSign(timespan);
-            url = string.Format("{0}?taskId={1}&accountid={2}&timespan={3}&mark={4}&channel={5}", url, Id, Account?.Id, timespan, mark,channel);
+            url = string.Format("{0}?taskId={1}&accountid={2}&token={3}&sign={4}&channel={5}", url, Id, Account?.Id, timespan, mark,channel);
             return url;
         }
 
         /// <summary>
         /// 得到消息
         /// </summary>
-        /// <param name="timespan"></param>
-        /// <param name="mark"></param>
+        /// <param name="sign"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
-        public virtual bool CheckSign(string timespan,string mark)
+        public virtual bool CheckSign(string sign,string token)
         {
            
-            if (string.IsNullOrEmpty(mark) || string.IsNullOrEmpty(timespan))
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(sign))
                 return false;
-            var mk = Winner.Creator.Get<Winner.Base.ISecurity>().EncryptSign(timespan);
-            if (mark.ToLower() == mk.ToLower())
+            var mk = Winner.Creator.Get<Winner.Base.ISecurity>().EncryptSign(token);
+            if (sign.ToLower() == mk.ToLower())
                 return false;
             return true;
         }

@@ -176,6 +176,15 @@ namespace Beeant.Domain.Entities.Finance
 
             }
         }
-
+        public static IList<Action<PaylineEntity>> SeccessHandles { get; set; }
+        /// <summary>
+        /// 注册支付成功调用
+        /// </summary>
+        /// <param name="handle"></param>
+        public static void RegisterSeccessHandle(Action<PaylineEntity> handle)
+        {
+            SeccessHandles = SeccessHandles ?? new List<Action<PaylineEntity>>();
+            SeccessHandles.Add(handle);
+        }
     }
 }

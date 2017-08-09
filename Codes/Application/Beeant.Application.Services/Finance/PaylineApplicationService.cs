@@ -48,7 +48,15 @@ namespace Beeant.Application.Services.Finance
             var info = PaylineRepository.Process();
             if (info == null || info.SaveType == SaveType.None)
                 return info;
-            return Pay(info);
+             info= Pay(info);
+            if (info.Errors != null && info.Errors.Count == 0 && PaylineEntity.SeccessHandles != null)
+            {
+                foreach (var handle in PaylineEntity.SeccessHandles)
+                {
+                    handle.BeginInvoke(info,null,null);
+                }
+            }
+            return info;
         }
 
         /// <summary>

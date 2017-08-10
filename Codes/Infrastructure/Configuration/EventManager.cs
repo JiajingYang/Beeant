@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Configuration
 {
-    public class EventArgs
+    public class EventHandleArgs
     {
         /// <summary>
         /// 事件名
@@ -24,7 +24,7 @@ namespace Configuration
         /// <summary>
         /// 参数
         /// </summary>
-        public Action<EventArgs> Action { get; set; }
+        public Action<EventHandleArgs> Action { get; set; }
     }
     static public class EventManager
     {
@@ -46,7 +46,7 @@ namespace Configuration
         /// 执行
         /// </summary>
         /// <param name="args"></param>
-        public static void Execute(EventArgs args)
+        public static void Execute(EventHandleArgs args)
         {
             if(args==null || string.IsNullOrWhiteSpace(args.Name))
                 return;

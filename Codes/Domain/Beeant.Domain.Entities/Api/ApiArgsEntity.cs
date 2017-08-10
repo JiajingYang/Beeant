@@ -11,6 +11,10 @@
         /// </summary>
         public string Token { get; set; }
         /// <summary>
+        /// 
+        /// </summary>
+        public string Timestamp { get; set; }
+        /// <summary>
         /// 协议
         /// </summary>
         public string Method { get; set; }

@@ -53,7 +53,7 @@ namespace Beeant.Application.Services.Finance
             if (info.Errors != null && info.Errors.Count == 0)
             {
                 EventManager.Execute(
-                    new Configuration.EventArgs {Name = PaylineEntity.SeccessEventName, Sender = info});
+                    new EventHandleArgs { Name = PaylineEntity.SeccessEventName, Sender = info});
             }
             return info;
         }

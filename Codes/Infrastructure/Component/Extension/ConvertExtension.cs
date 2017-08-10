@@ -20,23 +20,26 @@ namespace Component.Extension
         /// <returns></returns>
         public static string SerializeXml(this object obj)
         {
-
+            if (obj == null)
+                return null;
             try
             {
                 if (Equals(null, obj))
                 {
                     return null;
                 }
-                XmlWriterSettings settings = new XmlWriterSettings();
-                //去除xml声明
-                settings.OmitXmlDeclaration = true;
-                settings.Encoding = Encoding.Default;
-                MemoryStream mem = new MemoryStream();
-                using (XmlWriter writer = XmlWriter.Create(mem, settings))
+                var settings = new XmlWriterSettings
                 {
-                    XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                    OmitXmlDeclaration = true,
+                    Encoding = Encoding.Default
+                };
+                //去除xml声明
+                var mem = new MemoryStream();
+                using (var writer = XmlWriter.Create(mem, settings))
+                {
+                    var ns = new XmlSerializerNamespaces();
                     ns.Add("", "");
-                    XmlSerializer formatter = new XmlSerializer(obj.GetType());
+                    var formatter = new XmlSerializer(obj.GetType());
                     formatter.Serialize(writer, obj, ns);
                 }
                 return Encoding.Default.GetString(mem.ToArray());
@@ -55,17 +58,19 @@ namespace Component.Extension
         /// <returns></returns>
         public static T DeserializeXml<T>(this string xml)
         {
+            if (string.IsNullOrWhiteSpace(xml))
+                return default(T);
             try
             {
                 if (string.IsNullOrEmpty(xml))
                     return default(T);
-                using (StringReader sr = new StringReader(xml))
+                using (var sr = new StringReader(xml))
                 {
-                    XmlSerializer xmldes = new XmlSerializer(typeof(T), "");
+                    var xmldes = new XmlSerializer(typeof(T), "");
                     return (T)xmldes.Deserialize(sr);
                 }
             }
-            catch (Exception e)
+            catch //(Exception e)
             {
 
                 return default(T);
@@ -80,6 +85,8 @@ namespace Component.Extension
         /// <param name="input"></param>
         public static string SerializeJson(this object input)
         {
+            if (input==null)
+                return null;
             try
             {
                 return Newtonsoft.Json.JsonConvert.SerializeObject(input);
@@ -95,6 +102,8 @@ namespace Component.Extension
         /// <param name="input"></param>
         public static T DeserializeJson<T>(this string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return default(T);
             try
             {
                 if (string.IsNullOrEmpty(input))
@@ -115,6 +124,8 @@ namespace Component.Extension
         /// <param name="input"></param>
         public static T Convert<T>(this object input)
         {
+            if(input==null)
+                return default(T);
             try
             {
                 var value = System.Convert.ChangeType(input, typeof (T));
@@ -383,16 +394,6 @@ namespace Component.Extension
             }
             return string.Format("{0:x}", i -(new DateTime(2000,01,01).Ticks));
 
-        }
-
-        /// <summary>
-        /// 得到状态名称,返回开启或者停止
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime GetDefault(this DateTime date)
-        {
-            return new DateTime(1800, 1, 1);
         }
     }
 }

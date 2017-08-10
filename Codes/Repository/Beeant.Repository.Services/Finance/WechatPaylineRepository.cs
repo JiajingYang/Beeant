@@ -154,45 +154,13 @@ namespace Beeant.Repository.Services.Finance
         protected virtual string GetNativeRequest(PaylineEntity info, IDictionary<string, string> resParas)
         {
             var builder = new StringBuilder();
-            builder.Append("<div class='scancode-main'>");
-            builder.Append("<div class='order-mess'>");
-            builder.Append("订单提交成功，请尽快付款！");
-            builder.AppendFormat("<span class='s-price'>应付金额<span>{0}</span>元</span>",info.Amount);
-            builder.Append("</div");
-            builder.Append("<div class='code-mess'>");
-            builder.Append("<h2>微信支付<label>二维码已过期，<a>刷新</a>页面重新获取二维码。</label></h2>");
-            builder.Append("<div class='code-bd clear'>");
-            builder.Append("<div class='code-img'>");
-            builder.AppendFormat("<img src='/Shared/GetQrCode?url={0}' />", resParas.ContainsKey("code_url") ? resParas["code_url"] : "");
-            builder.Append("<div>请扫描二维码完成支付</div>");
-            builder.Append("</div");
-            builder.Append("<div class='code-demo'>");
-            builder.Append("<img src='/Images/phone-demo.png' />");
-            builder.Append("</div");
-            builder.Append("</div");
-            builder.Append("<div class='select-other'><label></label><a>选择其他支付方式</a></div>");
-            builder.Append("</div>");
-            builder.Append("</div>");
-
-            var url = ConfigurationManager.GetSetting<string>("PresentationWebsiteShared");
-            builder.AppendFormat("<script type=\"text/javascript\" src=\"{0}/Scripts/Plug/jquery-1.7.1.min.js\"></script>", url);
-            builder.Append("<script type='text/javascript'>");
-            builder.Append("setTimeout(function() {");
-            builder.Append(@"$.ajax({");
-            builder.Append("type: 'Post',");
-            builder.Append("url: '/WechatPay/Create?iscustomer=true',");
-            builder.Append("data: { number: ''},");
-            builder.Append("async: true,");
-            builder.Append("cache: false,");
-            builder.Append("dataType: 'text',");
-            builder.Append("success: function (data) {");
-            builder.Append("if (data == 'true') {");
-            builder.Append("window.location.href = '';");
-            builder.Append("}");
-            builder.Append("}");
-            builder.Append("});");
-            builder.Append("}, 3000);");
-            builder.Append("</script>");
+            builder.AppendFormat("{0}/WechatPay/Qr",
+                ConfigurationManager.GetSetting<string>("DistributedOutsidePayUrl"));
+            builder.AppendFormat("?url={0}", resParas.ContainsKey("code_url") ? resParas["code_url"] : "");
+            builder.AppendFormat("&returnurl={0}&returntitle={1}&autoreturnurl={2}&autoreturntitle={3}", HttpContext.Current.Request["returnurl"]
+                , HttpContext.Current.Request["returntitle"]
+                , HttpContext.Current.Request["autoreturnurl"]
+                , HttpContext.Current.Request["autoreturntitle"]);
             return builder.ToString();
         }
         /// <summary>

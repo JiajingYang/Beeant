@@ -108,7 +108,7 @@
     <Content Include="Scripts\Plug\exif.min.js" />
     <Content Include="Scripts\Plug\iColor\iColor-min.js" />
     <Content Include="Scripts\Plug\iColor\iColor.css" />
-    <Content Include="Scripts\Plug\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\Plug\jquery.min.js" />
     <Content Include="Scripts\Plug\ad-gallery\ad_next.png" />
     <Content Include="Scripts\Plug\ad-gallery\ad_prev.png" />
     <Content Include="Scripts\Plug\ad-gallery\ad_scroll_back.png" />

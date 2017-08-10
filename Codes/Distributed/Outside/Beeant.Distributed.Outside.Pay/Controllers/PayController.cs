@@ -207,7 +207,7 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
                 builder.Append(info?.Request);
                 return Content(builder.ToString());
             }
-            return model.IsSuccess ?View("~/Views/Pay/ReturnSuccess.cshtml", model): View("~/Views/Pay/ReturnFailure.cshtml", model);
+            return model.IsSuccess ?View("~/Views/Pay/RefundSuccess.cshtml", model): View("~/Views/Pay/RefundFailure.cshtml", model);
  
         }
         /// <summary>
@@ -321,7 +321,7 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
         public virtual ActionResult Select(PaylineModel model)
         {
             return model != null && model.ChannelType == ChannelType.Mobile
-                ? View("MobileSelect") : View("WebsiteSelect");
+                ? View("MobileSelect", model) : View("WebsiteSelect", model);
         }
     }
 }

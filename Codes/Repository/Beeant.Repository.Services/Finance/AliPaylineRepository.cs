@@ -125,7 +125,12 @@ namespace Beeant.Repository.Services.Finance
             request.BizContent = builder.ToString();
             var processUrl = string.Format("{0}/AliPay/Process",
                 ConfigurationManager.GetSetting<string>("DistributedOutsidePayUrl"));
-            request.SetReturnUrl(processUrl);
+            var returnUrl = string.Format("{0}?returnurl={1}&returntitle={2}&autoreturnurl={3}&autoreturntitle={4}"
+                , processUrl,HttpContext.Current.Request["returnurl"]
+                , HttpContext.Current.Request["returntitle"]
+                , HttpContext.Current.Request["autoreturnurl"]
+                , HttpContext.Current.Request["autoreturntitle"]);
+            request.SetReturnUrl(returnUrl);
             request.SetNotifyUrl(processUrl);
             AlipayTradeWapPayResponse response = AopClient.pageExecute(request);
             info.Request = response.Body;

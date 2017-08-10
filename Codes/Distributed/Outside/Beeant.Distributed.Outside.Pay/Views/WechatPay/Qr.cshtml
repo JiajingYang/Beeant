@@ -15,7 +15,7 @@
         <div class="code-bd clear">
             <div class="code-img">
                 @*<img src="/Shared/GetQrCode?url=@Model.PaylineEntity.CodeUrl" />*@
-                <img style="width: 200px; height: 200px;" src="@Url.Action("GetQrCode", "Shared", new {url = @Model.Payline.CodeUrl})"/>
+                <img style="width: 200px; height: 200px;" src="@Url.Action("GetQrCode", "Shared", new {url = Request["url"]})"/>
                 <div>请扫描二维码完成支付</div>
             </div>
             <div class="code-demo">
@@ -30,8 +30,10 @@
 {
     <script type="text/javascript">
         window.Number = '@Model.Payline.Number';
+        window.Url =
+            "/WechatPay/Success?number=@Model.Payline.Number&returnurl=@(Request["returnurl"])&returntitle=@(Request["returntitle"])&autoreturnurl=@(Request["autoreturnurl"])&autoreturntitle=@(Request["autoreturntitle"])";
     </script>
 }
-<script src="~/Scripts/Plug/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/Plug/jquery.min.js"></script>
 <script src="~/Scripts/wechat.js"></script>
 

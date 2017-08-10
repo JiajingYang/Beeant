@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="EventManager.cs" />
     <Compile Include="Properties\AssemblyEntity.cs" />
   </ItemGroup>
   <ItemGroup>

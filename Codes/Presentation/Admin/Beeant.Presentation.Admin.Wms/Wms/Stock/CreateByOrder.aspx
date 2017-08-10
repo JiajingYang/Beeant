@@ -11,7 +11,7 @@
        <link href="/Scripts/Winner/Dialog/Styles/Style.css" rel="stylesheet" type="text/css" />
         <link href="/Styles/Style.css" rel="stylesheet" type="text/css" />
       <script type="text/javascript" src="/Scripts/Winner/Winner.ClassBase.js"></script>
-        <script type="text/javascript" src="/scripts/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="/scripts/jquery.min.js"></script>
         <script type="text/javascript" src="/Scripts/Winner/Dialog/Winner.Dialog.js"></script>
 </head>
 <body>

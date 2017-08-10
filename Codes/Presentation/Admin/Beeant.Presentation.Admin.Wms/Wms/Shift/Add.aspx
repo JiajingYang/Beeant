@@ -4,7 +4,7 @@
    <%@ Register src="../../Controls/Pager.ascx" tagname="Pager" tagprefix="uc1" %>
 
    <html xmlns="http://www.w3.org/1999/xhtml">
-       <script src="../../Scripts/jquery-1.7.1.min.js"></script>
+       <script src="../../Scripts/jquery.min.js"></script>
 <head id="Head1" runat="server">
        <title>供应链商品审核</title>
       <link href="/Styles/popup.css" rel="stylesheet" type="text/css" />

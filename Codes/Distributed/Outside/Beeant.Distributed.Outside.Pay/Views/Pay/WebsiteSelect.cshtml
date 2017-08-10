@@ -15,14 +15,13 @@
         <span><img src="/Images/order-succ.jpg" width="55px" /></span>
         <div class="submit-mess">
             <h3>订单提交成功！现在去支付！<span class="pay-moey">支付金额<span>@(Request["PayAmount"])</span>元</span></h3>
-            @*<p>订单号：<span>123456785345</span></p>*@
-            <div>请在24小时内完成支付，过期订单将自动取消！</div>
+     
         </div>
     </div>
 </div>
-<form action="" target="frPayType" id="fmPayType" method="GET">
+<form action="" target="frPayType" id="fmPayType" method="post">
     <input type="hidden" name="ChannelType" value="@((int) ChannelType.Website)" />
-    <input type="hidden" name="OrderIds" value="@Model.OrderIds" />
+    <input type="hidden" name="OrderIds" value="@(Request["OrderIds"])" />
     <input type="hidden" name="trade_type" value="NATIVE" />
     <input type="hidden"  name="ReturnUrl" value="@(Request["ReturnUrl"])" />
     <input type="hidden"  name="ReturnTitle" value="@(Request["ReturnTitle"])" />
@@ -38,15 +37,15 @@
                     {
                         if (payType.IndexOf("微信", StringComparison.Ordinal) > -1)
                         {
-                            <li ActionUrl="/WechatPay/Create" PayTypeName="@payType"><img src="/Images/weixinpay.png" />@(payType)<i></i></li>
+                            <li ActionUrl="/WechatPay/Create" PayTypeName="@payType"><img src="/Images/weixinpay.png" /><i></i></li>
                         }
                         else if (payType.IndexOf("支付宝", StringComparison.Ordinal) > -1)
                         {
-                            <li ActionUrl="/AliPay/Create" PayTypeName="@payType"><img src="/Images/alipay.png" />@(payType)<i></i></li>
+                            <li ActionUrl="/AliPay/Create" PayTypeName="@payType"><img src="/Images/alipay.png" /><i></i></li>
                         }
                         else 
                         {
-                            <li ActionUrl="/BalancePay/Create" PayTypeName="@payType"><img src="@Html.GetUrl("PresentationWebsiteSharedUrl")/Images/logo.png" />@(payType)<i></i></li>
+                            <li ActionUrl="/BalancePay/Create" PayTypeName="@payType"><img src="/Images/Balance.png" /><i></i></li>
                         }
                     }
                 }
@@ -58,4 +57,5 @@
 
     </div>
 </form>
+<script src="@Html.GetUrl("PresentationWebsiteSharedUrl")/Scripts/Plug/jquery.min.js"></script>
 <script src="/Scripts/WebsiteSelect.js"></script>

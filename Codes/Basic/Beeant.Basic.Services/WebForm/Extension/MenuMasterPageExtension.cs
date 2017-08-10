@@ -92,7 +92,7 @@ namespace Beeant.Basic.Services.WebForm.Extension
             builder.AppendFormat("<script type='text/javascript' src='{0}/scripts/Serializator.js'></script>", url);
             builder.AppendFormat("<script type='text/javascript' src='/scripts/Winner/Winner.ClassBase.js'></script>");
             builder.AppendFormat("<script type='text/javascript' src='/scripts/Winner/Dialog/Winner.Dialog.js'></script>");
-            builder.AppendFormat("<script type='text/javascript' src='/scripts/Plug/jquery-1.7.1.min.js'></script>");
+            builder.AppendFormat("<script type='text/javascript' src='/scripts/Plug/jquery.min.js'></script>");
             builder.AppendFormat("<script type='text/javascript' src='/scripts/Plug/JqueryUI/jquery-ui-1.10.3.custom.min.js'></script>");
 
             builder.AppendFormat("<link href='{0}/Styles/Style.css' rel='stylesheet' type='text/css' />", url);

@@ -148,6 +148,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Images\alipay.png" />
+    <Content Include="Images\Balance.png" />
     <Content Include="Images\closebg.png" />
     <Content Include="Images\code.png" />
     <Content Include="Images\hdicon.png" />
@@ -211,10 +212,10 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Pay\Failure.cshtml" />
-    <Content Include="Views\Pay\ReturnFailure.cshtml" />
-    <Content Include="Views\Pay\ReturnSuccess.cshtml" />
+    <Content Include="Views\Pay\RefundFailure.cshtml" />
+    <Content Include="Views\Pay\RefundSuccess.cshtml" />
     <Content Include="Views\Pay\Success.cshtml" />
-    <Content Include="Views\WechatPay\Create.cshtml" />
+    <Content Include="Views\WechatPay\Qr.cshtml" />
     <Content Include="Views\Pay\MobileSelect.cshtml" />
     <Content Include="Views\Pay\WebsiteSelect.cshtml" />
   </ItemGroup>

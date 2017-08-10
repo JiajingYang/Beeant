@@ -78,3 +78,52 @@
         margin-right: 6px;
     }
 
+/*支付方式*/
+.paytype-bg{ background: #eee;position: fixed;z-index: -1;left: 0;top: 0;right: 0;bottom: 0}
+.paytype-main{ width: 900px;margin: 0 auto;background: #fff;padding: 18px;margin-top: 6px}
+.paytype-main.pm1{margin-top:50px}
+.paytype-main .paytype-title{ border-bottom: 1px solid #ddd;line-height: 30px;font-size: 16px;}
+.paytype-bd{padding-top: 40px}
+.paytype-bd span{ float: left;width: 90px;line-height: 36px}
+.paytype-bd ul{ float: left;width: 500px;}
+.paytype-bd ul li{ float: left;border: 1px solid #ddd;margin-right: 12px;padding: 4px 10px;cursor: pointer;position: relative}
+.paytype-bd ul li.select{ border-color: #1cbfda;}
+.paytype-bd ul li img{ vertical-align: middle;width: 80px;height: 25px}
+.paytype-bd ul li i{ position: absolute;width: 10px;height: 10px;background: url(/Images/pay_ico.png) 0 -40px;right: 0;
+    bottom: 0;display: none}
+.paytype-bd ul li.select i{display: block}
+.submit-succ{padding-top: 5px}
+.submit-succ>span{ float: left;width: 65px;text-align: right}
+.submit-succ .submit-mess{ float: right;width: 810px}
+.submit-succ h3{ font-size: 18px; line-height: 26px;padding-bottom: 5px;}
+.submit-succ .pay-moey{ float: right;font-size: 12px}
+.submit-succ .pay-moey>span{ color: #ff3f04;margin: 0 5px;font-size: 16px;font-weight: bold}
+.submit-succ p{color: #666}
+.submit-succ p>span{color: #ff3f04}
+.btncon{ padding-top: 30px;padding-bottom: 30px}
+.btncon .btn{ background: #ff3f04;color: #fff;border: 0;width: 90px;height: 36px;font-weight: bold;font-size: 14px;cursor: pointer;}
+/*扫码支付*/
+.scancode-main{ width: 1000px;margin:0 auto}
+.scancode-main .order-mess{ line-height: 90px;font-size: 14px;color: #666;font-weight: bold}
+.scancode-main .order-mess .s-price{ float: right;font-size: 14px;font-weight: normal}
+.scancode-main .order-mess .s-price>span{ color: #ff5d5b;font-size: 16px;margin: 0 4px;font-weight: bold}
+.code-mess{    padding: 12px 30px;
+    -moz-box-shadow: 0 0 20px rgba(0,0,0,.12);
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,.12);
+    box-shadow: 0 0 20px rgba(0,0,0,.12);
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;}
+.code-mess:hover{-moz-box-shadow: 0 0 20px rgba(0,0,0,.24);
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,.24);
+    box-shadow: 0 0 20px rgba(0,0,0,.24)}
+.code-mess h2{ font-size: 16px;position: relative}
+.code-mess h2 label{color: #ff8c00;font-size: 12px;position: absolute;left: 150px}
+.code-bd{padding-top: 10px}
+.code-bd .code-img{ float: left;padding-left: 150px;padding-right: 20px}
+.code-bd .code-img div{color: #ff8c00;font-size: 14px;}
+.code-bd .code-demo{float: left;}
+.select-other{ padding-top: 10px;font-size: 14px;color: #38a2d2}
+.select-other label{ font-family: SimSun;font-size: 22px;margin-right: 6px;vertical-align: middle}
+.select-other a{vertical-align: middle}

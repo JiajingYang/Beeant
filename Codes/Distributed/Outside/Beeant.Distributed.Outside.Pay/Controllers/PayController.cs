@@ -9,6 +9,7 @@ using Beeant.Basic.Services.Mvc.Bases;
 using Beeant.Basic.Services.Mvc.Extension;
 using Beeant.Basic.Services.Mvc.FilterAttribute;
 using Beeant.Distributed.Outside.Pay.Models;
+using Beeant.Domain.Entities;
 using Beeant.Domain.Entities.Account;
 using Beeant.Domain.Entities.Finance;
 using Beeant.Domain.Entities.Order;
@@ -156,8 +157,8 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
             {
                 var builder = new StringBuilder();
                 builder.AppendFormat("<script  type=\"text/javascript\" >document.domain='{0}';{1}('{2}');</script>",
-                    ConfigurationManager.GetSetting<string>("Domain"), Request["successhandle"], model.Payline.Id);
-                builder.Append(model.Payline.Request);
+                    ConfigurationManager.GetSetting<string>("Domain"), Request["successhandle"], model.Payline?.Id);
+                builder.Append(model.Payline?.Request);
                 return Content(builder.ToString());
             }
             if (!model.IsSuccess && !string.IsNullOrEmpty(Request["failhandle"]))
@@ -165,7 +166,7 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
                 var builder = new StringBuilder();
                 builder.AppendFormat("<script  type=\"text/javascript\" >document.domain='{0}';{1}('{2}');</script>",
                     ConfigurationManager.GetSetting<string>("Domain"), Request["failhandle"], model.Payline?.Errors?.FirstOrDefault()?.Message);
-                builder.Append(model.Payline.Request);
+                builder.Append(model.Payline?.Request);
                 return Content(builder.ToString());
             }
             return model.IsSuccess ? View("Success", model) : View("Failure", model);
@@ -194,8 +195,8 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
             {
                 var builder = new StringBuilder();
                 builder.AppendFormat("<script  type=\"text/javascript\" >document.domain='{0}';{1}('{2}');</script>",
-                    ConfigurationManager.GetSetting<string>("Domain"), Request["successhandle"], info.Id);
-                builder.Append(info.Request);
+                    ConfigurationManager.GetSetting<string>("Domain"), Request["successhandle"], info?.Id);
+                builder.Append(info?.Request);
                 return Content(builder.ToString());
             }
             if (!model.IsSuccess && !string.IsNullOrEmpty(Request["failhandle"]))
@@ -203,7 +204,7 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
                 var builder = new StringBuilder();
                 builder.AppendFormat("<script  type=\"text/javascript\" >document.domain='{0}';{1}('{2}');</script>",
                     ConfigurationManager.GetSetting<string>("Domain"), Request["failhandle"], info?.Errors?.FirstOrDefault()?.Message);
-                builder.Append(info.Request);
+                builder.Append(info?.Request);
                 return Content(builder.ToString());
             }
             return model.IsSuccess ?View("~/Views/Pay/ReturnSuccess.cshtml", model): View("~/Views/Pay/ReturnFailure.cshtml", model);
@@ -316,10 +317,11 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
         /// <summary>
         /// 通知
         /// </summary>
-        [AuthorizeFilter]
+        //[AuthorizeFilter]
         public virtual ActionResult Select(PaylineModel model)
         {
-            return null;
+            return model != null && model.ChannelType == ChannelType.Mobile
+                ? View("MobileSelect") : View("WebsiteSelect");
         }
     }
 }

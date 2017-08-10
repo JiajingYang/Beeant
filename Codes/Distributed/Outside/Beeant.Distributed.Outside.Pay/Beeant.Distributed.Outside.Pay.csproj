@@ -133,11 +133,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\BalancePayController.cs" />
     <Compile Include="Controllers\AliPayController.cs" />
-    <Compile Include="Controllers\WechatPayController.cs" />
+    <Compile Include="Controllers\BalancePayController.cs" />
     <Compile Include="Controllers\PayController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\WechatPayController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -156,6 +156,7 @@
     <Content Include="Images\pay_ico.png" />
     <Content Include="Images\phone-demo.png" />
     <Content Include="Images\weixinpay.png" />
+    <Content Include="Scripts\WebsiteSelect.js" />
     <Content Include="Scripts\wechat.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -208,19 +209,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\WechatPay\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Pay\Success.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Pay\Failure.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Pay\ReturnSuccess.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Pay\ReturnFailure.cshtml" />
+    <Content Include="Views\Pay\ReturnSuccess.cshtml" />
+    <Content Include="Views\Pay\Success.cshtml" />
+    <Content Include="Views\WechatPay\Create.cshtml" />
+    <Content Include="Views\Pay\MobileSelect.cshtml" />
+    <Content Include="Views\Pay\WebsiteSelect.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

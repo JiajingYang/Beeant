@@ -4,6 +4,7 @@ using System.Linq;
 using Beeant.Application.Services.Workflow;
 using Beeant.Domain.Entities.Finance;
 using Beeant.Domain.Services.Finance;
+using Configuration;
 using Winner.Persistence;
 using Winner.Persistence.Linq;
 
@@ -49,12 +50,10 @@ namespace Beeant.Application.Services.Finance
             if (info == null || info.SaveType == SaveType.None)
                 return info;
              info= Pay(info);
-            if (info.Errors != null && info.Errors.Count == 0 && PaylineEntity.SeccessHandles != null)
+            if (info.Errors != null && info.Errors.Count == 0)
             {
-                foreach (var handle in PaylineEntity.SeccessHandles)
-                {
-                    handle.BeginInvoke(info,null,null);
-                }
+                EventManager.Execute(
+                    new Configuration.EventArgs {Name = PaylineEntity.SeccessEventName, Sender = info});
             }
             return info;
         }

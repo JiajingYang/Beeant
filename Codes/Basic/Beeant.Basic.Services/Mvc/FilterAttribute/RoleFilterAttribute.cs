@@ -15,7 +15,7 @@ namespace Beeant.Basic.Services.Mvc.FilterAttribute
         public override bool CheckFilter(ActionExecutingContext filterContext)
         {
             var rev= base.CheckFilter(filterContext);
-            if (rev && IsVerifyRole)
+            if (rev)
             {
                 rev = VerifyResource(filterContext, Identity.Id);
             }
@@ -27,8 +27,10 @@ namespace Beeant.Basic.Services.Mvc.FilterAttribute
         /// </summary>
         /// <param name="filterContext"></param>
         /// <param name="accountId"></param>
-        public static bool VerifyResource(ActionExecutingContext filterContext,long accountId)
+        protected virtual bool VerifyResource(ActionExecutingContext filterContext,long accountId)
         {
+            if (!IsVerifyRole)
+                return true;
             var info = GetVerification(filterContext,accountId);
             if (info == null) return false;
             filterContext.Controller.ViewBag.Verification = info;

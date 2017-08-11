@@ -241,6 +241,24 @@ namespace Component.Extension
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
+        public static T ConvertEnum<T>(this int value)
+        {
+            try
+            {
+                return (T)(object)value;
+            }
+            catch (Exception)
+            {
+
+                return default(T);
+            }
+        }
+        /// <summary>
+        /// 转换枚举
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static T ConvertEnum<T>(this string value)
         {
             if (string.IsNullOrEmpty(value)) return default(T);

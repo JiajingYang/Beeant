@@ -42,6 +42,29 @@ namespace Configuration
                Handles.Add(eventName,new List<EventHandle>());
             Handles[eventName].Add(handle);
         }
+
+        private static object RegisterLocker = new object();
+        private static IDictionary<string, object> ClientKeys = new Dictionary<string, object>();
+        /// <summary>
+        /// 注册事件
+        /// </summary>
+        /// <param name="eventName"></param>
+        /// <param name="handle"></param>
+        /// <param name="key"></param>
+        public static void Register(string eventName, EventHandle handle,string key)
+        {
+            if(ClientKeys.ContainsKey(key))
+                return;
+            lock (RegisterLocker)
+            {
+                if (ClientKeys.ContainsKey(key))
+                    return;
+                ClientKeys.Add(key,new object());
+            }
+            if (!Handles.ContainsKey(eventName))
+                Handles.Add(eventName, new List<EventHandle>());
+            Handles[eventName].Add(handle);
+        }
         /// <summary>
         /// 执行
         /// </summary>

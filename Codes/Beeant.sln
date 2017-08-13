@@ -181,6 +181,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{F7F13762-CEC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beeant.Cloud.Workflow", "Cloud\Workflow\Beeant.Cloud.Workflow\Beeant.Cloud.Workflow.csproj", "{A5D7FB1A-FDA4-40E2-A1EA-EFD48A3AD781}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beeant.Cloud.Workflow.Website.Config", "Cloud\Workflow\Website\Beeant.Cloud.Workflow.Website.Config\Beeant.Cloud.Workflow.Website.Config.csproj", "{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -953,6 +955,18 @@ Global
 		{A5D7FB1A-FDA4-40E2-A1EA-EFD48A3AD781}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A5D7FB1A-FDA4-40E2-A1EA-EFD48A3AD781}.Release|x86.ActiveCfg = Release|Any CPU
 		{A5D7FB1A-FDA4-40E2-A1EA-EFD48A3AD781}.Release|x86.Build.0 = Release|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Debug|x86.Build.0 = Debug|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Release|x86.ActiveCfg = Release|Any CPU
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1037,5 +1051,6 @@ Global
 		{1BD3F319-BFB3-4085-B459-A94BB3DA1AAF} = {B122972F-9C46-4A46-9113-7E70FB100765}
 		{F7F13762-CEC1-4808-9D5A-7B5E25DB63E1} = {B122972F-9C46-4A46-9113-7E70FB100765}
 		{A5D7FB1A-FDA4-40E2-A1EA-EFD48A3AD781} = {B122972F-9C46-4A46-9113-7E70FB100765}
+		{360F2E05-5F0D-425B-8ED8-D0FD7DEA9D58} = {20E83C3C-BD74-4928-A42F-8EB0B3D94603}
 	EndGlobalSection
 EndGlobal

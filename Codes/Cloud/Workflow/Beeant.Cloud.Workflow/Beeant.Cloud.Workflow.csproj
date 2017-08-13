@@ -47,9 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrmAuthorizeBaseController.cs" />
-    <Compile Include="CrmAuthorizeFilterAttribute.cs" />
-    <Compile Include="CrmDataFilterAttribute.cs" />
+    <Compile Include="WorkflowAuthorizeBaseController.cs" />
+    <Compile Include="WorkflowAuthorizeFilterAttribute.cs" />
+    <Compile Include="WorkflowDataFilterAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Application\Beeant.Application.Dtos\Beeant.Application.Dtos.csproj">

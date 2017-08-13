@@ -79,6 +79,10 @@ namespace Beeant.Domain.Entities.Workflow
         /// 消息类型
         /// </summary>
         public int MessageType { get; set; }
+        /// <summary>
+        /// 图像
+        /// </summary>
+        public string Map { get; set; }
 
         private string _messageTypeName;
         /// <summary>

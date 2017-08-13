@@ -258,6 +258,9 @@
     <Compile Include="Utility\MobileEntity.cs" />
     <Compile Include="Utility\TokenEntity.cs" />
     <Compile Include="Utility\EmailEntity.cs" />
+    <Compile Include="Workflow\FormEntity.cs" />
+    <Compile Include="Workflow\RequestEntity.cs" />
+    <Compile Include="Workflow\WorkflowEntity.cs" />
     <Compile Include="Workflow\NodeMessageEntity.cs" />
     <Compile Include="Workflow\NodeAccountEntity.cs" />
     <Compile Include="Workflow\ConditionEntity.cs" />

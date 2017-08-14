@@ -317,7 +317,7 @@ namespace Beeant.Domain.Entities.Workflow
                 return "";
             var timespan = DateTime.Now.Ticks.ToString();
             var mark = Winner.Creator.Get<Winner.Base.ISecurity>().EncryptSign(timespan);
-            url = string.Format("{0}?taskId={1}&accountid={2}&token={3}&sign={4}&channel={5}", url, Id, Account?.Id, timespan, mark,channel);
+            url = string.Format("{0}{1}taskId={2}&accountid={3}&token={4}&sign={5}&channel={6}", url, url.Contains("?")?"&":"?", Id, Account?.Id, timespan, mark,channel);
             return url;
         }
 

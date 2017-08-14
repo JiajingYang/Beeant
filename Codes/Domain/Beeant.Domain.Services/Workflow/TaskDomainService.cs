@@ -137,11 +137,6 @@ namespace Beeant.Domain.Services.Workflow
         {
             if (info.Messages == null)
                 return true;
-            foreach (var message in info.Messages)
-            {
-                message.Task = info;
-                message.Url = info.SignUrl(message.Url, message.Type.ToString());
-            }
             IList<MessageEntity> messages = info.Messages.Where(it => it.SaveType == SaveType.Add).ToList();
             var units = MessageDomainService.Handle(messages);
             if (units == null)
@@ -165,6 +160,11 @@ namespace Beeant.Domain.Services.Workflow
         {
             if (info.Messages == null || info.Messages.Count == 0)
                 return;
+            foreach (var message in info.Messages)
+            {
+                message.Task = info;
+                message.Url = info.SignUrl(message.Url, message.Type.ToString());
+            }
             foreach (var message in info.Messages)
             {
                 switch (message.Type)
@@ -206,6 +206,7 @@ namespace Beeant.Domain.Services.Workflow
             EmailRepository.Send(new EmailEntity
             {
                 IsLog = true,
+                Variables=message.Task.Variables,
                 Mail = new MailInfo {Subject = message.Title, Body = detail, ToMails = new[] { account.Email}}
             });
         }
@@ -220,7 +221,7 @@ namespace Beeant.Domain.Services.Workflow
             if (account == null || string.IsNullOrEmpty(account.Mobile))
                 return;
             var detail = message.Detail.Replace("【Remark】", message.Task.Remark).Replace("【Url】", message.Url);
-            MobileRepository.Send(new MobileEntity { Body = detail, ToMobiles = new[] { account.Mobile } });
+            MobileRepository.Send(new MobileEntity { Variables = message.Task.Variables, Body = detail, ToMobiles = new[] { account.Mobile } });
         }
 
         #region 添加验证

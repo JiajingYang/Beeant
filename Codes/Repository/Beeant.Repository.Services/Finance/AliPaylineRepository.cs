@@ -147,9 +147,9 @@ namespace Beeant.Repository.Services.Finance
         {
             var builder = new StringBuilder("{");
             //订单描述，可空
-            builder.AppendFormat("\"body\":\"{0}\",", info.TypeName);
+            builder.AppendFormat("\"body\":\"订单支付{0}\",", info.Number);
             //订单标题
-            builder.AppendFormat("\"subject\":\"{0}\",", info.TypeName);
+            builder.AppendFormat("\"subject\":\"订单支付{0}\",", info.Number);
             //商户订单号，64个字符以内、可包含字母、数字、下划线；需保证在商户端不重复
             builder.AppendFormat("\"out_trade_no\":\"{0}\",", info.Number);
             //订单总金额

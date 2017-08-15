@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "扫码支付";
+}
+@model Beeant.Distributed.Outside.Pay.Models.PaylineModel
+
+<div class="scancode-main">
+    <div class="order-mess">
+        订单提交成功，请尽快付款！@*订单号：59645709009*@
+        <span class="s-price">应付金额<span>@Model.Payline.Amount</span>元</span>
+    </div>
+    <div class="code-mess">
+        @*<h2>微信支付<label>二维码已过期，<a>刷新</a>页面重新获取二维码。</label>
+    </h2>*@
+        <div class="code-bd clear">
+            <div class="code-img">
+                @*<img src="/Shared/GetQrCode?url=@Model.PaylineEntity.CodeUrl" />*@
+                <img style="width: 200px; height: 200px;" src="@Url.Action("GetQrCode", "Shared", new {url = @Model.Payline.CodeUrl})"/>
+                <div>请扫描二维码完成支付</div>
+            </div>
+            <div class="code-demo">
+                <img src="/Images/phone-demo.png"/>
+            </div>
+        </div>
+        <div class="select-other"><label><</label><a>选择其他支付方式</a>
+        </div>
+    </div>
+</div>
+@if (Model != null && Model.Payline!=null)
+{
+    <script type="text/javascript">
+        window.Number = '@Model.Payline.Number';
+    </script>
+}
+<script src="~/Scripts/Plug/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/wechat.js"></script>
+

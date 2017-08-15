@@ -51,7 +51,7 @@ namespace Beeant.Domain.Services.Account
         {
             if (!string.IsNullOrEmpty(login.Type))
                 return null;
-            var info = new AccountEntity { Name = login.Name, Password = login.Password };
+            var info = new AccountEntity { Name = login.Name.ToLower(), Password = login.Password };
             info.SetEncryptPassword();
             var query = new QueryInfo();
             query.Query<AccountIdentityEntity>().Where(it => it.Number==login.Name)

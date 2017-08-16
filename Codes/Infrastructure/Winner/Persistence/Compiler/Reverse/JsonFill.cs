@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Xml;
 using Newtonsoft.Json;
@@ -12,7 +13,7 @@ namespace Winner.Persistence.Compiler.Reverse
 
     public class JsonFill : Fill
     {
-        public override T Reverse<T>(System.Data.IDataReader reader, OrmObjectInfo obj)
+        public override T Reverse<T>(IDataReader reader, OrmObjectInfo obj)
         {
             var arry = new List<string>();
             while (reader.Read())
@@ -30,7 +31,30 @@ namespace Winner.Persistence.Compiler.Reverse
             return (T)JsonConvert.DeserializeObject(string.Format("[{0}]", string.Join(",", arry)), type);
            
         }
-
+        /// <summary>
+        /// 填充对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override T Reverse<T>(DataTable table, OrmObjectInfo obj)
+        {
+            var arry = new List<string>();
+            foreach (DataRow row in table.AsEnumerable().AsParallel())
+            {
+                var properties = new Dictionary<string, object>();
+                foreach (DataColumn column in table.Columns)
+                {
+                    AppendJsonObject(obj, properties, column.ColumnName, row[column.ColumnName]);
+                }
+                arry.Add(JsonConvert.SerializeObject(properties));
+            }
+            var names = obj.ObjectName.Split(',');
+            var typeName = string.Format("{0}[],{1}", names[0], names[1]);
+            var type = Type.GetType(typeName);
+            return (T)JsonConvert.DeserializeObject(string.Format("[{0}]", string.Join(",", arry)), type);
+        }
         /// <summary>
         /// 拼接json
         /// </summary>

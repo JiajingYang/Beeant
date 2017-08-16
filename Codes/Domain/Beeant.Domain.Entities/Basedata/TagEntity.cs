@@ -12,7 +12,7 @@ namespace Beeant.Domain.Entities.Basedata
         /// <summary>
         /// 类型
         /// </summary>
-        public TagGroupEntity TagGroup { get; set; }
+        public string Type { get; set; }
         /// <summary>
         /// 值
         /// </summary>

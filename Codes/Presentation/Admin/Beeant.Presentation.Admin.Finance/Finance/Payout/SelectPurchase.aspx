@@ -13,7 +13,7 @@
      
       <link href="/Styles/Style.css" rel="stylesheet" type="text/css" />
       <script type="text/javascript" src="/scripts/Winner/Winner.ClassBase.js"></script>
-      <script type="text/javascript" src="/scripts/jquery-1.7.1.min.js"></script>
+      <script type="text/javascript" src="/scripts/jquery.min.js"></script>
       <script type="text/javascript" src="/Scripts/Plug/Calendar.js"></script>
 
 </head>

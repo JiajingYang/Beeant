@@ -42,6 +42,11 @@ namespace Beeant.Domain.Entities.Account
         /// 
         /// </summary>
         public BaseEntity NumberEntity { get; set; }
-     
+        /// <summary>
+        /// 是否身份标识
+        /// </summary>
+        public bool IsIdentity { get; set; } = true;
+
+
     }
 }

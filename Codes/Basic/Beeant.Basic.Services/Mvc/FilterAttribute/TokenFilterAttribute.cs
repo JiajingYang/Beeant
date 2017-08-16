@@ -31,18 +31,25 @@ namespace Beeant.Basic.Services.Mvc.FilterAttribute
                    filterContext.RequestContext.HttpContext.Request["sign"];
             var token = filterContext.RequestContext.RouteData.Values["token"] ??
                filterContext.RequestContext.HttpContext.Request["token"];
+            var timestamp = filterContext.RequestContext.RouteData.Values["timestamp"] ??
+                        filterContext.RequestContext.HttpContext.Request["timestamp"];
             var args = new ApiArgsEntity
             {
                 Ip = HttpContextHelper.GetClientIp(),
                 Method = Method,
                 Sign = sign.Convert<string>(),
                 Token = token.Convert<string>(),
-                Value = value
+                Value = value,
+                Timestamp = timestamp.Convert<string>()
             };
             var info = Ioc.Resolve<IApiEngineApplicationService>().Verify(args);
             filterContext.Controller.ViewBag.Verification = info;
             filterContext.Controller.ViewBag.Method = Method;
-            if (info != null && info.Error != null)
+            if (info == null)
+            {
+                filterContext.Result = new ContentResult { Content = "ParametersError" };
+            }
+            else if (info.Error != null)
             {
                 filterContext.Result = new ContentResult {Content = GetErrorResult(info.Error.Key, info.Error.Message)};
             }

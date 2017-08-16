@@ -21,7 +21,7 @@ namespace Beeant.Presentation.Admin.Home.Desktop.Message
 
             if (Identity.Id != 0)
             {
-                query.Query<MessageEntity>().Where(it => it.Account.Id == Identity.Id);
+                query.Query<MessageEntity>().Where(it => it.Task.Account.Id == Identity.Id);
             }
 
             
@@ -32,10 +32,6 @@ namespace Beeant.Presentation.Admin.Home.Desktop.Message
         protected virtual void ShowMessageDetail(long id)
         {
             var info = Ioc.Resolve<IApplicationService, MessageEntity>().GetEntity<MessageEntity>(id);
-            info.SetProperty("IsRead");
-            info.IsRead = true;
-            info.SaveType = SaveType.Modify;
-            Ioc.Resolve<IApplicationService, MessageEntity>().Save(info);
             LoadData();
             this.ShowMessage("流程信息", info.Title);
         }

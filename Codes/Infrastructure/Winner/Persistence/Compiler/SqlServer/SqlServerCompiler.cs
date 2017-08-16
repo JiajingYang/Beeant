@@ -184,16 +184,31 @@ namespace Winner.Persistence.Compiler.SqlServer
                 da.Fill(ds);
                 return (T)(ds.Tables[0] as object);
             }
-            SqlDataReader reader = sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
-            var rev= SetProperty<T>(reader, obj);
-            if (query!=null && query.PageSize != 0 && query.IsReturnCount)
+            if (query.IsAsParallel)
             {
-                reader.NextResult();
-                reader.Read();
-                query.DataCount = Convert.ToInt32(reader[0]);
+                var da = new SqlDataAdapter(sqlcmd);
+                var ds = new DataSet();
+                da.Fill(ds);
+                var rev = SetProperty<T>(ds.Tables[0], obj);
+                if (query.PageSize != 0 && query.IsReturnCount)
+                {
+                    query.DataCount = Convert.ToInt32(ds.Tables[1].Rows[0][0]);
+                }
+                return rev;
             }
-              
-            return rev;
+            else
+            {
+                SqlDataReader reader = sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
+                var rev = SetProperty<T>(reader, obj);
+                if (query.PageSize != 0 && query.IsReturnCount)
+                {
+                    reader.NextResult();
+                    reader.Read();
+                    query.DataCount = Convert.ToInt32(reader[0]);
+                }
+                return rev;
+            }
+           
         }
 
     

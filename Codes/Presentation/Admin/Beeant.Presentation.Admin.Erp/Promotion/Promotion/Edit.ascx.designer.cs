@@ -22,13 +22,13 @@ namespace Beeant.Presentation.Admin.Erp.Promotion.Promotion {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtName;
         
         /// <summary>
-        /// ckTag 控件。
+        /// ddlTag 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::Beeant.Presentation.Admin.Erp.Controls.Basedata.TagRadioButtonList ckTag;
+        protected global::Beeant.Presentation.Admin.Erp.Controls.GeneralDropDownList ddlTag;
         
         /// <summary>
         /// txtStartDate 控件。

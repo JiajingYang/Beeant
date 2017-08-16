@@ -55,11 +55,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AccountIdentityService.cs" />
+    <Compile Include="Service\PaylineService.cs" />
+    <Compile Include="Service\ProductService.cs" />
     <Compile Include="Service\SearchService.cs" />
     <Compile Include="Service\QueueService.cs" />
     <Compile Include="Service\IdentityService.cs" />
     <Compile Include="Service\FileService.cs" />
-    <Compile Include="Service\ProductService.cs" />
     <Compile Include="Service\CacheService.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -124,6 +125,29 @@
       <Project>{d876ee31-d4e2-4a84-bb70-c30cd79de8d9}</Project>
       <Name>Beeant.Repository.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon\FileService.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon\AccountIdentityService.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon\CacheService.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon\IdentityService.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon\SearchService.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon\QueueService.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon\ProductService.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

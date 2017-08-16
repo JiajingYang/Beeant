@@ -17,6 +17,10 @@ namespace Beeant.Domain.Entities.Finance
         /// </summary>
         public string Title { get; set; }
         /// <summary>
+        ///   编号
+        /// </summary>
+        public string Number { get; set; }
+        /// <summary>
         /// 积分增减值
         /// </summary>
         public decimal Amount { get; set; }
@@ -138,7 +142,7 @@ namespace Beeant.Domain.Entities.Finance
                 Name=Title,
                 Amount = Amount,
                 Account = Account,
-                Data = this,
+                Number = Number,
                 Remark = Remark,
                 SaveType = SaveType.Add
             };

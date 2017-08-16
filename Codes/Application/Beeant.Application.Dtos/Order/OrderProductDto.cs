@@ -134,7 +134,7 @@ namespace Beeant.Application.Dtos.Order
         /// 得到运费
         /// </summary>
         /// <returns></returns>
-        public virtual void SetFreight(Domain.Entities.Member.AddressEntity address, AreaEntity area)
+        public virtual void SetFreight(Domain.Entities.Member.AddressEntity address, AreaEntity area,decimal payAmount)
         {
             if (Freight == null || Product == null || address == null)
             {
@@ -146,8 +146,7 @@ namespace Beeant.Application.Dtos.Order
                 Province=address.Province,
                 City=address.City,
                 County = address.County,
-                Price=Price,
-                Cost=Cost,
+                PayAmount= payAmount,
                 Count=Count
             };
             Freight.Set(freightCalculator);

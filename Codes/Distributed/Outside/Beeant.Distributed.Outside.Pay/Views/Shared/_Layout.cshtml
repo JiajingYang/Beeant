@@ -1,16 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@using Beeant.Basic.Services.Mvc.Extension
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <link type="text/css" rel="stylesheet" href="/Content/Site.css" />
+    <link rel="shortcut icon" href="@Html.GetUrl("PresentationWebsiteSharedUrl")/images/favicon.ico" type="image/x-icon" />
 </head>
 <body>
     @RenderBody()
 
-    @Scripts.Render("~/bundles/jquery")
+ 
     @RenderSection("scripts", required: false)
 </body>
 </html>

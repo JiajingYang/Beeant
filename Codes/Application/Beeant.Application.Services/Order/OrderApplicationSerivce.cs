@@ -110,7 +110,7 @@ namespace Beeant.Application.Services.Order
                 return;
             if(dto.Address==null || dto.Products==null)
                 return;
-            if(dto.Products.Count(it=>it.Product!=null && it.Product.Goods!=null && it.Product.Goods.Freight!=null && it.Product.Goods.Freight.IsDelivery)==0)
+            if(dto.Products.Count(it=>it.Product!=null && it.Product.Goods!=null && it.Product.Goods.Freight!=null && it.Product.Goods.Freight.Type == FreightType.Distribution) ==0)
                 return;
            var match= AreaRepository.Match(dto.Address.City, string.Format("{0}{1}", dto.Address.County, dto.Address.Address),"Freight");
             dto.Area = match == null || match.Areas == null ? null : match.Areas.FirstOrDefault();
@@ -204,8 +204,7 @@ namespace Beeant.Application.Services.Order
                          it.Id, it.Name, it.Cost, it.Price,it.DepositRate,it.IsReturn,it.IsCustom,
                          it.Sku, it.IsSales, it.FileName, it.Count, it.OrderMinCount,it.OrderStepCount,it.Goods.PayTypes,
                          it.Goods.Account.Id,it.Goods.Account.RealName,it.Goods.Freight.Id,
-                         it.Goods.Freight.FreeProfit,it.Goods.Freight.FreeRegion,
-                         it.Goods.Freight.Carries.Select(s => new object[] {s.Id,s.Region,s.DefaultCount,s.DefaultPrice,s.ContinueCount,s.ContinuePrice})
+                         it.Goods.Freight
                      });
             var infos = Repository.GetEntities<ProductEntity>(query);
             if (infos == null)
@@ -451,9 +450,6 @@ namespace Beeant.Application.Services.Order
         }
 
         #endregion
-
-
-
 
         #region 重新异常
 

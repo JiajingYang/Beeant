@@ -4,6 +4,7 @@ using System.Linq;
 using Beeant.Application.Services.Workflow;
 using Beeant.Domain.Entities.Finance;
 using Beeant.Domain.Services.Finance;
+using Configuration;
 using Winner.Persistence;
 using Winner.Persistence.Linq;
 
@@ -48,7 +49,13 @@ namespace Beeant.Application.Services.Finance
             var info = PaylineRepository.Process();
             if (info == null || info.SaveType == SaveType.None)
                 return info;
-            return Pay(info);
+             info= Pay(info);
+            if (info.Errors != null && info.Errors.Count == 0)
+            {
+                EventManager.Execute(
+                    new EventHandleArgs { Name = PaylineEntity.SeccessEventName, Sender = info});
+            }
+            return info;
         }
 
         /// <summary>

@@ -426,13 +426,6 @@
     <Compile Include="Basedata\Freight\Edit.ascx.designer.cs">
       <DependentUpon>Edit.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Basedata\Freight\Detail.aspx.cs">
-      <DependentUpon>Detail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Basedata\Freight\Detail.aspx.designer.cs">
-      <DependentUpon>Detail.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Basedata\Freight\List.aspx.cs">
       <DependentUpon>List.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -508,34 +501,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Basedata\Style\Update.aspx.designer.cs">
-      <DependentUpon>Update.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Basedata\TagGroup\Add.aspx.cs">
-      <DependentUpon>Add.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Basedata\TagGroup\Add.aspx.designer.cs">
-      <DependentUpon>Add.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Basedata\TagGroup\Edit.ascx.cs">
-      <DependentUpon>Edit.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Basedata\TagGroup\Edit.ascx.designer.cs">
-      <DependentUpon>Edit.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Basedata\TagGroup\List.aspx.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Basedata\TagGroup\List.aspx.designer.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Basedata\TagGroup\Update.aspx.cs">
-      <DependentUpon>Update.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Basedata\TagGroup\Update.aspx.designer.cs">
       <DependentUpon>Update.aspx</DependentUpon>
     </Compile>
     <Compile Include="Basedata\Tag\Add.aspx.cs">
@@ -636,13 +601,6 @@
     <Compile Include="Controls\Basedata\BrandComboBox.ascx.designer.cs">
       <DependentUpon>BrandComboBox.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Basedata\TagRadioButtonList.ascx.cs">
-      <DependentUpon>TagRadioButtonList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Controls\Basedata\TagRadioButtonList.ascx.designer.cs">
-      <DependentUpon>TagRadioButtonList.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Account\SupplierAccountComboBox.ascx.cs">
       <DependentUpon>SupplierAccountComboBox.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -699,13 +657,6 @@
     <Compile Include="Controls\Supplier\SupplierComBox.ascx.designer.cs">
       <DependentUpon>SupplierComBox.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Basedata\TagCheckBoxList.ascx.cs">
-      <DependentUpon>TagCheckBoxList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Controls\Basedata\TagCheckBoxList.ascx.designer.cs">
-      <DependentUpon>TagCheckBoxList.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Account\AccountComboBox.ascx.cs">
       <DependentUpon>AccountComboBox.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -754,13 +705,6 @@
     </Compile>
     <Compile Include="Controls\Basedata\StyleDropDownList.ascx.designer.cs">
       <DependentUpon>StyleDropDownList.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Basedata\TagDropDownList.ascx.cs">
-      <DependentUpon>TagDropDownList.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Controls\Basedata\TagDropDownList.ascx.designer.cs">
-      <DependentUpon>TagDropDownList.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\Editor.ascx.cs">
       <DependentUpon>Editor.ascx</DependentUpon>
@@ -1185,13 +1129,6 @@
     <Compile Include="Product\Goods\Detail.aspx.designer.cs">
       <DependentUpon>Detail.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Product\Goods\List.aspx.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Product\Goods\List.aspx.designer.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Product\Goods\PriceDto.cs" />
     <Compile Include="Product\Goods\ProductDto.cs" />
     <Compile Include="Product\Goods\Update.aspx.cs">
@@ -1483,7 +1420,6 @@
     <Content Include="Basedata\District\Update.aspx" />
     <Content Include="Basedata\Freight\Add.aspx" />
     <Content Include="Basedata\Freight\Edit.ascx" />
-    <Content Include="Basedata\Freight\Detail.aspx" />
     <Content Include="Basedata\Freight\List.aspx" />
     <Content Include="Basedata\Freight\Update.aspx" />
     <Content Include="Basedata\PayType\Add.aspx" />
@@ -1495,10 +1431,6 @@
     <Content Include="Basedata\Style\Detail.aspx" />
     <Content Include="Basedata\Style\List.aspx" />
     <Content Include="Basedata\Style\Update.aspx" />
-    <Content Include="Basedata\TagGroup\Add.aspx" />
-    <Content Include="Basedata\TagGroup\Edit.ascx" />
-    <Content Include="Basedata\TagGroup\List.aspx" />
-    <Content Include="Basedata\TagGroup\Update.aspx" />
     <Content Include="Basedata\Tag\Add.aspx" />
     <Content Include="Basedata\Tag\Edit.ascx" />
     <Content Include="Basedata\Tag\List.aspx" />
@@ -1512,7 +1444,6 @@
     <Content Include="Controls\Basedata\FreightDropDownList.ascx" />
     <Content Include="Controls\Basedata\PackUnitComboBox.ascx" />
     <Content Include="Controls\Basedata\BrandComboBox.ascx" />
-    <Content Include="Controls\Basedata\TagRadioButtonList.ascx" />
     <Content Include="Controls\Account\SupplierAccountComboBox.ascx" />
     <Content Include="Controls\GeneralTreeView.ascx" />
     <Content Include="Controls\GeneralZTreeView.ascx" />
@@ -1521,7 +1452,6 @@
     <Content Include="Controls\Product\UserComboBox.ascx" />
     <Content Include="Controls\Promotion\PromotionCombox.ascx" />
     <Content Include="Controls\Supplier\SupplierComBox.ascx" />
-    <Content Include="Controls\Basedata\TagCheckBoxList.ascx" />
     <Content Include="Controls\Account\AccountComboBox.ascx" />
     <Content Include="Controls\Finance\BankComboBox.ascx" />
     <Content Include="Controls\User\UserComboBox.ascx" />
@@ -1529,7 +1459,6 @@
     <Content Include="Controls\DataSearch.ascx" />
     <Content Include="Controls\Product\RuleDropDownList.ascx" />
     <Content Include="Controls\Basedata\StyleDropDownList.ascx" />
-    <Content Include="Controls\Basedata\TagDropDownList.ascx" />
     <Content Include="Controls\Editor.ascx" />
     <Content Include="Controls\Message.ascx" />
     <Content Include="Controls\Pager.ascx" />
@@ -1595,7 +1524,6 @@
     <Content Include="Product\Goods\Add.aspx" />
     <Content Include="Product\Goods\Edit.ascx" />
     <Content Include="Product\Goods\Detail.aspx" />
-    <Content Include="Product\Goods\List.aspx" />
     <Content Include="Product\Goods\Update.aspx" />
     <Content Include="Product\Goods\Upload.aspx" />
     <Content Include="Product\Inquery\Edit.ascx" />

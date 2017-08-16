@@ -75,26 +75,17 @@
                 <a href='/Authority/OwnerAccount/Delete.aspx?accountid=<%#Eval("Account.Id") %>' target="_blank">回收组织</a>
             </ItemTemplate>
         </asp:TemplateField>
-              <asp:TemplateField HeaderText="授权组" ItemStyle-CssClass="center loperate">
+              <asp:TemplateField HeaderText="授权节点" ItemStyle-CssClass="center loperate">
             <ItemTemplate>
-                <a href='/Workflow/GroupAccount/Add.aspxaccountid=<%#Eval("Account.Id") %>' target="_blank">授权组</a>
+                <a href='/Workflow/NodeAccount/Add.aspxaccountid=<%#Eval("Account.Id") %>' target="_blank">授权节点</a>
             </ItemTemplate>
         </asp:TemplateField>
-         <asp:TemplateField HeaderText="回收组" ItemStyle-CssClass="center loperate">
+         <asp:TemplateField HeaderText="回收节点" ItemStyle-CssClass="center loperate">
             <ItemTemplate>
-                <a href='/Workflow/GroupAccount/Delete.aspx?accountid=<%#Eval("Account.Id") %>' target="_blank">回收组</a>
+                <a href='/Workflow/NodeAccount/Delete.aspx?accountid=<%#Eval("Account.Id") %>' target="_blank">回收节点</a>
             </ItemTemplate>
         </asp:TemplateField>
-            <asp:TemplateField HeaderText="授权审核组" ItemStyle-CssClass="center loperate">
-            <ItemTemplate>
-                <a href='/Workflow/AuditorAccount/Add.aspx?accountid=<%#Eval("Account.Id") %>' target="_blank">授权审核组</a>
-            </ItemTemplate>
-        </asp:TemplateField>
-         <asp:TemplateField HeaderText="回收审核组" ItemStyle-CssClass="center loperate">
-            <ItemTemplate>
-                <a href='/Workflow/AuditorAccount/Delete.aspx?accountid=<%#Eval("Account.Id") %>' target="_blank">回收审核组</a>
-            </ItemTemplate>
-        </asp:TemplateField>
+            
          <asp:TemplateField HeaderText="密码修改" ItemStyle-CssClass="center loperate">
             <ItemTemplate>
                 <a href='Passsword.aspx?id=<%#Eval("Account.Id") %>' target="_blank">密码修改</a>

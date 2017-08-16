@@ -30,30 +30,31 @@ namespace Winner.Persistence.Compiler.Reverse
             }
             return (T)((object)rev.ToArray(type));
         }
-    
+        /// <summary>
+        /// 填充对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public virtual T Reverse<T>(DataTable table, OrmObjectInfo obj)
+        {
+            var type = Type.GetType(obj.ObjectName);
+            var rev = new ArrayList();
+            foreach (DataRow row in table.Rows.AsParallel())
+            {
+                var value = GetOrmObjectElement(type, table, row, obj);
+                if (value != null) rev.Add(value);
+            }
+            return (T)((object)rev.ToArray(type));
+        }
+
         #endregion
 
         #region 填充返回结果
 
-
-        /// <summary>
-        /// 填充对象返回
-        /// </summary>
-        /// <param name="elementType"></param>
-        /// <param name="reader"></param>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        protected virtual object FillOrmObject(Type elementType, IDataReader reader, OrmObjectInfo obj)
-        {
-            var type = Type.GetType(obj.ObjectName);
-            var rev = new ArrayList();
-            while (reader.Read())
-            {
-                var value = GetOrmObjectElement(type, reader, obj);
-                if (value != null) rev.Add(value);
-            }
-            return rev.ToArray(elementType);
-        }
+        #region  datareader
+     
 
         /// <summary>
         /// 添加Orm对象
@@ -67,30 +68,43 @@ namespace Winner.Persistence.Compiler.Reverse
             for (int i = 0; i < reader.FieldCount; i++)
             {
                 var name = GetPropertyName(reader.GetName(i));
-                SetOrmObjectField(entity, reader, name, reader[i], obj);
+                SetOrmObjectField(entity, name, reader[i], obj);
             }
             return entity;
         }
+
         /// <summary>
-        /// 得到属性名称
+        /// 添加Orm对象
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        protected virtual string GetPropertyName(string name)
+        /// <param name="elementType"></param>
+        /// <param name="table"></param>
+        /// <param name="row"></param>
+        /// <param name="obj"></param>
+        protected virtual object GetOrmObjectElement(Type elementType, DataTable table,DataRow row, OrmObjectInfo obj)
         {
-            var index = name.LastIndexOf('_');
-            return name.Substring(0, index).Replace("_", ".");
+            var entity = Activator.CreateInstance(elementType);//是否添加实例
+            foreach (DataColumn column in table.Columns)
+            {
+                var name = GetPropertyName(column.ColumnName);
+                SetOrmObjectField(entity, name, row[column.ColumnName], obj);
+            }
+          
+            return entity;
         }
+
+
+
+
+        #endregion
 
         /// <summary>
         /// 添加OrmObject的Filed
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="reader"></param>
         /// <param name="propertyName"></param>
         /// <param name="value"></param>
         /// <param name="obj"></param>
-        protected virtual void SetOrmObjectField(object entity, IDataReader reader, string propertyName, object value, OrmObjectInfo obj)
+        protected virtual void SetOrmObjectField(object entity, string propertyName, object value, OrmObjectInfo obj)
         {
             var chainPropertys = obj.GetChainProperties(propertyName);
             OrmPropertyInfo property = chainPropertys.Count > 0 ? chainPropertys[chainPropertys.Count - 1] : null;
@@ -107,8 +121,17 @@ namespace Winner.Persistence.Compiler.Reverse
             else
                 entity.SetProperty(propertyName, value);
         }
+        /// <summary>
+        /// 得到属性名称
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected virtual string GetPropertyName(string name)
+        {
+            var index = name.LastIndexOf('_');
+            return name.Substring(0, index).Replace("_", ".");
+        }
 
-      
         /// <summary>
         /// 得到填充对象
         /// </summary>

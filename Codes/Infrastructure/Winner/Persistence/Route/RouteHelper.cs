@@ -15,7 +15,7 @@ namespace Winner.Persistence.Route
         /// <summary>
         /// as
         /// </summary>
-        private const string PropertyPattern = @"@?\w+(\s*\.\s*\w+)*";
+        private const string PropertyPattern = @"@?\w+(\s*\.\s*\w+)*(\s*\()?";
         /// <summary>
         /// 双引号
         /// </summary>
@@ -61,8 +61,16 @@ namespace Winner.Persistence.Route
                             parameterName = parameterName.Substring(0, parameterName.IndexOf("."));
                         }
                     }
+                    else if (match.Value.EndsWith("("))
+                    {
+                        var index = match.Value.LastIndexOf(".");
+                        propertyName = match.Value.Substring(0, index);
+                    }
                     else
+                    {
                         propertyName = match.Value;
+                    }
+                       
                 }
                 match = match.NextMatch();
             }

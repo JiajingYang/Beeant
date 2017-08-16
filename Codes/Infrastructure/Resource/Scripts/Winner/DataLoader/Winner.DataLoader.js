@@ -29,8 +29,14 @@ Winner.DataLoader.prototype =
             self.LoadData(sender, info);
         });
         if (info.IsExecute) {
-            self.HideContens(info);
-            self.LoadData(sender, info);
+            var isLoad = true;
+            if (func != null) {
+                isLoad = func(info, event);
+            }
+            if (isLoad) {
+                self.HideContens(info);
+                self.LoadData(sender, info);
+            }
         }
     },
     HideContens: function (info) {
@@ -49,6 +55,8 @@ Winner.DataLoader.prototype =
         return html;
     },
     ShowLoading: function (loading) {
+        if (loading.IsHide == true)
+            return;
         var html = this.GetLoadingHtml();
         loading.Loader = $(html);
         if (loading.Type == "Replace") {
@@ -72,7 +80,9 @@ Winner.DataLoader.prototype =
         }
         loading.Container.append(loading.Loader);
     },
-    HideLoading:function(loading) {
+    HideLoading: function (loading) {
+        if (loading.IsHide == true)
+            return;
         if (loading.TempContainer != null) {
             $(loading.TempContainer.html()).insertBefore($(loading.TempContainer));
             loading.TempContainer.remove();
@@ -106,10 +116,11 @@ Winner.DataLoader.prototype =
         if (this.CheckLoad(sender, info)) {
             return;
         }
-        info.Loading.Container.show();
         this.SetLoad(sender, info, null, true);
         var html = info.Loading.Container.html();
-        $(info.Content).show();
+        if (info.Loading.IsHide != true) {
+            info.Loading.Container.show();
+        }
         this.ShowLoading(info.Loading);
         var type = info.DataType == undefined ? "text" : info.DataType;
         var self = this;
@@ -136,7 +147,9 @@ Winner.DataLoader.prototype =
             },
             error: function (ex) {
                 self.SetLoad(sender, info, ex, false);
-                info.Loading.Container.html(html);
+                if (info.Loading.IsHide != true) {
+                    info.Loading.Container.html(html);
+                }
                 if (info.ErrorLoadFunction != undefined && info.ErrorLoadFunction != null) {
                     info.ErrorLoadFunction(sender, info);
                 }

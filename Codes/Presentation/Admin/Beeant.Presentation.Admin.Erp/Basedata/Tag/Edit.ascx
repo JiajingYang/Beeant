@@ -7,9 +7,9 @@
             <td class="font">名称</td>
             <td class="text" >
              <input id="txtName" runat="server"  type="text" class="input"  BindName="Name" SaveName="Name"  /> </td>
-             <td class="font">标签组</td>
+             <td class="font">类型</td>
             <td class="text" >
-                <uc1:GeneralDropDownList ID="ddlTagGroup" runat="server" BindName="TagGroup.Id" SaveName="TagGroup.Id" ObjectName="TagGroupEntity"   />
+                <input id="txtType" runat="server"  type="text" class="input"  BindName="Type" SaveName="Type"  />
             </td>
            
         </tr>

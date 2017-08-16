@@ -103,13 +103,13 @@ namespace Beeant.Presentation.Admin.Erp.Product.Goods {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtDataId;
         
         /// <summary>
-        /// ckTag 控件。
+        /// ckTags 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::Beeant.Presentation.Admin.Erp.Controls.Basedata.TagRadioButtonList ckTag;
+        protected global::Beeant.Presentation.Admin.Erp.Controls.GeneralCheckBoxList ckTags;
         
         /// <summary>
         /// cbPayTypes 控件。

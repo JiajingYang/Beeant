@@ -21,6 +21,10 @@ namespace Beeant.Domain.Entities.Finance
         /// </summary>
         public AccountEntity Account { get; set; }
         /// <summary>
+        ///   编号
+        /// </summary>
+        public string Number { get; set; }
+        /// <summary>
         /// 是否为冲
         /// </summary>
         public bool IsFlush { get; set; }
@@ -182,7 +186,7 @@ namespace Beeant.Domain.Entities.Finance
             {
                 Amount = 0- Amount,
                 Account = Account,
-                Data = this,
+                Number = Number,
                 Status = AccountItemStatusType.Effective,
                 SaveType = SaveType.Add
             };

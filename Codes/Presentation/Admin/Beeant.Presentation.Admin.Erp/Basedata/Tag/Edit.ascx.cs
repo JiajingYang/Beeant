@@ -15,10 +15,7 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Tag
         }
         protected override void OnInit(System.EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                ddlTagGroup.LoadData();
-            }
+           
             base.OnInit(e);
         }
    

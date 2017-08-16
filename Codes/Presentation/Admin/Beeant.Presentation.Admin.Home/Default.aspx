@@ -8,7 +8,7 @@
     <title>蜂蚁窝系统-登入</title>
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
   <link href="/Styles/login.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="/Scripts/Plug/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/Scripts/Plug/jquery.min.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">

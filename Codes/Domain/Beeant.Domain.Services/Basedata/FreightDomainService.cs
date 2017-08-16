@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Beeant.Domain.Entities.Account;
-using Beeant.Domain.Entities.Finance;
 using Beeant.Domain.Entities.Product;
 using Beeant.Domain.Entities.Basedata;
 using Winner.Persistence;
@@ -11,8 +10,7 @@ namespace Beeant.Domain.Services.Basedata
 {
     public class FreightDomainService : RealizeDomainService<FreightEntity>
     {
-        public IDomainService CaaryDomainService { get; set; }
-        public IDomainService PostageDomainService { get; set; }
+
 
         private IDictionary<string, IUnitofworkHandle> _itemHandles;
         /// <summary>
@@ -24,8 +22,7 @@ namespace Beeant.Domain.Services.Basedata
             {
                 return _itemHandles ?? (_itemHandles = new Dictionary<string, IUnitofworkHandle>
                     {
-                        {"Caaries", new UnitofworkHandle<CarryEntity>{DomainService= CaaryDomainService}},
-                        {"Postages", new UnitofworkHandle<PostageEntity>{DomainService= PostageDomainService}}
+                   
                     });
             }
             set

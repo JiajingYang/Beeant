@@ -18,7 +18,7 @@ namespace Beeant.Domain.Entities.Account
         /// <summary>
         /// 单价编号
         /// </summary>
-        public long DataId { get; set; }
+        public string Number { get; set; }
         /// <summary>
         /// 金额
         /// </summary>
@@ -35,10 +35,7 @@ namespace Beeant.Domain.Entities.Account
         /// 原始数据
         /// </summary>
         public AccountItemEntity DataEntity { get; set; }
-        /// <summary>
-        /// 相关数据
-        /// </summary>
-        public BaseEntity Data { get; set; }
+  
  
 
         /// <summary>

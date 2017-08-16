@@ -9,16 +9,23 @@ namespace Beeant.Repository.Services.Account
 {
     public class AccountIdentityService : Repository, IAccountIdentityContract
     {
+        private static readonly object Locker = new object();
         public virtual string Save(string info)
         {
-            var accountIdentity= info.DeserializeJson<AccountIdentityEntity>();
-           
-            if (ValidateExist(accountIdentity))
+            lock (Locker)
             {
-                var unitofworks = base.Save(accountIdentity);
-                Winner.Creator.Get<IContext>().Commit(unitofworks);
+                var accountIdentity = info.DeserializeJson<AccountIdentityEntity>();
+                if (accountIdentity != null && !string.IsNullOrWhiteSpace(accountIdentity.Number))
+                    accountIdentity.Number = accountIdentity.Number.ToLower();
+                if (ValidateExist(accountIdentity))
+                {
+                    var unitofworks = base.Save(accountIdentity);
+                    Winner.Creator.Get<IContext>().Commit(unitofworks);
+                }
+                return accountIdentity.SerializeJson();
+
             }
-            return accountIdentity.SerializeJson();
+           
         }
         /// <summary>
         /// 验证手机号码

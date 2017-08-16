@@ -81,7 +81,7 @@ namespace Winner.Persistence.Route
                 {
                     if (!names.ContainsKey(rule.PropertyName))
                         continue;
-                    var paramterValues = names[rule.PropertyName];
+                    var paramterValues = names[rule.PropertyName].Distinct();
                     var result = new List<QueryInfo>();
                     foreach (var paramterValue in paramterValues)
                     {
@@ -149,29 +149,15 @@ namespace Winner.Persistence.Route
         /// <returns></returns>
         protected virtual void AppendQueryByShardings(IList<QueryInfo> result, DbRouteInfo dbRoute, IList<ShardingInfo> shardings, QueryInfo query)
         {
-            if (shardings.Count == 1)
+            foreach (var sharding in shardings)
             {
-                var sharding = shardings[0];
-                query.TableIndex = string.IsNullOrWhiteSpace(sharding.TableIndex)
-                    ? sharding.TableIndex
-                    : sharding.TableIndex.ToLower();
-                query.GetDataBase = string.IsNullOrWhiteSpace(sharding.GetDataBase)
-                    ? sharding.GetDataBase
-                    : sharding.GetDataBase.ToLower();
-                result.Add(query);
-            }
-            else
-            {
-                foreach (var sharding in shardings)
-                {
-                    var cloneQuery = GetQuery(dbRoute, query, sharding);
-                    if (cloneQuery != null &&
-                        result.Count(
-                            it =>
+                var cloneQuery = GetQuery(dbRoute, query, sharding);
+                if (cloneQuery != null &&
+                    result.Count(
+                        it =>
                             it.GetDataBase == cloneQuery.GetDataBase &&
                             it.GetTableName == cloneQuery.GetTableName) == 0)
-                        result.Add(cloneQuery);
-                }
+                    result.Add(cloneQuery);
             }
         }
         /// <summary>

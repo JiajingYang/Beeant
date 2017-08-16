@@ -2,7 +2,6 @@
  <%@ Register src="/Controls/Pager.ascx" tagname="Pager" tagprefix="uc1" %>
  <%@ Register src="../../Controls/DataSearch.ascx" tagname="DataSearch" tagprefix="uc2" %>
   <%@ Register src="/Controls/Progress.ascx" tagname="Progress" tagprefix="uc3" %>
-<%@ Register src="../../Controls/GeneralDropDownList.ascx" tagname="GeneralDropDownList" tagprefix="uc4" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
    <title>标签列表</title>  
  </asp:Content>
@@ -13,14 +12,7 @@
         <div id="divSearch" class="search" runat="server" >
            <table class="tb">
                <uc2:DataSearch ID="DataSearch1" runat="server" />
-        <tr>
-                <td class="font">
-                    标签组 
-                </td>
-                <td class="mtext" colspan="7">
-                    <uc4:GeneralDropDownList ID="ddlTagGroup" runat="server" SearchWhere="TagGroup.Id==@TagGroupId" SearchParamterName="TagGroupId" ObjectName="TagGroupEntity" />
-                </td>
-          </tr>
+    
                 <tr>
                     <td class="font">
                         显示内容 
@@ -29,7 +21,7 @@
                         <asp:CheckBoxList ID="ckSelectList" runat="server">
                             <asp:ListItem Selected="True" Text="编号" Value="Id"></asp:ListItem>
                             <asp:ListItem Selected="True" Text="名称" Value="Name"></asp:ListItem>
-                            <asp:ListItem Selected="True" Text="标签组" Value="TagGroup.Name"></asp:ListItem>
+                            <asp:ListItem Selected="True" Text="类型" Value="Type"></asp:ListItem>
                             <asp:ListItem Selected="True" Text="标签值" Value="Value"></asp:ListItem>
                             <asp:ListItem Selected="True" Text="录入时间" Value="InsertTime"></asp:ListItem>
                             <asp:ListItem Text="编辑时间" Value="UpdateTime"></asp:ListItem>
@@ -105,9 +97,9 @@
                 <%#Eval("Name")%>
             </ItemTemplate>
         </asp:TemplateField>
-         <asp:TemplateField HeaderText="标签组"  ItemStyle-CssClass="left">
+         <asp:TemplateField HeaderText="类型"  ItemStyle-CssClass="left">
             <ItemTemplate>
-                <%#Eval("TagGroup.Name")%>
+                <%#Eval("Type")%>
             </ItemTemplate>
         </asp:TemplateField>
          <asp:TemplateField HeaderText="标签值"  ItemStyle-CssClass="left">

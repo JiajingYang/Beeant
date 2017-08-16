@@ -9,7 +9,7 @@
 <head id="Head1" runat="server">
      <link href="<%=Page.GetUrl("PresentationAdminHomeUrl")%>/Styles/Style.css" rel="stylesheet" type="text/css" />
       <script type="text/javascript" src="/scripts/Winner/Winner.ClassBase.js"></script>
-      <script type="text/javascript" src="/scripts/plug/jquery-1.7.1.min.js"></script>
+      <script type="text/javascript" src="/scripts/plug/jquery.min.js"></script>
            <script type="text/javascript" src="/Scripts/winner/validator/winner.validator.js"></script>
 </head>
 <body>

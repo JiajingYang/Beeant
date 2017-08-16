@@ -64,10 +64,11 @@ Winner.ComboBox.prototype =
              return self.Base.CancelEventUp(event);
          });
      },
-     SetInput: function () {//设置输入框
+     SetInput: function() { //设置输入框
          this.Input.autocomplete = "off";
          if (this.IsCreateContainer) {
-             this.Input.className = "input";
+             if (this.Input.className == "" || this.Input.className == undefined)
+                 this.Input.className = "input";
              var parent = this.Input.parentNode == null ? document.body : this.Input.parentNode;
              parent.insertBefore(this.Container, this.Input);
              parent.removeChild(this.Input);

@@ -22,22 +22,58 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Freight {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtName;
         
         /// <summary>
-        /// ckFreeProfit 控件。
+        /// ddlType 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox ckFreeProfit;
+        protected global::Beeant.Presentation.Admin.Erp.Controls.GeneralDropDownList ddlType;
         
         /// <summary>
-        /// ckIsGis 控件。
+        /// txtFullFreePrice 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox ckIsGis;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtFullFreePrice;
+        
+        /// <summary>
+        /// txtDefaultPrice 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtDefaultPrice;
+        
+        /// <summary>
+        /// txtDefaultCount 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtDefaultCount;
+        
+        /// <summary>
+        /// txtContinuePrice 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtContinuePrice;
+        
+        /// <summary>
+        /// txtContinueCount 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtContinueCount;
         
         /// <summary>
         /// txtDescription 控件。
@@ -49,15 +85,6 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Freight {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtDescription;
         
         /// <summary>
-        /// hfFreeRegion 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hfFreeRegion;
-        
-        /// <summary>
         /// btnSave 控件。
         /// </summary>
         /// <remarks>
@@ -65,5 +92,14 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Freight {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSave;
+        
+        /// <summary>
+        /// hfRegion 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hfRegion;
     }
 }

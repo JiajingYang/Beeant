@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UpdateList>
+  <!--指定的版本-->
+	<Version Folder="Eterm_1_0_0" Value="1.0.0" Ignore="true"/>
+	<Version Folder="Eterm_1_0_1" Value="1.0.1" Ignore="false"/>
+</UpdateList>

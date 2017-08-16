@@ -7,8 +7,10 @@ using Component.Extension;
 using Dependent;
 using Beeant.Application.Services;
 using Beeant.Application.Services.Workflow;
+using Beeant.Basic.Services.Common.Extension;
 using Beeant.Basic.Services.WebForm.Controls;
 using Beeant.Domain.Entities;
+using Beeant.Domain.Entities.Account;
 using Beeant.Domain.Entities.Workflow;
 using Winner.Persistence;
 using Winner.Persistence.Linq;
@@ -18,8 +20,11 @@ namespace Beeant.Basic.Services.WebForm.Pages
     public abstract class  WorkflowPageBase<T> : DatumPageBase<T> where T : BaseEntity, new()
     {
         #region 属性
-      
 
+        public string Number
+        {
+            get { return Request["Number"]; }
+        }
         private long? _taskId;
         /// <summary>
         /// 任务编号
@@ -103,7 +108,6 @@ namespace Beeant.Basic.Services.WebForm.Pages
                 if (_workflowArgs == null)
                 {
                     _workflowArgs = Ioc.Resolve<IWorkflowEngineApplicationService>().GetWorkflowArgs();
-                    _workflowArgs.Entity = new T();
                 }
                 return _workflowArgs;
             }
@@ -117,21 +121,7 @@ namespace Beeant.Basic.Services.WebForm.Pages
             get { return Identity == null ? Request["accountid"].Convert<long>() : Identity.Id; }
         }
 
-        private long? _requestId;
-        /// <summary>
-        /// 重写编号
-        /// </summary>
-        public override long RequestId
-        {
-            get
-            {
-                if (_requestId.HasValue)
-                    return _requestId.Value;
-                _requestId = Task == null || Task.Account==null || Task.Account.Id== AccountId ? base.RequestId : Task.DataId;
-                return _requestId.Value;
-            }
-            set { base.RequestId = value; }
-        }
+     
         /// <summary>
         /// 任务
         /// </summary>
@@ -140,11 +130,11 @@ namespace Beeant.Basic.Services.WebForm.Pages
         /// 得到任务
         /// </summary>
         /// <returns></returns>
-        protected virtual TaskEntity SetTask()
+        protected virtual void SetTask()
         {
             if (TaskId == 0)
-                return null;
-            return Ioc.Resolve<IApplicationService>().GetEntity<TaskEntity>(TaskId);
+                return ;
+            Task= Ioc.Resolve<IApplicationService>().GetEntity<TaskEntity>(TaskId);
 
         }
         #endregion
@@ -159,8 +149,8 @@ namespace Beeant.Basic.Services.WebForm.Pages
             LoadSubmitButtonControl();
             LoadRejectButtonControl();
             LoadPassButtonControl();
-            SetControlVisible();
             LoadHistoryPagerControl();
+            SetControlVisible();
         }
         /// <summary>
         /// 设置
@@ -194,15 +184,13 @@ namespace Beeant.Basic.Services.WebForm.Pages
         /// <returns></returns>
         protected virtual bool CheckSubmitButton()
         {
-        
             var query = new QueryInfo { IsReturnCount = false };
             query.SetPageSize(1)
-                .Query<TaskEntity>()
-                .Where(it => it.DataId == RequestId && it.Flow.Id == WorkflowArgs.Flow.Id)
-                .OrderByDescending(it=>it.Id)
-                .Select(it => it.Node.NodeType);
-            var info = Ioc.Resolve<IApplicationService, TaskEntity>().GetEntities<TaskEntity>(query)?.FirstOrDefault();
-            return info==null || info.Node!=null && info.Node.NodeType == NodeType.Start;
+                .Query<HistoryEntity>()
+                .Where(it => it.Number == Number)
+                .OrderByDescending(it => it.Id);
+            var info = Ioc.Resolve<IApplicationService, HistoryEntity>().GetEntities<HistoryEntity>(query)?.FirstOrDefault();
+            return info == null;
         }
         /// <summary>
         /// 检查是否隐藏提交
@@ -213,7 +201,7 @@ namespace Beeant.Basic.Services.WebForm.Pages
             var query = new QueryInfo { IsReturnCount = false };
             query.SetPageSize(1)
                 .Query<TaskEntity>()
-                .Where(it => it.DataId == RequestId && it.Flow.Id == WorkflowArgs.Flow.Id && it.Status== TaskStatusType.Waiting && it.Account.Id==Identity.Id)
+                .Where(it => it.Number == Number  && it.Status == TaskStatusType.Waiting && it.Account.Id == Identity.Id)
                 .Select(it => it.Id);
             var infos = Ioc.Resolve<IApplicationService, TaskEntity>().GetEntities<TaskEntity>(query);
             return infos != null && infos.Count > 0;
@@ -333,12 +321,14 @@ namespace Beeant.Basic.Services.WebForm.Pages
             if (info == null) return;
             var args = new WorkflowArgsEntity
             {
-                Entity = info,
-                TaskId = TaskId,
-                AccountId = AccountId,
-                IsPass = isPass,
-                LevelId = LevelDrowDownList == null ? 0 : LevelDrowDownList.SelectedValue.Convert<long>(),
-                Remark = RemarkControl == null ? "" : RemarkControl.Value
+                Task=new TaskEntity
+                {
+                    Consumer=(ITaskTab)info,
+                    Id=TaskId,
+                    Account =new AccountEntity { Id= AccountId },
+                    Level = LevelDrowDownList == null ? "" : LevelDrowDownList.SelectedValue,
+                    Remark = RemarkControl == null ? "" : RemarkControl.Value
+                }
             };
             var rev = Ioc.Resolve<IWorkflowEngineApplicationService>().Handle(args);
             SetResult(rev, args.Errors);
@@ -365,7 +355,7 @@ namespace Beeant.Basic.Services.WebForm.Pages
             if (!string.IsNullOrEmpty(Request["mark"]))
             {
                 SetTask();
-                if (!Ioc.Resolve<IWorkflowEngineApplicationService>().CheckSign(Request.Url.ToString()))
+                if (!Task.CheckSign(Request["timespan"], Request["mark"]))
                 {
                     throw new HttpException(403, "您无权访问该资源");
                 }
@@ -382,6 +372,8 @@ namespace Beeant.Basic.Services.WebForm.Pages
                 LoadLevel();
             }
             base.Page_Load(sender, e);
+       
+           
         }
  
         /// <summary>
@@ -390,9 +382,10 @@ namespace Beeant.Basic.Services.WebForm.Pages
         protected virtual void LoadLevel()
         {
             if (LevelDrowDownList == null) return;
-            var infos = WorkflowArgs.Engine.GetLevels()?.OrderBy(it => it.Sequence);
+            var query=new QueryBasicInfo<LevelEntity>();
+            var infos = query.Query().OrderBy(it => it.Sequence).Select(it=>new object[]{it.Name}).ToList<LevelEntity>();
             LevelDrowDownList.DataTextField = "Name";
-            LevelDrowDownList.DataValueField = "Id";
+            LevelDrowDownList.DataValueField = "Name";
             LevelDrowDownList.DataSource = infos;
             LevelDrowDownList.DataBind();
          
@@ -402,17 +395,24 @@ namespace Beeant.Basic.Services.WebForm.Pages
         /// </summary>
         protected override void LoadEntity()
         {
+           
             var info = GetEntity();
             if (info == null && SaveType == SaveType.Modify)
             {
                 InvalidateData("您访问的信息不存在或者已经被删除");
             }
             if (info == null) return;
-            WorkflowArgs.Entity = info;
             BindEntity(info);
         }
 
-       
+        protected override T GetEntity()
+        {
+            var query = new QueryInfo();
+            query.Where("Number==@Number").SetParameter("Number", Number);
+            var info = Ioc.Resolve<IApplicationService, T>().GetEntities<T>(query)?.FirstOrDefault();
+            return info;
+        }
+
         #endregion
 
         #region 重写SetFindWhere

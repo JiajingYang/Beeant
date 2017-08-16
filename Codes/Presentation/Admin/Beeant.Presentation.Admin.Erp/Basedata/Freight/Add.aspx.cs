@@ -22,7 +22,7 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Freight
             if (info != null)
             {
                 info.Account = new AccountEntity {Id = 0};
-                info.Carries = Edit1.GetSaveCarries();
+                info.Regions = Edit1.GetSaveRegions();
             }
             return info;
         }

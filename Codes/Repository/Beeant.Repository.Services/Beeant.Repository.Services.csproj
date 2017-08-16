@@ -54,6 +54,8 @@
     <Compile Include="Account\AccountRoute.cs" />
     <Compile Include="Finance\AliPaylineRepository.cs" />
     <Compile Include="Finance\BalancePaylineRepository.cs" />
+    <Compile Include="Finance\PaylineService.cs" />
+    <Compile Include="Finance\PaylineUnitofwork.cs" />
     <Compile Include="Finance\WechatPaylineRepository.cs" />
     <Compile Include="Finance\PaylineRepository.cs" />
     <Compile Include="Gis\AreaRepository.cs" />

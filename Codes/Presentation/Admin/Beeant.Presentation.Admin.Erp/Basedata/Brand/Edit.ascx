@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Edit.ascx.cs" Inherits="Beeant.Presentation.Admin.Erp.Basedata.Brand.Edit" %>
 <%@ Register TagPrefix="uc2" TagName="Uploader" Src="~/Controls/Uploader.ascx" %>
-<%@ Register TagPrefix="uc8" TagName="TagRadioButtonList" Src="~/Controls/Basedata/TagRadioButtonList.ascx" %>
+<%@ Register Src="/Controls/GeneralDropDownList.ascx" TagName="GeneralDropDownList" TagPrefix="uc8" %>
 <div class="edit">
     <table class="tb">
         <tr>
@@ -16,7 +16,7 @@
         <tr>
             <td class="font">标签</td>
             <td class="text">
-                <uc8:TagRadioButtonList ID="ckTag" runat="server" SaveName="Tag" BindName="Tag" />
+                <uc8:GeneralDropDownList ID="ddlTag" runat="server" SaveName="Tag" BindName="Tag" ObjectName="Beeant.Domain.Entities.Basedata.TagEntity,Beeant.Domain.Entities" />
             </td>
         </tr>
          <tr>

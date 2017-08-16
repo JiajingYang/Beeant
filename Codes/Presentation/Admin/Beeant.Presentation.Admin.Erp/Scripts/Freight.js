@@ -1,8 +1,6 @@
-﻿var Freight = function (carryId, btnCarryAddId, unitId,freeRegionId,districtId, config) {
-    this.CarryContainer = $("#" + carryId);
-    this.CarryAddButton = $("#" + btnCarryAddId);
-    this.FreeRegionContainer = $("#" + freeRegionId);
-    this.UnitDropdown = $("#" + unitId);
+﻿var Freight = function (carryId, btnRegionAddId,districtId, config) {
+    this.RegionContainer = $("#" + carryId);
+    this.RegionAddButton = $("#" + btnRegionAddId);
     this.DistrictId = districtId;
     this.DistrictContainer = $("#" + districtId);
     this.Base = new Winner.ClassBase();
@@ -12,10 +10,9 @@
 };
 Freight.prototype = {
     Initialize: function () { //加载css样式文件
-        this.Base.LoadInstances(this, this.CarryContainer[0]);
+        this.Base.LoadInstances(this, this.RegionContainer[0]);
         this.BindEvent();
-        this.InitCarryTemplate();
-        this.SetUnitType();
+        this.InitRegionTemplate();
         this.Checkbox = new Winner.CheckBox(this.DistrictId);
         this.Checkbox.Initialize();
         this.BindDistrict();
@@ -23,53 +20,33 @@ Freight.prototype = {
 
     BindEvent: function () {//绑定事件
         var self = this;
-        $(document).ready(function () {
-            self.SetUnitType();
+        this.Base.LoadInstances(self, $("#divFreeRegion")[0], "Instance");
+        this.RegionAddButton.click(function () {
+            self.AddRegion();
+      
         });
-        
-        this.CarryAddButton.click(function () {
-            self.AddCarry();
-            self.SetUnitType();
-        });
-        this.UnitDropdown.change(function () {
-            self.SetUnitType();
-        });
+ 
     },
 
     //模板
-    InitCarryTemplate: function() {
-        $(this.CarryTemplate).find("select").attr("name", "CarryType");
+    InitRegionTemplate: function() {
+        $(this.RegionTemplate).find("select").attr("name", "RegionType");
         var tr = document.createElement("tr");
-        tr.innerHTML = this.CarryTemplate.innerHTML;
-        $(tr).find("select").attr("name", "CarryType");
-        $(tr).find("td")[0].innerHTML = "<span Instance='RegionName'>未添加地区</span>" +
-            "<input type='hidden' Instance='RegionValue' name='CarryRegion'/>" +
-            "<input type='hidden' name='CarryId'/>" +
+        tr.innerHTML = this.RegionTemplate.innerHTML;
+        $(tr).find("select").attr("name", "RegionType");
+        $(tr).find("td")[0].innerHTML = "<span Instance='RegionShowName'>未添加地区</span>" +
+            "<input type='hidden' Instance='RegionName' name='RegionName'/>" +
+            "<input type='hidden' Instance='RegionValue' name='RegionValue'/>" +
             "<a href='javascript:void(0);' Instance='EditButton'>编辑</a>";
         $(tr).find("td").last().html("<a href='javascript:void(0);' Instance='RemoveButton'>删除</a>");
-        this.Base.LoadInstances(this.CarryTemplate, this.CarryTemplate, "Instance");
-        this.BindFilter(this.CarryTemplate);
-        this.BindRemove(this.CarryTemplate);
-        this.BindEdit(this.CarryTemplate);
-        this.CarryTemplateTr = tr;
+        this.Base.LoadInstances(this.RegionTemplate, this.RegionTemplate, "Instance");
+        this.BindFilter(this.RegionTemplate);
+        this.BindRemove(this.RegionTemplate);
+        this.BindEdit(this.RegionTemplate);
+        this.RegionTemplateTr = tr;
         if (!this.IsSaveTemplate) {
-            $(this.CarryTemplate).remove();
+            $(this.RegionTemplate).remove();
         }
-    },
-    //模板
-    InitFreeRegionTemplate: function () {;
-        var tr = document.createElement("tr");
-        tr.innerHTML = this.FreeRegionTemplate.innerHTML;
-        $(tr).find("td")[0].innerHTML = "<span Instance='RegionName'>未添加地区</span>" +
-            "<input type='hidden' Instance='RegionValue' name='PostageRegion'/>" +
-            "<input type='hidden' name='PostageId'/>" +
-            "<a href='javascript:void(0);' Instance='EditButton'>编辑</a>";
-        $(tr).find("td").last().html("<a href='javascript:void(0);' Instance='RemoveButton'>删除</a>");
-        this.Base.LoadInstances(this.CarryTemplate, this.CarryTemplate, "Instance");
-        this.BindFilter(this.CarryTemplate);
-        this.BindRemove(this.CarryTemplate);
-        this.BindEdit(this.CarryTemplate);
-        this.PostageTemplateTr = tr;
     },
     //区域事件
     BindDistrict: function () {//绑定事件
@@ -125,7 +102,8 @@ Freight.prototype = {
                 names.push(infos[i].Name);
             }
             $(this.RegionValue).val(values.join('-'));
-            $(this.RegionName).html(names.join(","));
+            $(this.RegionShowName).html(names.join(","));
+            $(this.RegionName).val(names.join(","));
         }
         this.DistrictContainer.find("input[type='checkbox']").attr("checked", false);
         this.DistrictContainer.find("span[name='spanCount']").html("");
@@ -152,32 +130,38 @@ Freight.prototype = {
         }
     },
     //添加编辑删除
-    AddCarry: function (info) {//添加
+    AddRegion: function (info) {//添加
         var tr = document.createElement("tr");
-        tr.innerHTML = this.CarryTemplateTr.innerHTML;
+        tr.innerHTML = this.RegionTemplateTr.innerHTML;
         this.Base.LoadInstances(tr, tr);
-        this.SetCarryTrValue(tr, info);
+        this.SetRegionTrValue(tr, info);
         this.BindRemove(tr);
         this.BindEdit(tr);
-        this.CarryContainer.append(tr);
+        this.RegionContainer.append(tr);
         this.BindFilter(tr);
     },
-    SetCarryTrValue: function (tr, info) {
+    SetRegionTrValue: function (tr, info) {
         if (info == undefined)
             return;
-        $(tr).find("input[name='CarryId']").val(info.Id);
-        $(tr).find("input[name='CarryRegion']").val(info.Region);
-        $(tr).find("input[name='CarryName']").val(info.Name);
-        $(tr).find("input[name='CarryDefaultCount']").val(info.DefaultCount);
-        $(tr).find("input[name='CarryDefaultPrice']").val(info.DefaultPrice);
-        $(tr).find("input[name='CarryContinueCount']").val(info.ContinueCount);
-        $(tr).find("input[name='CarryContinuePrice']").val(info.ContinuePrice);
-        $(tr.RegionName).html(info.Region);
+        $(tr).find("input[name='RegionRegion']").val(info.Region);
+        $(tr).find("input[name='RegionShowName']").val(info.Name);
+        $(tr).find("input[name='RegionName']").val(info.Name);
+        $(tr).find("input[name='RegionDefaultCount']").val(info.DefaultCount);
+        $(tr).find("input[name='RegionDefaultPrice']").val(info.DefaultPrice);
+        $(tr).find("input[name='RegionContinueCount']").val(info.ContinueCount);
+        $(tr).find("input[name='RegionContinuePrice']").val(info.ContinuePrice);
+        $(tr.RegionShowName).html(info.Name);
     },
 
     BindRemove: function (tr) {//移除
         $(tr.RemoveButton).click(function () {
             $(tr).remove();
+            if (self.RegionValue == tr.RegionValue) {
+                self.RegionValue = undefined;
+                self.RegionShowName = undefined;
+                self.RegionName = undefined;
+            }
+
         });
     },
     BindEdit: function (tr) {//绑定编辑事件
@@ -188,6 +172,9 @@ Freight.prototype = {
     },
     ShowDistrictContainer: function (tr) {
         var self = this;
+        self.RegionValue = tr.RegionValue;
+        self.RegionName = tr.RegionName;
+        self.RegionShowName = tr.RegionShowName;
         var maskHeight = $(document).height(); //文档的总高度
         var maskWidth = $(window).width(); //窗口的宽度
         var dialogTop = (maskHeight / 2) - (self.DistrictContainer.height() / 2);

@@ -61,7 +61,7 @@ namespace Beeant.Tool.Copy
             {
                 var desFileName = string.Format(@"{0}\{1}", desPath, file.Name);
                 var desFile=new FileInfo(desFileName);
-                if (!desFile.Exists || file.LastWriteTime != desFile.LastWriteTime)
+                if (!desFile.Exists || file.LastWriteTime > desFile.LastWriteTime)
                     file.CopyTo(desFileName, desFile.Exists);
             }
             var directories = orgDirectory.GetDirectories();

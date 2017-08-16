@@ -60,12 +60,10 @@
     <Compile Include="Authority\OwnerAccountDomainService.cs" />
     <Compile Include="Authority\RoleAccountDomainService.cs" />
     <Compile Include="Basedata\AlbumDomainService.cs" />
-    <Compile Include="Basedata\PostageDomainService.cs" />
     <Compile Include="Basedata\DistrictDomainService.cs" />
     <Compile Include="Basedata\BrandDomainService.cs" />
     <Compile Include="Basedata\DeliveryDomainService.cs" />
     <Compile Include="Basedata\TagDomainService.cs" />
-    <Compile Include="Basedata\TagGroupDomainService.cs" />
     <Compile Include="Cms\ClassDomainService.cs" />
     <Compile Include="Cms\ContentDomainService.cs" />
     <Compile Include="Cms\CmsDomainService.cs" />
@@ -86,6 +84,7 @@
     <Compile Include="Account\AccountItemDomainService.cs" />
     <Compile Include="Account\AccountLoginDomainService.cs" />
     <Compile Include="Finance\BankDomainService.cs" />
+    <Compile Include="Finance\IPaylineContract.cs" />
     <Compile Include="Finance\PaylineItemDomainService.cs" />
     <Compile Include="Finance\PaylineDomainService.cs" />
     <Compile Include="Finance\IPaylineRepository.cs" />
@@ -108,6 +107,8 @@
     <Compile Include="Merchant\SaleDomainService.cs" />
     <Compile Include="Merchant\PartnerDomainService.cs" />
     <Compile Include="Member\AddressDomainService.cs" />
+    <Compile Include="Order\OrderLinkmanDomainService.cs" />
+    <Compile Include="Order\OrderCardDomainService.cs" />
     <Compile Include="Order\OrderNumberDomainService.cs" />
     <Compile Include="Order\OrderInsuranceDomainService.cs" />
     <Compile Include="Order\OrderProductDomainService.cs" />
@@ -124,7 +125,6 @@
     <Compile Include="Product\IProductContract.cs" />
     <Compile Include="Promotion\CouponerDomainService.cs" />
     <Compile Include="Basedata\FreightDomainService.cs" />
-    <Compile Include="Basedata\CarryDomainService.cs" />
     <Compile Include="Order\OrderAttachmentDomainService.cs" />
     <Compile Include="Order\OrderExpressDomainService.cs" />
     <Compile Include="Order\OrderNoteDomainService.cs" />
@@ -200,20 +200,12 @@
     <Compile Include="Utility\IQueueRepository.cs" />
     <Compile Include="Utility\LoginDomainService.cs" />
     <Compile Include="Utility\ICacheRepository.cs" />
-    <Compile Include="Workflow\AuditorDomainService.cs" />
-    <Compile Include="Workflow\GroupFlowDomainService.cs" />
     <Compile Include="Workflow\ConditionDomainService.cs" />
     <Compile Include="Workflow\FlowDomainService.cs" />
-    <Compile Include="Workflow\GroupDomainService.cs" />
-    <Compile Include="Workflow\IMessageDomainService.cs" />
-    <Compile Include="Workflow\IWorkflowDomainService.cs" />
+    <Compile Include="Workflow\NodeAccountDomainService.cs" />
     <Compile Include="Workflow\LevelDomainService.cs" />
-    <Compile Include="Workflow\MessageDomainService.cs" />
-    <Compile Include="Workflow\PropertyDomainService.cs" />
     <Compile Include="Workflow\NodeDomainService.cs" />
-    <Compile Include="Workflow\AuditorAccountDomainService.cs" />
-    <Compile Include="Workflow\GroupAccountDomainService.cs" />
-    <Compile Include="Workflow\WorkflowDomainService.cs" />
+    <Compile Include="Workflow\TaskDomainService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Component\Component.csproj">

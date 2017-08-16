@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using Beeant.Domain.Entities;
 using Component.Extension;
 using Configuration;
 using Beeant.Domain.Entities.Finance;
@@ -12,10 +13,11 @@ using Beeant.Domain.Services.Finance;
 using Winner;
 using Winner.Persistence;
 using Winner.Persistence.Linq;
+using Winner.Wcf;
 
 namespace Beeant.Repository.Services.Finance
 {
-    public class PaylineRepository : IPaylineRepository
+    public class PaylineRepository : Repository, IPaylineRepository
     {
         /// <summary>
         /// 参加接口
@@ -34,6 +36,7 @@ namespace Beeant.Repository.Services.Finance
             }
             return true;
         }
+
         /// <summary>
         /// 处理接口
         /// </summary>
@@ -45,15 +48,14 @@ namespace Beeant.Repository.Services.Finance
             {
                 Number = HttpContext.Current.Request["Number"],
                 OutNumber = HttpContext.Current.Request["OutNumber"],
-                Response = inputparas.SerializeJson(),
-                Status = VerifyProcess(inputparas)? PaylineStatusType.Success : PaylineStatusType.Failure
+                Status = VerifyProcess(inputparas) ? PaylineStatusType.Success : PaylineStatusType.Failure
             };
             info.SetProperty(it => it.OutNumber);
             info.SetProperty(it => it.Status);
-            info.SetProperty(it => it.Response);
             info.SaveType = SaveType.Modify;
             return info;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -63,12 +65,15 @@ namespace Beeant.Repository.Services.Finance
         {
             if (info.Status == PaylineStatusType.Waiting)
             {
-                info.Status= PaylineStatusType.Failure;
-                info.SaveType=SaveType.Modify;
+                info.Status = PaylineStatusType.Failure;
+                info.SaveType = SaveType.Modify;
                 info.SetProperty(it => it.Status);
             }
             return true;
         }
+
+     
+
         /// <summary>
         /// 得到输出结果
         /// </summary>
@@ -77,22 +82,29 @@ namespace Beeant.Repository.Services.Finance
         protected virtual string GetRequest(PaylineEntity info)
         {
             var url = string.Format("{0}/{1}Payline/Create",
-                   ConfigurationManager.GetSetting<string>("DistributedOutsidePayUrl"), info.Type);
+                ConfigurationManager.GetSetting<string>("DistributedOutsidePayUrl"), info.Type);
             var requset = (HttpWebRequest) WebRequest.Create(url);
-            var cookies=new CookieCollection();
+            var cookies = new CookieCollection();
             foreach (Cookie cookie in HttpContext.Current.Request.Cookies)
             {
                 cookies.Add(cookie);
             }
             requset.CookieContainer.Add(new Uri(ConfigurationManager.GetSetting<string>("Domain")), cookies);
-            return WebRequestHelper.SendPostRequest(requset,Encoding.UTF8,  new Dictionary<string, string>
+            return WebRequestHelper.SendPostRequest(requset, Encoding.UTF8, new Dictionary<string, string>
+            {
+                {"ChannelType", info.ChannelType.ToString()},
+                {"AccountId", info.Account == null ? "0" : info.Account.Id.ToString()},
+                {"Amount", info.Amount.ToString()},
                 {
-                    {"ChannelType",info.ChannelType.ToString() },
-                    {"AccountId",info.Account==null?"0":info.Account.Id.ToString() },
-                    {"Amount",info.Amount.ToString() },
-                    {"OrderIds",info.PaylineItems==null?"":string.Join(",",info.PaylineItems.Where(it=>it.Order!=null).Select(it=>it.Order.Id).ToArray()) }
-                });
+                    "OrderIds",
+                    info.PaylineItems == null
+                        ? ""
+                        : string.Join(",",
+                            info.PaylineItems.Where(it => it.Order != null).Select(it => it.Order.Id).ToArray())
+                }
+            });
         }
+
         /// <summary>
         /// 得到响应内容
         /// </summary>
@@ -101,6 +113,7 @@ namespace Beeant.Repository.Services.Finance
         {
             return new Dictionary<string, string>();
         }
+
         /// <summary>
         /// 验证
         /// </summary>
@@ -110,15 +123,16 @@ namespace Beeant.Repository.Services.Finance
         {
             return true;
         }
-        #region 公共方法
 
+        #region 公共方法
+      
         /// <summary>
         /// 得到MD5加密
         /// </summary>
         /// <param name="paraTemp"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        protected virtual string MakeSign(IDictionary<string, string> paraTemp,string key)
+        protected virtual string MakeSign(IDictionary<string, string> paraTemp, string key)
         {
             var s = CreateSignString(FilterParam(paraTemp));
             var input = string.Format("{0}&key={1}", s, key);
@@ -141,9 +155,10 @@ namespace Beeant.Repository.Services.Finance
         {
             return
                 paraTemp.Where(
-                    temp =>
-                    temp.Key.ToLower() != "sign" && temp.Key.ToLower() != "sign_type" &&
-                    !string.IsNullOrEmpty(temp.Value)).ToDictionary(temp => temp.Key, temp => temp.Value);
+                        temp =>
+                            temp.Key.ToLower() != "sign" && temp.Key.ToLower() != "sign_type" &&
+                            !string.IsNullOrEmpty(temp.Value))
+                    .ToDictionary(temp => temp.Key, temp => temp.Value);
         }
 
         /// <summary>
@@ -160,7 +175,9 @@ namespace Beeant.Repository.Services.Finance
             }
             return prestr.Remove(prestr.Length - 1, 1).ToString();
         }
+
         #endregion
+
         /// <summary>
         /// 得到在线支付
         /// </summary>
@@ -170,10 +187,11 @@ namespace Beeant.Repository.Services.Finance
         {
             var query = new QueryInfo();
             query.Query<PaylineEntity>().Where(it => it.Number == number);
-            var info= Creator.Get<IContext>().GetInfos<IList<PaylineEntity>>(query)?.FirstOrDefault();
+            var info = Creator.Get<IContext>().GetInfos<IList<PaylineEntity>>(query)?.FirstOrDefault();
             return info;
 
         }
+
         /// <summary>
         /// 支付接口
         /// </summary>
@@ -183,5 +201,52 @@ namespace Beeant.Repository.Services.Finance
         {
             return true;
         }
+
+        #region 支付
+        public IWcfService WcfService { get; set; }
+        /// <summary>
+        /// 存储
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public override IList<IUnitofwork> Save<T>(T info)
+        {
+            return GetUnitofworks(info);
+        }
+        /// <summary>
+        /// 存储
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="infos"></param>
+        /// <returns></returns>
+        public override IList<IUnitofwork> Save<T>(IList<T> infos)
+        {
+            var result = new List<IUnitofwork>();
+            foreach (var info in infos)
+            {
+                var unitofworks = GetUnitofworks(info);
+                result.AddList(unitofworks);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 得到工作单元
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        protected virtual IList<IUnitofwork> GetUnitofworks<T>(T info) where T : BaseEntity
+        {
+            if (typeof(T) != typeof(PaylineEntity))
+                return base.Save(info);
+            if (info.SaveType == SaveType.Add)
+            {
+                return new List<IUnitofwork> { new PaylineUnitofwork(info as PaylineEntity, WcfService) };
+            }
+            return base.Save(info);
+        }
+        #endregion
     }
 }

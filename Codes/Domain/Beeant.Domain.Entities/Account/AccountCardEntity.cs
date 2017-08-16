@@ -13,6 +13,7 @@ namespace Beeant.Domain.Entities.Account
         /// 名称
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// 标签
         /// </summary>
@@ -22,16 +23,8 @@ namespace Beeant.Domain.Entities.Account
         /// </summary>
         public string Number { get; set; }
         /// <summary>
-        /// 日充值限额
+        /// 描述
         /// </summary>
-        public decimal DayRechargeAmount { get; set; }
-        /// <summary>
-        /// 日提现限额
-        /// </summary>
-        public decimal DayWithdrawAmount { get; set; }
-        /// <summary>
-        /// 日消费限额
-        /// </summary>
-        public decimal DayConsumeAmount { get; set; }
+        public string Description { get; set; }
     }
 }

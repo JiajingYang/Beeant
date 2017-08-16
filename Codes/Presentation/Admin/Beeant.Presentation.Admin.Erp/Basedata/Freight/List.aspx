@@ -32,9 +32,12 @@
                 <asp:CheckBoxList ID="ckSelectList" runat="server" >
                      <asp:ListItem  Value="Id" Text="编号" Selected="True" ></asp:ListItem>
                       <asp:ListItem  Value="Name" Text="名称" Selected="True"></asp:ListItem>
-                        <asp:ListItem  Value="FreeProfit" Text="包邮比例" Selected="True"></asp:ListItem>
-                      <asp:ListItem  Value="FreeRegion" Text="包邮区域" Selected="True"></asp:ListItem>
-                      <asp:ListItem  Value="IsDelivery" Text="是否配送" Selected="True"></asp:ListItem>
+                        <asp:ListItem  Value="Type" Text="类型" Selected="True"></asp:ListItem>
+                      <asp:ListItem  Value="FullFreePrice" Text="满额包邮" Selected="True"></asp:ListItem>
+                      <asp:ListItem  Value="DefaultCount" Text="默认件数" Selected="True"></asp:ListItem>
+                    <asp:ListItem  Value="DefaultPrice" Text="默认价格" Selected="True"></asp:ListItem>
+                    <asp:ListItem  Value="ContinueCount" Text="续件数量" Selected="True"></asp:ListItem>
+                    <asp:ListItem  Value="ContinuePrice" Text="续件价格" Selected="True"></asp:ListItem>
                      <asp:ListItem  Value="Description" Text="描述" Selected="True"></asp:ListItem>
                      <asp:ListItem  Value="InsertTime" Text="录入时间" ></asp:ListItem>
                      <asp:ListItem  Value="UpdateTime" Text="编辑时间" ></asp:ListItem>
@@ -93,11 +96,6 @@
                 <a href='update.aspx?id=<%#Eval("Id") %>' target="_blank" name="Edit">编辑</a>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="详情" ItemStyle-CssClass="center operate">
-            <ItemTemplate>
-                <a href='Detail.aspx?id=<%#Eval("Id") %>' target="_blank" name="Entity">详情</a>
-            </ItemTemplate>
-        </asp:TemplateField>
   
         <asp:TemplateField HeaderText="编号"  ItemStyle-CssClass="center">
             <ItemTemplate>
@@ -109,28 +107,42 @@
                 <%#Eval("Name")%>
             </ItemTemplate>
         </asp:TemplateField>
-          <asp:TemplateField HeaderText="包邮比例"  ItemStyle-CssClass="left">
+          <asp:TemplateField HeaderText="类型"  ItemStyle-CssClass="left">
             <ItemTemplate>
-                <%#Eval("FreeProfit")%>
+                <%#Eval("TypeName")%>
             </ItemTemplate>
         </asp:TemplateField>
-                <asp:TemplateField HeaderText="免费区域"  ItemStyle-CssClass="left">
+                <asp:TemplateField HeaderText="满额包邮"  ItemStyle-CssClass="left">
             <ItemTemplate>
-                <%#Eval("FreeRegion")%>
+                <%#Eval("FullFreePrice")%>               
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="是否配送"  ItemStyle-CssClass="left">
+        <asp:TemplateField HeaderText="默认件数"  ItemStyle-CssClass="left">
             <ItemTemplate>
-                <%#Eval("IsDeliveryName")%>
+                <%#Eval("DefaultCount")%>
             </ItemTemplate>
         </asp:TemplateField>
             
-        <asp:TemplateField HeaderText="描述"  ItemStyle-CssClass="left">
+        <asp:TemplateField HeaderText="默认价格"  ItemStyle-CssClass="left">
             <ItemTemplate>
-                <%#Eval("Description")%>
+                <%#Eval("DefaultPrice")%>
             </ItemTemplate>
         </asp:TemplateField>
-
+           <asp:TemplateField HeaderText="续件数量"  ItemStyle-CssClass="left">
+               <ItemTemplate>
+                   <%#Eval("ContinueCount")%>
+               </ItemTemplate>
+           </asp:TemplateField>
+           <asp:TemplateField HeaderText="续件价格"  ItemStyle-CssClass="left">
+               <ItemTemplate>
+                   <%#Eval("ContinuePrice")%>
+               </ItemTemplate>
+           </asp:TemplateField>
+           <asp:TemplateField HeaderText="描述"  ItemStyle-CssClass="left">
+               <ItemTemplate>
+                   <%#Eval("Description")%>
+               </ItemTemplate>
+           </asp:TemplateField>
         <asp:TemplateField HeaderText="录入时间" ItemStyle-CssClass="center time">
             <ItemTemplate>
                 <%#Eval("InsertTime","{0:yyyy-MM-dd HH:mm}")%>

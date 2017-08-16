@@ -53,10 +53,10 @@ namespace Winner.Base
             if (string.IsNullOrEmpty(input)) return input;
             var des = new TripleDESCryptoServiceProvider
                 {
-                    Key = Encoding.ASCII.GetBytes(key), Mode = CipherMode.ECB
+                    Key = Encoding.UTF8.GetBytes(key), Mode = CipherMode.ECB
                 };
             var desEncrypt = des.CreateEncryptor();
-            byte[] buffer = Encoding.ASCII.GetBytes(input);
+            byte[] buffer = Encoding.UTF8.GetBytes(input);
             return Convert.ToBase64String(desEncrypt.TransformFinalBlock(buffer, 0, buffer.Length));
         }
         /// <summary>
@@ -70,7 +70,7 @@ namespace Winner.Base
             if (string.IsNullOrEmpty(input)) return input;
             var des = new TripleDESCryptoServiceProvider
                 {
-                    Key = Encoding.ASCII.GetBytes(key),
+                    Key = Encoding.UTF8.GetBytes(key),
                     Mode = CipherMode.ECB,
                     Padding = PaddingMode.PKCS7
                 };
@@ -79,7 +79,7 @@ namespace Winner.Base
             try
             {
                 byte[] buffer = Convert.FromBase64String(input);
-                result = Encoding.ASCII.GetString(desDecrypt.TransformFinalBlock(buffer, 0, buffer.Length));
+                result = Encoding.UTF8.GetString(desDecrypt.TransformFinalBlock(buffer, 0, buffer.Length));
             }
             catch (Exception)
             {

@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "结算中心";
+}
+@using Component.Extension
+@using Beeant.Basic.Services.Mvc.Extension
+@using Beeant.Basic.Services.Mvc.Script
+@using Beeant.Domain.Entities
+@using Beeant.Domain.Entities.Member
+@using Winner.Persistence
+@model Beeant.Distributed.Outside.Pay.Models.PaylineModel
+<div class="paytype-bg"></div>
+<div class="paytype-main pm1">
+    <div class="submit-succ clear">
+        <span><img src="/Images/order-succ.jpg" width="55px" /></span>
+        <div class="submit-mess">
+            <h3>订单提交成功！现在去支付！<span class="pay-moey">支付金额<span>@Model.Amount</span>元</span></h3>
+     
+        </div>
+    </div>
+</div>
+<form action="" id="fmPayType" method="post">
+    <input type="hidden" name="ChannelType" value="@((int) ChannelType.Website)" />
+    <input type="hidden" name="OrderIds" value="@(Request["OrderIds"])" />
+    <input type="hidden" name="trade_type" value="NATIVE" />
+    <input type="hidden"  name="ReturnUrl" value="@(Request["ReturnUrl"])" />
+    <input type="hidden"  name="ReturnTitle" value="@(Request["ReturnTitle"])" />
+    <input type="hidden"  name="AutoReturnUrl" value="@(Request["AutoReturnUrl"])" />
+    <input type="hidden"  name="AutoReturnTitle" value="@(Request["ReturnTitle"])" />
+    <div class="paytype-main">
+        <h2 class="paytype-title">支付方式选择</h2>
+        <div class="paytype-bd clear">
+            <ul id="selPayTypes">
+                @if (Model != null && Model.PayTypes != null)
+                {
+                    foreach (var payType in Model.PayTypes)
+                    {
+                        if (payType.IndexOf("微信", StringComparison.Ordinal) > -1)
+                        {
+                            <li ActionUrl="/WechatPay/Create"><img src="/Images/weixinpay.png"/><i></i></li>
+                        }
+                        else if (payType.IndexOf("支付宝", StringComparison.Ordinal) > -1)
+                        {
+                            <li ActionUrl="/AliPay/Create"><img src="/Images/alipay.png"/><i></i></li>
+                        }
+                        else
+                        {
+                            <li ActionUrl="/BalancePay/Create"><img src="/Images/Balance.png"/><i></i></li>
+                        }
+                    }
+                }
+                else
+                {
+                    <li ActionUrl="/WechatPay/Create" ><img src="/Images/weixinpay.png"/><i></i></li>
+                    <li ActionUrl="/AliPay/Create"><img src="/Images/alipay.png" /><i></i></li>
+                    <li ActionUrl="/BalancePay/Create"><img src="/Images/Balance.png"/><i></i></li>
+                }
+            </ul>
+        </div>
+        <div class="btncon">
+            <input id="btnPay" type="submit" value="立即支付" class="btn" />
+        </div>
+
+    </div>
+</form>
+<script src="@Html.GetUrl("PresentationWebsiteSharedUrl")/Scripts/Plug/jquery.min.js"></script>
+<script src="/Scripts/WebsiteSelect.js?V=1"></script>

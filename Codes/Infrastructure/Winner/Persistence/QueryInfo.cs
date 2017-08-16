@@ -25,6 +25,10 @@ namespace Winner.Persistence
         /// </summary>
         public virtual IDictionary<string,object> SqlParameters { get; set; } 
         /// <summary>
+        /// 是否平行计算
+        /// </summary>
+        public bool IsAsParallel { get; set; }
+        /// <summary>
         /// 设置查询缓存
         /// </summary>
         public virtual CacheInfo Cache { get; set; }
@@ -159,8 +163,14 @@ namespace Winner.Persistence
 
         #region 方法
 
-
-
+        /// <summary>
+        /// 并行计算
+        /// </summary>
+        public virtual QueryInfo AsParallel()
+        {
+            IsAsParallel = true;
+            return this;
+        }
         /// <summary>
         /// 设置参数
         /// </summary>
@@ -194,6 +204,39 @@ namespace Winner.Persistence
         {
             Cache = Cache ?? new CacheInfo ();
             Cache.Time = cacheTime;
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="cacheType"></param>
+        /// <returns></returns>
+        public virtual QueryInfo SetCacheType(CacheType cacheType)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.Type = cacheType;
+            return this;
+        }
+
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <returns></returns>
+        public virtual QueryInfo AppendCacheDependency<T>()
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.Dependencies = Cache.Dependencies ?? new List<string>();
+            Cache.Dependencies.Add(typeof(T).FullName);
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <returns></returns>
+        public virtual QueryInfo SetCacheDependencyDelegate(Action<string> action)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.DependencyDelegate = action;
             return this;
         }
         /// <summary>
@@ -405,7 +448,14 @@ namespace Winner.Persistence
         #region 方法
 
 
-
+        /// <summary>
+        /// 并行计算
+        /// </summary>
+        public new QueryInfo<T> AsParallel()
+        {
+            IsAsParallel = true;
+            return this;
+        }
         /// <summary>
         /// 设置参数
         /// </summary>
@@ -439,6 +489,38 @@ namespace Winner.Persistence
         {
             Cache = Cache ?? new CacheInfo();
             Cache.Time = cacheTime;
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="cacheType"></param>
+        /// <returns></returns>
+        public new QueryInfo<T> SetCacheType(CacheType cacheType)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.Type = cacheType;
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <returns></returns>
+        public new QueryInfo<T> AppendCacheDependency<TDependency>()
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.Dependencies = Cache.Dependencies ?? new List<string>();
+            Cache.Dependencies.Add(typeof(TDependency).FullName);
+            return this;
+        }
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <returns></returns>
+        public new QueryInfo<T> SetCacheDependencyDelegate(Action<string> action)
+        {
+            Cache = Cache ?? new CacheInfo();
+            Cache.DependencyDelegate = action;
             return this;
         }
         /// <summary>

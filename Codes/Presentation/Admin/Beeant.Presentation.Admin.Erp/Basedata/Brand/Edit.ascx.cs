@@ -1,7 +1,9 @@
 ﻿
 using System;
-using Beeant.Presentation.Admin.Erp.Controls.Basedata;
+using System.Linq;
+using Beeant.Domain.Entities.Basedata;
 using Winner.Persistence;
+using Winner.Persistence.Linq;
 
 namespace Beeant.Presentation.Admin.Erp.Basedata.Brand
 {
@@ -16,20 +18,16 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Brand
             }
         }
 
-        /// <summary>
-        /// 标签
-        /// </summary>
-        public TagRadioButtonList TagCheckBoxList
-        {
-            get { return ckTag; }
-        }
+       
 
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
             if (!IsPostBack)
             {
-                ckTag.LoadData();
+                ddlTag.Query = new QueryInfo();
+                ddlTag.Query.Query<TagEntity>().Where(it => it.Type == "Brand");
+                ddlTag.LoadData();
             }
         }
     }

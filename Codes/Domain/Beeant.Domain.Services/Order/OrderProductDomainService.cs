@@ -245,7 +245,7 @@ namespace Beeant.Domain.Services.Order
             var amount = info.Amount;
             if (dataEntity != null)
                 amount = amount - dataEntity.Amount;
-            if (order.TotalAmount + amount < order.PayAmount)
+            if (order.TotalPayAmount + amount < order.PayAmount)
             {
                 info.AddErrorByName(typeof(OrderEntity).FullName, "AmountLessReceivedAmount");
                 return false;

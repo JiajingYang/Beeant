@@ -133,11 +133,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\BalancePayController.cs" />
     <Compile Include="Controllers\AliPayController.cs" />
-    <Compile Include="Controllers\WechatPayController.cs" />
+    <Compile Include="Controllers\BalancePayController.cs" />
     <Compile Include="Controllers\PayController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\WechatPayController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -145,7 +145,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
+    <Content Include="Images\alipay.png" />
+    <Content Include="Images\Balance.png" />
+    <Content Include="Images\closebg.png" />
+    <Content Include="Images\code.png" />
+    <Content Include="Images\hdicon.png" />
+    <Content Include="Images\icon_02.png" />
+    <Content Include="Images\order-succ.jpg" />
+    <Content Include="Images\pay_ico.png" />
+    <Content Include="Images\phone-demo.png" />
+    <Content Include="Images\weixinpay.png" />
+    <Content Include="Scripts\WebsiteSelect.js" />
+    <Content Include="Scripts\wechat.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -195,6 +208,16 @@
       <Project>{D876EE31-D4E2-4A84-BB70-C30CD79DE8D9}</Project>
       <Name>Beeant.Repository.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\Pay\Failure.cshtml" />
+    <Content Include="Views\Pay\RefundFailure.cshtml" />
+    <Content Include="Views\Pay\RefundSuccess.cshtml" />
+    <Content Include="Views\Pay\Success.cshtml" />
+    <Content Include="Views\WechatPay\Qr.cshtml" />
+    <Content Include="Views\Pay\MobileSelect.cshtml" />
+    <Content Include="Views\Pay\WebsiteSelect.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

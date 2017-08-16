@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beeant.Domain.Entities.Account;
 using Beeant.Domain.Entities.Order;
 using Winner.Persistence;
@@ -95,12 +96,24 @@ namespace Beeant.Domain.Entities.Finance
         /// 输出流
         /// </summary>
         public string Request { get; set; }
-        /// <summary>
-        /// 响应流
-        /// </summary>
-        public string Response { get; set; }
         #endregion
-   
+        /// <summary>
+        /// 设置金额
+        /// </summary>
+        public virtual void SetAmount()
+        {
+            if (PaylineItems == null)
+                return ;
+            foreach (var paylineItem in PaylineItems)
+            {
+                if (paylineItem.Order == null)
+                    continue;
+                paylineItem.Amount = paylineItem.Order.PayAmount == 0 && paylineItem.Order.Deposit > 0
+                    ? paylineItem.Order.Deposit
+                    : paylineItem.Order.TotalPayAmount - paylineItem.Order.PayAmount;
+            }
+            Amount = PaylineItems.Sum(it => it.Amount);
+        }
         /// <summary>
         /// 设置流水号
         /// </summary>
@@ -143,12 +156,12 @@ namespace Beeant.Domain.Entities.Finance
                 paylineItem.Order.OrderPays = paylineItem.Order.OrderPays ?? new List<OrderPayEntity>();
                 paylineItem.Order.OrderPays.Add(new OrderPayEntity
                 {
-                    Order= paylineItem.Order,
+                    Key= paylineItem.Key,
+                    Order = paylineItem.Order,
                     Amount=paylineItem.Amount,
                     Remark= DataEntity==null?Remark: DataEntity.Remark,
                     Number= DataEntity == null || HasSaveProperty(it=>it.OutNumber) ? OutNumber : DataEntity.OutNumber,
                     Name = DataEntity == null ? TypeName : DataEntity.TypeName,
-                    Tag = DataEntity == null ? Type.ToString() : DataEntity.Type.ToString(),
                     SaveType =SaveType.Add
                 });
                 if (paylineItem.Order.Status == OrderStatusType.WaitPay &&
@@ -164,5 +177,7 @@ namespace Beeant.Domain.Entities.Finance
             }
         }
 
+        public const string SeccessEventName = "Beeant.Domain.Entities.Finance.Payline.Success";
+       
     }
 }

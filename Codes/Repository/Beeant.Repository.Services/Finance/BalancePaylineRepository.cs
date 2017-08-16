@@ -29,7 +29,7 @@ namespace Beeant.Repository.Services.Finance
             {
                 Account = account,
                 Amount = 0 - info.Amount,
-                Data = info,
+                Number = info.Number,
                 Name = info.TypeName,
                 Remark = info.Remark,
                 SaveType = SaveType.Add,
@@ -38,7 +38,6 @@ namespace Beeant.Repository.Services.Finance
             info.Request ="";
             info.OutNumber =info.Number;
             info.Status = PaylineStatusType.Success;
-            info.Response = "";
             info.Amount = 0;
             return true;
         }
@@ -81,7 +80,7 @@ namespace Beeant.Repository.Services.Finance
             {
                 Account = account,
                 Amount =info.Amount,
-                Data = info,
+                Number = info.Number,
                 Name = info.TypeName,
                 Remark = info.Remark,
                 SaveType = SaveType.Add,
@@ -90,7 +89,6 @@ namespace Beeant.Repository.Services.Finance
             info.Request = "";
             info.OutNumber = info.Number;
             info.Status = PaylineStatusType.Success;
-            info.Response = "";
             info.Amount = 0;
             return true;
         }

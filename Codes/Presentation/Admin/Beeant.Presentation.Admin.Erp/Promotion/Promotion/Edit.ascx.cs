@@ -9,8 +9,8 @@ namespace Beeant.Presentation.Admin.Erp.Promotion.Promotion
         {
             base.OnInit(e);
             if (!IsPostBack)
-            {                
-                ckTag.LoadData();
+            {
+                ddlTag.LoadData();
                 ckMonths.LoadData();
                 ckWeeks.LoadData();
             }

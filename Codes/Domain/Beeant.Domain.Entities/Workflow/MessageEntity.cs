@@ -4,44 +4,52 @@ using Beeant.Domain.Entities.Account;
 namespace Beeant.Domain.Entities.Workflow
 {
     [Serializable]
-    public class MessageEntity : BaseEntity<MessageEntity>
+    public enum MessageType
     {
-        /// <summary>
-        /// 工作流Id
-        /// </summary>
-        public FlowEntity Flow { get; set; }
 
         /// <summary>
-        /// 等级
+        /// 默认
         /// </summary>
-        public LevelEntity Level { get; set; }
+        Default = 1,
         /// <summary>
-        /// 单据Id
+        /// 邮箱
         /// </summary>
-        public long DataId { get; set; }
+        Email = 2,
         /// <summary>
-        /// 节点名称
+        /// 短信
         /// </summary>
-        public NodeEntity Node { get; set; }
-        /// <summary>
-        /// 消息标题
-        /// </summary>
-        public string Title { get; set; }
-        /// <summary>
-        /// 处理人Id
-        /// </summary>
-        public AccountEntity Account { get; set; }
+        Mobile = 4
+    }
+    [Serializable]
+    public class MessageEntity : BaseEntity<MessageEntity>
+    {
+       
+   
         /// <summary>
         /// 任务
         /// </summary>
         public TaskEntity Task { get; set; }
         /// <summary>
-        /// 是否已读
+        /// 类型
         /// </summary>
-        public bool IsRead { get; set; }
+        public MessageType Type { get; set; }
+    
         /// <summary>
-        /// 实体
+        /// 处理地址
         /// </summary>
-        public BaseEntity Data { get; set; }
+        public string Url { get; set; }
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public string Title { get; set; }
+        /// <summary>
+        /// 内容
+        /// </summary>
+        public string Detail { get; set; }
+
+        public static string GetMessageTag(long accountId)
+        {
+            return string.Format("WorkflowTask{0}", accountId);
+        }
     }
 }

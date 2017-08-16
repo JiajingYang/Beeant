@@ -206,7 +206,7 @@ namespace Beeant.Presentation.Mobile.Order.Controllers.Home
             query.SetPageIndex(model.PageIndex).SetPageSize(model.PageSize).Query<OrderEntity>().OrderByDescending(it=>it.Id)
                 .Where(it => it.Account.Id == Identity.Id).Select(it => new object[]
                 {
-                it.TotalAmount, it.TotalInvoiceAmount, it.Id, it.InsertTime, it.PayAmount,it.Status,
+                it.TotalPayAmount, it.TotalInvoiceAmount, it.Id, it.InsertTime, it.PayAmount,it.Status,
                 it.OrderProducts.Select(s => new object[] {s.Product.Id, s.Name, s.Amount, s.Count,s.Price, s.FileName,s.IsAppraisement}),
                 it.OrderExpresses.Select(s=>s.Amount)
                 });
@@ -243,7 +243,7 @@ namespace Beeant.Presentation.Mobile.Order.Controllers.Home
             query.Query<OrderEntity>()
                 .Where(it =>it.Id==id && it.Account.Id == Identity.Id).Select(it => new object[]
                 {
-                it.TotalAmount, it.TotalInvoiceAmount, it.Id, it.InsertTime, it.PayAmount,it.PayTypes,it.Status,
+                it.TotalPayAmount, it.TotalInvoiceAmount, it.Id, it.InsertTime, it.PayAmount,it.PayTypes,it.Status,
                 it.OrderProducts.Select(s => new object[] {s.Product.Id, s.Name,s.Price, s.Amount, s.Count, s.FileName}),
                 it.OrderExpresses.Select(s=>new object[] {s.Number,s.Name,s.Address,s.Email,s.Mobile,s.Postcode,s.Recipient}),
                 it.OrderComplaints.Select(s=>new object[] {s.Question,s.Question,s.InsertTime,s.AnswerTime,s.IsReply,s.Type})

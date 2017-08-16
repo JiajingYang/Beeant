@@ -16,6 +16,10 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public decimal Deposit { get; set; }
         /// <summary>
+        /// 订单编号
+        /// </summary>
+        public string Number { get; set; }
+        /// <summary>
         ///应用类型
         /// </summary>
         public ChannelType ChannelType { get; set; }
@@ -28,10 +32,6 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public DateTime OrderDate { get; set; }
 
-        /// <summary>
-        /// 总金额
-        /// </summary>
-        public decimal TotalAmount { get; set; }
         /// <summary>
         /// 实收金额
         /// </summary>
@@ -189,6 +189,10 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         public IList<OrderExpressEntity> OrderExpresses { get; set; }
         /// <summary>
+        /// 火车票订单
+        /// </summary>
+        public IList<OrderCardEntity> OrderCards { get; set; }
+        /// <summary>
         /// 订单发票
         /// </summary>
         public IList<OrderInvoiceEntity> OrderInvoices { get; set; }
@@ -196,10 +200,10 @@ namespace Beeant.Domain.Entities.Order
         /// 订单投诉
         /// </summary>
         public IList<OrderComplaintEntity> OrderComplaints { get; set; }
-  
-
-
-
+        /// <summary>
+        /// 订单联系人
+        /// </summary>
+        public IList<OrderLinkmanEntity> OrderLinkmans { get; set; }
         /// <summary>
         /// 原数据
         /// </summary>
@@ -243,6 +247,7 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         protected override void SetAddBusiness()
         {
+            Number = Number ?? Guid.NewGuid().ToString().Replace("-", "");
             SetRelateSaveType(SaveType.Add);
             InvokeItemLoader("Account");
             if (Account == null)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Beeant.Domain.Entities.Product;
 using Beeant.Domain.Entities.Promotion;
@@ -13,6 +14,14 @@ namespace Beeant.Domain.Entities.Order
         /// 订单
         /// </summary>
         public OrderEntity Order { get; set; }
+        /// <summary>
+        /// 编号
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
+        /// 编号
+        /// </summary>
+        public string Number { get; set; }
         /// <summary>
         /// 名称
         /// </summary>
@@ -133,10 +142,11 @@ namespace Beeant.Domain.Entities.Order
         /// </summary>
         protected override void SetAddBusiness()
         {
+            Key = Key ?? "";
             SetAmount(null);
             SetFileName();
             InvokeItemLoader("Product");
-            SetOrderTotalAmount(Amount);
+            SetOrdeDepositAmount(Amount);
             SetIsCount();
             if (IsCount)
             {
@@ -236,7 +246,7 @@ namespace Beeant.Domain.Entities.Order
             Name = HasSaveProperty(it => it.Name) ? Name : DataEntity.Name;
             if (HasSaveProperty(it => it.Amount) && Amount != DataEntity.Amount)
             {
-                SetOrderTotalAmount(Amount - DataEntity.Amount);
+                SetOrdeDepositAmount(Amount - DataEntity.Amount);
                 CreateOrderItems(Amount - DataEntity.Amount,CostAmount-DataEntity.CostAmount,1);
             }
             if (HasSaveProperty(it => it.IsCount) && IsCount != DataEntity.IsCount)
@@ -259,7 +269,7 @@ namespace Beeant.Domain.Entities.Order
         protected override void SetRemoveBusiness()
         {
             InvokeItemLoader("DataEntity");
-            SetOrderTotalAmount(0 - DataEntity.Amount);
+            SetOrdeDepositAmount(0 - DataEntity.Amount);
             var count = DataEntity.IsCount ? DataEntity.Count : 0;
             SetProduct(count);
             CreateOrderItems(0- DataEntity.Price, 0 - DataEntity.CostAmount, DataEntity.Count);
@@ -269,21 +279,11 @@ namespace Beeant.Domain.Entities.Order
         /// 设置订单
         /// </summary>
         /// <param name="amount"></param>
-        protected virtual void SetOrderTotalAmount(decimal amount)
+        protected virtual void SetOrdeDepositAmount(decimal amount)
         {
             if (Order != null && Order.SaveType == SaveType.Remove) return;
             InvokeItemLoader("Order");
             if (Order == null || Order.SaveType == SaveType.Remove) return;
-            Order.TotalAmount += amount;
-            if (Order.SaveType == SaveType.None)
-            {
-                Order.SetProperty(it => it.TotalAmount);
-                Order.SaveType = SaveType.Modify;
-            }
-            else if (Order.Properties != null)
-            {
-                Order.SetProperty(it => it.TotalAmount);
-            }
             if (Product.DepositRate > 0)
             {
                 Order.Deposit += amount*Product.DepositRate;

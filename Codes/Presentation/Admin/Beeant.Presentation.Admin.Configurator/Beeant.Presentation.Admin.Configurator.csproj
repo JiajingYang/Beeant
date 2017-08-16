@@ -436,9 +436,6 @@
     <Compile Include="Sys\Task\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Workflow\Auditor\List.aspx.designer.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Workflow\Condition\List.aspx.cs">
       <DependentUpon>List.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -453,35 +450,11 @@
     <Compile Include="Workflow\Flow\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Workflow\Auditor\List.aspx.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Workflow\GroupFlow\Add.aspx.designer.cs">
-      <DependentUpon>Add.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Workflow\GroupFlow\Delete.aspx.designer.cs">
-      <DependentUpon>Delete.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Workflow\Group\List.aspx.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Workflow\Group\List.aspx.designer.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Workflow\Level\List.aspx.cs">
       <DependentUpon>List.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Workflow\Level\List.aspx.designer.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Workflow\Property\List.aspx.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Workflow\Property\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
     </Compile>
     <Compile Include="Workflow\Node\List.aspx.cs">
@@ -491,41 +464,26 @@
     <Compile Include="Workflow\Node\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Workflow\AuditorAccount\Add.aspx.cs">
+    <Compile Include="Workflow\NodeAccount\Add.aspx.cs">
       <DependentUpon>Add.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Workflow\AuditorAccount\Add.aspx.designer.cs">
+    <Compile Include="Workflow\NodeAccount\Add.aspx.designer.cs">
       <DependentUpon>Add.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Workflow\AuditorAccount\Delete.aspx.cs">
+    <Compile Include="Workflow\NodeAccount\Delete.aspx.cs">
       <DependentUpon>Delete.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Workflow\AuditorAccount\Delete.aspx.designer.cs">
+    <Compile Include="Workflow\NodeAccount\Delete.aspx.designer.cs">
       <DependentUpon>Delete.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Workflow\GroupFlow\Add.aspx.cs">
-      <DependentUpon>Add.aspx</DependentUpon>
+    <Compile Include="Workflow\NodeMessage\List.aspx.cs">
+      <DependentUpon>List.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Workflow\GroupFlow\Delete.aspx.cs">
-      <DependentUpon>Delete.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Workflow\GroupAccount\Add.aspx.cs">
-      <DependentUpon>Add.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Workflow\GroupAccount\Add.aspx.designer.cs">
-      <DependentUpon>Add.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Workflow\GroupAccount\Delete.aspx.cs">
-      <DependentUpon>Delete.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Workflow\GroupAccount\Delete.aspx.designer.cs">
-      <DependentUpon>Delete.aspx</DependentUpon>
+    <Compile Include="Workflow\NodeMessage\List.aspx.designer.cs">
+      <DependentUpon>List.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -578,17 +536,11 @@
     <Content Include="Sys\Task\List.aspx" />
     <Content Include="Workflow\Condition\List.aspx" />
     <Content Include="Workflow\Flow\List.aspx" />
-    <Content Include="Workflow\Auditor\List.aspx" />
-    <Content Include="Workflow\Group\List.aspx" />
     <Content Include="Workflow\Level\List.aspx" />
-    <Content Include="Workflow\Property\List.aspx" />
     <Content Include="Workflow\Node\List.aspx" />
-    <Content Include="Workflow\AuditorAccount\Add.aspx" />
-    <Content Include="Workflow\AuditorAccount\Delete.aspx" />
-    <Content Include="Workflow\GroupFlow\Add.aspx" />
-    <Content Include="Workflow\GroupFlow\Delete.aspx" />
-    <Content Include="Workflow\GroupAccount\Add.aspx" />
-    <Content Include="Workflow\GroupAccount\Delete.aspx" />
+    <Content Include="Workflow\NodeAccount\Add.aspx" />
+    <Content Include="Workflow\NodeAccount\Delete.aspx" />
+    <Content Include="Workflow\NodeMessage\List.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Browsers\firefox.browser" />

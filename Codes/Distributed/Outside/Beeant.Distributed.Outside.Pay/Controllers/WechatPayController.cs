@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Beeant.Basic.Services.Mvc.Extension;
 using Beeant.Basic.Services.Mvc.Extension.Mobile;
 using Beeant.Basic.Services.Mvc.FilterAttribute;
 using Beeant.Distributed.Outside.Pay.Models;
 using Beeant.Domain.Entities.Finance;
+using Winner.Persistence;
+using Winner.Persistence.Linq;
 
 namespace Beeant.Distributed.Outside.Pay.Controllers
 {
@@ -39,7 +42,7 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
                 };
                 return Create(model, PaylineType.Wechat);
             }
-            return PayError(null);
+            return Result(model);
         }
         /// <summary>
         /// 通知
@@ -48,7 +51,30 @@ namespace Beeant.Distributed.Outside.Pay.Controllers
         {
             return Process(PaylineType.Wechat);
         }
-
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [AuthorizeFilter]
+        public virtual ActionResult Qr(PaylineModel model)
+        {
+            return View("Qr");
+        }
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        [AuthorizeFilter]
+        public virtual ActionResult Success(string number)
+        {
+            PaylineModel model = new PaylineModel();
+            var query = new QueryInfo();
+            query.Query<PaylineEntity>().Where(it => it.Number == number && it.Status== PaylineStatusType.Success);
+            model.Payline = this.GetEntities<PaylineEntity>(query)?.FirstOrDefault();
+            return View("~/Views/Pay/Success.cshtml");
+        }
         /// <summary>
         /// 创建
         /// </summary>

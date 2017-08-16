@@ -25,26 +25,32 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Freight
             Page.ExecuteScript(builder.ToString());
         }
 
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            if (!IsPostBack)
+            {
+              ddlType.LoadData();
+            }
+        }
         #region 得到存储
         /// <summary>
         /// 得到存储运价
         /// </summary>
         /// <returns></returns>
-        public virtual IList<CarryEntity> GetSaveCarries()
+        public virtual IList<FreightRegionEntity> GetSaveRegions()
         {
-            var infos = new List<CarryEntity>();
-            var idArrays = Request.Form["CarryId"].Split(',');
-            var defaultCounts = Request.Form["CarryDefaultCount"].Split(',');
-            var defaultPrices = Request.Form["CarryDefaultPrice"].Split(',');
-            var continueCounts = Request.Form["CarryContinueCount"].Split(',');
-            var continuePrices = Request.Form["CarryContinuePrice"].Split(',');
-            var names = Request.Form["CarryName"].Split(',');
-            var region = Request.Form["CarryRegion"].Split(',');
-            for (var i = 0; i < idArrays.Length; i++)
+            var infos = new List<FreightRegionEntity>();
+            var defaultCounts = Request.Form["RegionDefaultCount"].Split(',');
+            var defaultPrices = Request.Form["RegionDefaultPrice"].Split(',');
+            var continueCounts = Request.Form["RegionContinueCount"].Split(',');
+            var continuePrices = Request.Form["RegionContinuePrice"].Split(',');
+            var names = Request.Form["RegionName"].Split(',');
+            var region = Request.Form["RegionValue"].Split(',');
+            for (var i = 0; i < defaultCounts.Length; i++)
             {
-                var info = new CarryEntity
+                var info = new FreightRegionEntity
                 {
-                    Id = idArrays.Length > i ? idArrays[i].Convert<long>() : 0,
                     DefaultCount = defaultCounts[i].Convert<int>(),
                     DefaultPrice = defaultPrices[i].Convert<decimal>(),
                     ContinueCount = continueCounts[i].Convert<int>(),
@@ -59,58 +65,7 @@ namespace Beeant.Presentation.Admin.Erp.Basedata.Freight
  
         #endregion
 
-        #region 得到运价
-        /// <summary>
-        /// 得到运价Html
-        /// </summary>
-        /// <returns></returns>
-        public virtual string GetCarryEntities()
-        {
-            var infos = GetCarries();
-            var json = new List<IDictionary<string, object>>();
-            if (infos != null)
-            {
-                foreach (var info in infos)
-                {
-                    json.Add(new Dictionary<string, object>
-                    {
-                        {"Id", info.Id},
-                        {"DefaultCount", info.DefaultCount},
-                        {"DefaultPrice", info.DefaultPrice},
-                        {"ContinueCount", info.ContinueCount},
-                        {"ContinuePrice", info.ContinuePrice},
-                        {"Type", info.Name},
-                        {"Region", info.Region}
-                    });
-                }
-            }
-            return json.SerializeJson();
-        }
 
-
-        /// <summary>
-        /// 得到运价
-        /// </summary>
-        /// <returns></returns>
-        protected virtual IList<CarryEntity> GetCarries()
-        {
-            if (string.IsNullOrEmpty(Request.QueryString["Id"]))
-                return null;
-            var query = new QueryInfo();
-            query.Query<CarryEntity>().Where(it => it.Freight.Id == Request.QueryString["Id"].Convert<long>())
-                 .Select(
-                     it =>
-                     new object[]
-                         {
-                             it.Id, it.DefaultCount, it.DefaultPrice, it.ContinueCount, it.ContinuePrice, it.Name,it.Region
-                             
-                         });
-            return Ioc.Resolve<IApplicationService, CarryEntity>().GetEntities<CarryEntity>(query);
-            
-        }
-
-
-        #endregion
 
         #region 得到区域
         /// <summary>

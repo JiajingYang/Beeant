@@ -79,7 +79,17 @@ namespace Winner.Persistence.Compiler.Common
         {
             return Fill.Reverse<T>(reader, obj);
         }
-
+        /// <summary>
+        /// 设置属性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        protected virtual T SetProperty<T>(DataTable table, OrmObjectInfo obj)
+        {
+            return Fill.Reverse<T>(table, obj);
+        }
         /// <summary>
         /// 解析查询
         /// </summary>

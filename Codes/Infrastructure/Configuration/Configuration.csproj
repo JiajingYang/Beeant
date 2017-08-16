@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="EventManager.cs" />
     <Compile Include="Properties\AssemblyEntity.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -278,12 +279,16 @@
     <Content Include="Config\Cluster.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Config\DbRoute\Workflow.config" />
     <None Include="Config\DbRoute\Account.config" />
     <Content Include="Config\Entity\Cart.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Config\DbRoute\Editor.config" />
     <None Include="Config\DbRoute\Hotel.config" />
     <None Include="Config\DbRoute\Hr.config" />
+    <None Include="Config\DbRoute\Member.config" />
+    <None Include="Config\DbRoute\Order.config" />
     <None Include="Config\Entity\Account.config" />
     <Content Include="Config\Entity\Site.config" />
     <Content Include="Config\Ioc\Cart.config">

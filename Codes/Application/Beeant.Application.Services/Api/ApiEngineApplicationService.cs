@@ -52,7 +52,7 @@ namespace Beeant.Application.Services.Api
                     isSign = info.Protocol.IsSign;
                 if (isSign)
                 {
-                    VerifySign(info, args.Token, args.Value, args.Sign);
+                    VerifySign(info, args.Token,args.Timestamp, args.Value, args.Sign);
                 }
             }
 
@@ -198,14 +198,19 @@ namespace Beeant.Application.Services.Api
         /// <summary>
         /// 验证
         /// </summary>
+        /// <param name="timestamp"></param>
         /// <param name="value"></param>
         /// <param name="info"></param>
         /// <param name="token"></param>
         /// <param name="sign"></param>
         /// <returns></returns>
-        public virtual void VerifySign(VerificationEntity info, string token, string value, string sign)
+        public virtual void VerifySign(VerificationEntity info, string token,string timestamp, string value, string sign)
         {
-            if (string.IsNullOrEmpty(sign) || string.IsNullOrEmpty(token) || GetSign(token, value).ToLower() != sign.ToLower())
+            if (Math.Abs((DateTime.Now - new DateTime(1700, 01, 01)).TotalSeconds - timestamp.Convert<long>()) > 600)
+            {
+                info.SetError("00002");
+            }
+            if (string.IsNullOrEmpty(sign) || string.IsNullOrEmpty(token) || GetSign(token, timestamp, value).ToLower() != sign.ToLower())
             {
                 info.SetError("00002");
             }
@@ -215,13 +220,14 @@ namespace Beeant.Application.Services.Api
         /// 签名字符串
         /// </summary>
         /// <param name="key"></param>
+        /// <param name="timespan"></param>
         /// <param name="prestr">需要签名的字符串</param>
         /// <param>密钥</param>
         /// <returns>签名结果</returns>
-        public static string GetSign(string key, string prestr)
+        public static string GetSign(string key,string timespan, string prestr)
         {
             var sb = new StringBuilder(32);
-            prestr = string.Join("", string.Format("{0}{1}", prestr, key).OrderByDescending(it => it));
+            prestr = string.Join("", string.Format("{0}{1}{2}", prestr, timespan, key).OrderByDescending(it => it));
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] t = md5.ComputeHash(Encoding.UTF8.GetBytes(prestr));
             for (int i = 0; i < t.Length; i++)
